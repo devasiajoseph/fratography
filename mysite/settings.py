@@ -33,12 +33,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                       # Or path to database file if using sqlite3.
-        'USER': '',                       # Not used with sqlite3.
-        'PASSWORD': '',                   # Not used with sqlite3.
-        'HOST': '',                       # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                       # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -194,7 +194,7 @@ APP_USERNAME = "dev"
 APP_PASSWORD = "password"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 ADMIN_EMAIL = "admin@site.com"
-SITE_URL = "http://yoursiteurl"
+SITE_URL = "http://198.58.96.200/"
 AUTH_PROFILE_MODULE = 'app.UserProfile'
 EMAIL_USE_TLS = True  # True for gmail testing
 EMAIL_HOST = 'smtp.gmail.com'
@@ -252,7 +252,7 @@ if LOCALHOST:
     # Uncomment the next line to enable admin documentation:
         # 'django.contrib.admindocs',
     )
-    MEDIA_URL = 'http://localhost:8090/quickstart_static/'
+    MEDIA_URL = 'http://localhost:8090/fratography_static/'
     FBAPP_ID = ""
     FBAPP_SECRET = ""
     FBAPP_REDIRECT_URI = "http://localhost:8000/fbauth"
