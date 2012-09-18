@@ -247,6 +247,11 @@ def password_reset_submit_password(request):
     return HttpResponse(simplejson.dumps(response))
 
 
+def calendar(request):
+    return render_to_response('calendar.html',
+                              context_instance=RequestContext(request))
+
+
 def test(request):
     """
     Test function
