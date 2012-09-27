@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{%block content %}
+
+<address>
+      <strong>{{ seller_request.name }}</strong><br/>
+      {{ seller_request.address_line1 }}<br/>
+      {{ seller_request.city }}<br/>
+      {{ seller_request.country.name }}<br/>
+      Phone: {{ seller_request.phone }}<br/>
+      Email: {{ seller_request.email }}<br/>
+      Status: {{seller_request.status}}
+</address>
+  <div class="control-group" id="approval-buttons">
+    <a class="btn btn-large btn-success" onclick="Admin.seller_request_decision('approved')" id="approve_button">Approve</a>
+    <a class="btn btn-large btn-danger" onclick="Admin.seller_request_decision('rejected')" id="reject_button">Reject</a>
+  </div>
+  <div>
+    
+  </div>
+  
+<input type="hidden" value="{{seller_request.id}}" id="id_seller_request_id"/>
+{%endblock%}

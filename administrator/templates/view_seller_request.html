@@ -1,0 +1,54 @@
+{% extends "admin_base.html" %}
+{%block content_body %}
+<div class="form-stacked">
+  <h2>Register as a seller</h2>
+  <div class="alert alert-error none" id="message___all__"></div>
+  <div class="control-group" id="container_name">
+    <label for="id_name">Name/Company:</label>
+    <div class="input">
+      {{ seller_request.name }}
+      <div id="message_name" class="help-inline"></div>
+    </div>
+  </div>
+  <div class="control-group" id="container_address_line1">
+    <label for="id_email">Address Line 1:</label>
+    <div class="input">
+      {{ seller_request.address_line1 }}
+      <div id="message_address_line1" class="help-inline"></div>
+    </div>
+  </div>
+  <div class="control-group" id="container_city">
+    <label for="id_city">City:</label>
+    <div class="input">
+      {{ seller_request.city }}
+      <div id="message_city" class="help-inline"></div>
+    </div>
+  </div>
+  <div class="control-group" id="container_country">
+    <label for="id_country">Country:</label>
+    <div class="input">
+      {{ seller_request.country.name }}
+      <div id="message_country" class="help-inline"></div>
+    </div>
+  </div>
+  <div class="control-group" id="container_phone">
+    <label for="id_phone">Phone:</label>
+    <div class="input">
+      {{ seller_request.phone }}
+      <div id="message_phone" class="help-inline"></div>
+    </div>
+  </div>
+  <div class="control-group" id="container_email">
+    <label for="id_email">Email:</label>
+    <div class="input">
+      {{ seller_request.email }}
+      <div id="message_email" class="help-inline"></div>
+    </div>
+  </div>
+  <div class="control-group">
+    <a class="btn btn-large btn-success" onclick="App.User.seller_register_submit()" id="approve_button">Approve</a>
+  </div>
+  
+</div>
+
+{%endblock%}

@@ -1,0 +1,54 @@
+{% extends "admin/base.html" %}
+
+{%block content %}
+
+<ul class="breadcrumb">
+  <li {%ifequal list_type "all"%}class="active"{%endifequal%}>
+    <a href="/admin/seller/request/list/all/1">All</a>
+    <span class="divider">|</span>
+  </li>
+  <li {%ifequal list_type "pending"%}class="active"{%endifequal%}>
+    <a href="/admin/seller/request/list/pending/1">Pending</a>
+    <span class="divider">|</span>
+  </li>
+  <li {%ifequal list_type "approved"%}class="active"{%endifequal%}>
+    <a href="/admin/seller/request/list/approved/1">Approved</a>
+    <span class="divider">|</span>
+  </li> 
+  <li {%ifequal list_type "rejected"%}class="active"{%endifequal%}>
+    <a href="/admin/seller/request/list/rejected/1">Rejected</a>
+    <span class="divider">|</span>
+  </li>
+  <li {%ifequal list_type "signedup"%}class="active"{%endifequal%}>
+    <a href="/admin/seller/request/list/signedup/1">Signed up</a>
+  </li>
+</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for seller_request in request_list%}
+    <tr class="row1">
+      <td>
+	<a href="/admin/seller/request/view/{{seller_request.id}}">{{ seller_request.name }}</a>
+      </td>
+      <td>
+	{{ seller_request.email }}
+      </td>
+      <td>
+	{{ seller_request.phone }}
+      </td>
+      <td>
+	{{ seller_request.status}}
+      </td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+{%endblock%}

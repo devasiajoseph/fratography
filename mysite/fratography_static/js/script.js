@@ -80,15 +80,42 @@ var App = {
 	case "server_message":
             App.show_info(App.code_message[data["server_message"]]);
             break;
+	case "saved":
+            App.show_info(App.code_message[data["code"]]);
+	    if (callback){
+		callback(data);
+	    }
+            break;
+	case "updated":
+            App.show_info(App.code_message[data["code"]]);
+            if (callback){
+		callback(data);
+	    }
+            break;
+        case "deleted":
+            App.show_info(App.code_message[data["code"]]);
+            callback(data);
+            break;
+	case "message_sent":
+            App.show_info(App.code_message[data["code"]]);
+	    if(callback){
+		callback(data);
+	    }
+            break;
         default:
             alert("unknown response");
         }
     },
     code_message:{"access_denied" : "You don't have access for this operation",
-        "form_error" : "The data submitted is not valid. Please make sure you have entered correct data",
-        "system_error" : "A system error has occured. Please contact the site administrator",
-        "invalid_request" : "In valid request"
-        },
+		  "form_error" : "The data submitted is not valid. Please make sure you have entered correct data",
+		  "system_error" : "A system error has occured. Please contact the site administrator",
+		  "invalid_request" : "In valid request",
+		  "saved" : "Data has been saved successfully",
+		  "deleted" : "Data has been deleted successfully",
+		  "updated" : "Data updated",
+		  "message_sent": "Message sent",
+		  "access_denied":"You have to login to perform this action"
+		 },
 
     process_error:function(errors){
         for (var i in errors){

@@ -4,6 +4,8 @@ import sys
 # Django settings for mysite project.
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+ADMIN_APP = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                         "../administrator"))
 #define your own rule to check whether dev or production
 if 'devasia' in os.getcwd():
     LOCALHOST = True
@@ -131,7 +133,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, 'templates')
+    os.path.join(PROJECT_PATH, 'templates'),
+    os.path.join(ADMIN_APP, 'templates')
 )
 
 INSTALLED_APPS = (
@@ -141,7 +144,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
+    'administrator'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -188,7 +192,12 @@ APP_CODE = {
     "PAGE LOADED": 'page_loaded',
     "REGISTERED": 'registered',
     "LOGIN": 'login',
+    "SAVED": "saved",
+    "DELETED": "deleted",
+    "UPDATED": "updated",
 }
+
+PRICE_TYPE = {"PRICE_PER_HOUR": "price_per_hour"}
 
 APP_USERNAME = "dev"
 APP_PASSWORD = "password"
@@ -231,9 +240,9 @@ if LOCALHOST:
     DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'fratography',
+        'USER': 'retailer',
+        'PASSWORD': 'retailer',
         'HOST': '',
         'PORT': ''
         }
@@ -245,7 +254,8 @@ if LOCALHOST:
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'app',
+    'administrator'
 
     # Uncomment the next line to enable the admin:
         # 'django.contrib.admin',

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style/custom.css">
+        <script src="{{ MEDIA_URL }}js/jquery.js"></script>
+        <script src="{{ MEDIA_URL }}js/script.js"></script>
+	<script src="{{ MEDIA_URL }}js/admin_script.js"></script>
+        <script src="{{ MEDIA_URL }}js/bootstrap.js"></script>
+        {% block extra_includes %}{%endblock%}
+    </head>
+    <body>
+        {% block header%}
+	<div style="z-index: 5;" class="topbar-wrapper">
+	  {% include "admin_navigation.html" %} 
+	</div>
+        {%endblock%}
+	
+        <div class="container-fluid" >
+	  <div class="row-fluid">
+	    <div class="span3">
+	      <div class="well sidebar-nav" id="slideup">
+	      <ul class="nav nav-list clearfix" id="app-navigation">
+		<li class="nav-header">Calendar</li>
+		<li><a href="/admin/calendar"><i class="icon-th-list"></i>Calendar</a></li>
+              </ul>
+	      </div>
+	    </div>
+	    <div class="span9">
+
+            {% block content_body%}
+
+            {%endblock%}
+	    </div>
+	  </div>
+        </div> 
+	{% csrf_token %}
+    </body>
+    
+    {% block script_includes%}
+
+    {% endblock %}
+   
+</html>

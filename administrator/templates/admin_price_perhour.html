@@ -1,0 +1,13 @@
+{% extends "admin_base.html" %}
+{%block content_body %}
+<h2>Price per hour</h2>
+<div class="control-group" id="container_price">
+    <label for="id_price">Price per hour:</label>
+    <div class="input">
+      {{ form.price }}
+      <div id="message_price" class="help-inline"></div>
+    </div>
+</div>
+<a class="btn btn-large" href="javascript:void(0)" onclick="Admin.save_price_perhour()">Save</a>
+
+{%endblock%}
