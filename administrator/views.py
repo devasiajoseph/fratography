@@ -7,7 +7,7 @@ import simplejson
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
-from administrator.forms import PriceForm
+from administrator.forms import PriceForm, AvailabilityForm
 from app.models import PriceModel
 
 
@@ -18,14 +18,16 @@ def admin_dashboard(request):
 
 
 def calendar(request):
-    return render_to_response('admin_calendar.html',
-                              context_instance=RequestContext(request))
+    form = AvailabilityForm()
+    return render_to_response(
+        'admin_calendar.html',
+        context_instance=RequestContext(request, {"form": form}))
 
 
 def price_perhour(request):
     price = PriceModel.objects.get(
         price_type=settings.PRICE_TYPE["PRICE_PER_HOUR"])
-    form = PriceForm(initial = {"price":price.price_per_hour})
+    form = PriceForm(initial={"price": price.price_per_hour})
     return render_to_response(
         'admin_price_perhour.html',
         context_instance=RequestContext(request, {"form": form}))

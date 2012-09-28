@@ -25,3 +25,10 @@ class PriceForm(forms.Form):
         #    response["code"] = settings.APP_CODE["SYSTEM ERROR"]
 
         return response
+
+
+class AvailabilityForm(forms.Form):
+    available_id = forms.IntegerField(widget=forms.HiddenInput,
+                                      required=False)
+    available_start_date = forms.CharField()
+    available_end_date = forms.CharField()

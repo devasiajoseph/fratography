@@ -8,7 +8,34 @@
 {%endblock%}
 {%block content_body %}
 <div id="calendar" style="margin-top:10px;width:800px;"></div>
-
+<div class="modal none" id="modal-availability">
+   <div class="modal-header">
+     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$('#modal-availability').modal('toggle')">&times;</button>
+     <h3>Add availability</h3>
+   </div>
+   <div class="modal-body">
+     <div class="control-group" id="container_available_start_date">
+      <label for="id_available_start_date">Available Start Date:</label>
+      <div class="input">
+	{{ form.available_start_date }}
+	<div id="message_available_start_date" class="help-inline"></div>
+      </div>
+    </div>
+    <div class="control-group" id="container_available_end_date">
+      <label for="id_available_end_date">Available End Date:</label>
+      <div class="input">
+	{{ form.available_end_date }}
+	<div id="message_available_end_date" class="help-inline"></div>
+      </div>
+    </div>
+   </div>
+    <div class="modal-footer">
+      <a href="javascript:void(0)" class="btn" onclick="$('#modal-availability').modal('toggle')">Close</a>
+      <a href="javascript:void(0)" class="btn btn-primary" onclick="Admin.confirm_availability()">Save</a>
+      <a href="javascript:void(0)" class="btn btn-danger" onclick="Admin.remove_availability()">Remove</a>
+    </div>
+    {{form.available_id}}
+</div>
 {%endblock%}
 {%block script_includes%}
 
@@ -29,68 +56,11 @@
 			},
 			selectable: true,
 			selectHelper: true,
-			select: function(start, end, allDay) {
-				var title = prompt('Event Title:');
-				if (title) {
-					calendar.fullCalendar('renderEvent',
-						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay
-						},
-						true // make the event "stick"
-					);
-				}
-				calendar.fullCalendar('unselect');
-			},
+                        eventClick: Admin.edit_event,
+                       
+                        select:Admin.add_availability,
 			editable: true,
 			events: [
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1),
-                                        eventBackgroundColor:'#fff'
-				},
-				{
-					title: 'Long Event',
-					start: new Date(y, m, d-5),
-					end: new Date(y, m, d-2)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'javascript:this_can("google")'
-				}
 			]
 		});
 		

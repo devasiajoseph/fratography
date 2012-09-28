@@ -5,3 +5,12 @@
     position: relative;
 }
 
+.booked-event,
+.booked-event div,
+.booked-event span {
+    background-color: green; /* background color */
+    border-color: green;     /* border color */
+    color: yellow;           /* text color */
+}
+
+

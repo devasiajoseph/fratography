@@ -272,4 +272,5 @@ class PriceModel(models.Model):
 
 
 class Availability(models.Model):
-    available_date = models.DateField()
+    available_start_date = models.DateTimeField()
+    available_end_date = models.DateTimeField()
