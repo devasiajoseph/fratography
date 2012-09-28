@@ -1,0 +1,46 @@
+{% extends "site_base.html" %}
+{%block extra_includes%}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}fullcalendar/fullcalendar.print.css" media="print" />
+
+{%endblock%}
+{%block content_body %}
+<div id="calendar" style="margin-top:10px;width:800px;"></div>
+{%endblock%}
+{%block script_includes%}
+<script type="text/javascript" src="{{MEDIA_URL}}jquery/jquery-ui-1.8.23.custom.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+		
+		var calendar = $('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			selectable: true,
+			selectHelper: true,
+                        eventClick: function(){alert("click")},
+                       
+                        select:function(){alert("select")},
+			editable: true,
+			events: [
+			]
+		});
+		
+	});
+
+function this_can(ding){
+	alert(ding);
+	}
+
+</script>
+{%endblock%}
+

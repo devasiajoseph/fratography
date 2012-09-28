@@ -248,7 +248,7 @@ def password_reset_submit_password(request):
 
 
 def calendar(request):
-    return render_to_response('calendar.html',
+    return render_to_response('site_calendar.html',
                               context_instance=RequestContext(request))
 
 

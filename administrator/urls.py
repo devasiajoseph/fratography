@@ -20,4 +20,6 @@ urlpatterns = patterns('',
         name='price_perhour'),
     url(r'^save/price/perhour', 'administrator.views.save_price_perhour',
         name='save_price_perhour'),
+    url(r'^save/availability', 'administrator.views.save_availability',
+        name='save_availability'),
 )

@@ -13,10 +13,18 @@ var Admin = {
 	$("#id_available_id").val("");
 	$('#modal-availability').modal({backdrop: false});
         $('#modal-availability').modal('show');
-	
-	
     },
     confirm_availability:function(){
+	start_date = App.Util.format_date_str($("#id_available_start_date").val());
+	end_date = App.Util.format_date_str($("#id_available_end_date").val());
+	var submit_obj = {
+	    "available_id":$("#id_available_id").val(),
+	    "available_start_date":start_date,
+	    "available_end_date":end_date};
+	App.submit_data({}, submit_obj, "/admin/save/availability", Admin.confirm_availability_callback, "loader")
+	
+    },
+    confirm_availability_callback:function(data){
 	if ($("#id_available_id").val()){
 	    event = $('#calendar').fullCalendar('clientEvents',$("#id_available_id").val())[0];
 	    event.start = $("#id_available_start_date").val();
@@ -24,7 +32,7 @@ var Admin = {
 	    $('#calendar').fullCalendar('updateEvent', event);
 	}else{
 	    $('#calendar').fullCalendar('renderEvent',
-					{id: "12345",
+					{id: data.id,
 					 title: "Service Available",
 					 start: $("#id_available_start_date").val(),
 					 end: $("#id_available_end_date").val(),

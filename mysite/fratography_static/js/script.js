@@ -214,6 +214,21 @@ var App = {
 	    location.href=data["redirect"];
 	}
 	
+    },
+    Util:{
+	format_date_str:function(str_date){
+	    if (!str_date){
+		return null;
+	    }
+	    var date_object = $.fullCalendar.parseDate(str_date);
+	    var year = date_object.getFullYear();
+	    var month = date_object.getMonth() + 1;
+	    var day = date_object.getDate();
+	    var hour = date_object.getHours();
+	    var minutes = date_object.getMinutes();
+	    var date_text = year+"-"+month+"-"+day+" "+hour+":"+minutes;
+	    return date_text;
+	}
     }
     
 };

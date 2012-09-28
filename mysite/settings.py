@@ -35,10 +35,10 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'fratography',
+        'USER': 'fratography',
+        'PASSWORD': 'fratography',
         'HOST': '',
         'PORT': '',
     }

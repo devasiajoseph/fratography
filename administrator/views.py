@@ -42,3 +42,14 @@ def save_price_perhour(request):
         response["code"] = settings.APP_CODE["FORM ERROR"]
         response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
+
+
+def save_availability(request):
+    response = reply_object()
+    form = AvailabilityForm(request.POST)
+    if form.is_valid():
+        response = form.save_availability()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
