@@ -22,4 +22,6 @@ urlpatterns = patterns('',
         name='save_price_perhour'),
     url(r'^save/availability', 'administrator.views.save_availability',
         name='save_availability'),
+    url(r'^available/time$', 'administrator.views.available_time',
+        name='available_time'),
 )

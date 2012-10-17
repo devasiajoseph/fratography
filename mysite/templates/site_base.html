@@ -12,9 +12,14 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link rel="stylesheet" href="{{MEDIA_URL}}css/normalize.css">
+        <!--<link rel="stylesheet" href="{{MEDIA_URL}}css/normalize.css">-->
         <link rel="stylesheet" href="{{MEDIA_URL}}css/main.css">
-        <script src="{{MEDIA_URL}}js/vendor/modernizr-2.6.1.min.js"></script>
+        <link rel="stylesheet" href="{{MEDIA_URL}}css/normalize.css">
+	<link rel="stylesheet" href="{{MEDIA_URL}}initializer/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{MEDIA_URL}}initializer/css/bootstrap-responsive.min.css">
+	<script src="{{MEDIA_URL}}js/backbone-min.js"></script>
+        <!--<script src="{{MEDIA_URL}}js/vendor/modernizr-2.6.1.min.js"></script>-->
+	<script src="{{MEDIA_URL}}initializer/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
 	{% block extra_includes%}
 	{%endblock%}
     </head>
@@ -128,6 +133,7 @@
         <script>window.jQuery || document.write('<script src="{{MEDIA_URL}}js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
         <script src="{{MEDIA_URL}}js/plugins.js"></script>
         <script src="{{MEDIA_URL}}js/main.js"></script>
+	<script src="{{MEDIA_URL}}initializer/js/vendor/bootstrap.min.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>

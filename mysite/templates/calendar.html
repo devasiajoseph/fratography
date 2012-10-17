@@ -108,5 +108,33 @@
 </head>
 <body>
 <div id="calendar"></div>
+<div class="modal none" id="modal-availability">
+   <div class="modal-header">
+     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$('#modal-availability').modal('toggle')">&times;</button>
+     <h3>Add availability</h3>
+   </div>
+   <div class="modal-body">
+     <div class="control-group" id="container_available_start_date">
+      <label for="id_available_start_date">Available Start Date:</label>
+      <div class="input">
+	<input type="text" id="id_available_start_date" name="available_start_date" class="input-xlarge"> 
+	<div id="message_available_start_date" class="help-inline"></div>
+      </div>
+    </div>
+    <div class="control-group" id="container_available_end_date">
+      <label for="id_available_end_date">Available End Date:</label>
+      <div class="input">
+	<input type="text" id="id_available_start_date" name="available_end_date" class="input-xlarge"> 
+	<div id="message_available_end_date" class="help-inline"></div>
+      </div>
+    </div>
+   </div>
+    <div class="modal-footer">
+      <a href="javascript:void(0)" class="btn" onclick="$('#modal-availability').modal('toggle')">Close</a>
+      <a href="javascript:void(0)" class="btn btn-primary" onclick="Admin.confirm_availability()">Save</a>
+      <a href="javascript:void(0)" class="btn btn-danger" onclick="Admin.remove_availability()">Remove</a>
+    </div>
+    {{form.available_id}}
+</div>
 </body>
 </html>

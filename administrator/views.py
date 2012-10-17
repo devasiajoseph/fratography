@@ -8,7 +8,7 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
 from administrator.forms import PriceForm, AvailabilityForm
-from app.models import PriceModel
+from app.models import PriceModel, Availability
 
 
 def admin_dashboard(request):
@@ -53,3 +53,18 @@ def save_availability(request):
         response["code"] = settings.APP_CODE["FORM ERROR"]
         response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
+
+
+def available_time(request):
+    response = []
+    av = Availability.objects.all()
+    for each_av in av:
+        event = {}
+        event["id"] = each_av.id
+        event["title"] = "available"
+        event["start"] = each_av.available_start_date.strftime("%Y-%m-%d %H:%M:%S")
+        if each_av.available_end_date:
+            event["end"] = each_av.available_end_date.strftime("%Y-%m-%d %H:%M:%S")
+        response.append(event)
+    return HttpResponse(simplejson.dumps(response),
+                        mimetype="application/json")

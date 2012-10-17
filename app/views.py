@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate, login
 
 
 def index(request):
-    return render_to_response("index.html",
+    return render_to_response("university.html",
                               context_instance=RequestContext(request))
 
 
