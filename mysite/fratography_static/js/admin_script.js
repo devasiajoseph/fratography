@@ -8,34 +8,29 @@ var Admin = {
 	
     },
     add_availability:function(start, end, allDay){
-	$("#id_available_start_date").val(start);
-	$("#id_available_end_date").val(end);
-	$("#id_available_id").val("");
+	$("#id_start").val(start);
+	$("#id_end").val(end);
+	$("#id_id").val("");
 	$('#modal-availability').modal({backdrop: false});
         $('#modal-availability').modal('show');
     },
     confirm_availability:function(){
-	start_date = App.Util.format_date_str($("#id_available_start_date").val());
-	end_date = App.Util.format_date_str($("#id_available_end_date").val());
-	var submit_obj = {
-	    "available_id":$("#id_available_id").val(),
-	    "available_start_date":start_date,
-	    "available_end_date":end_date};
-	App.submit_data({}, submit_obj, "/admin/save/availability", Admin.confirm_availability_callback, "loader")
+	var obj = {"value":["start","end"]}
+	App.submit_data(obj, {"event_type":"availability"}, "/admin/save/availability", Admin.confirm_availability_callback, "loader")
 	
     },
     confirm_availability_callback:function(data){
-	if ($("#id_available_id").val()){
-	    event = $('#calendar').fullCalendar('clientEvents',$("#id_available_id").val())[0];
-	    event.start = $("#id_available_start_date").val();
-	    event.end = $("#id_available_end_date").val();
+	if ($("#id_id").val()){
+	    event = $('#calendar').fullCalendar('clientEvents',$("#id_id").val())[0];
+	    event.start = $("#id_start").val();
+	    event.end = $("#id_end").val();
 	    $('#calendar').fullCalendar('updateEvent', event);
 	}else{
 	    $('#calendar').fullCalendar('renderEvent',
 					{id: data.id,
 					 title: "Service Available",
-					 start: $("#id_available_start_date").val(),
-					 end: $("#id_available_end_date").val(),
+					 start: $("#id_start").val(),
+					 end: $("#id_end").val(),
 					 allDay: false
 					},
 					true // make the event "stick"
@@ -44,15 +39,15 @@ var Admin = {
        $('#modal-availability').modal('hide');
     },
     edit_event:function(event) {
-        $("#id_available_start_date").val(event.start);
-	$("#id_available_end_date").val(event.end);
-        $("#id_available_id").val(event.id);
+        $("#id_start").val(event.start);
+	$("#id_end").val(event.end);
+        $("#id_id").val(event.id);
 	$('#modal-availability').modal({backdrop: false});
         $('#modal-availability').modal('show');
     },
     remove_availability:function(){
 	
-	$('#calendar').fullCalendar('removeEvents',[$("#id_available_id").val()]);
+	$('#calendar').fullCalendar('removeEvents',[$("#id_id").val()]);
         $('#modal-availability').modal('hide');
     }
 }

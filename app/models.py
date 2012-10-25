@@ -256,21 +256,7 @@ class SocialAuth(object):
         return True
 
 
-class CalendarEvent(models.Model):
-    title = models.CharField(max_length=1024)
-    event_date = models.DateTimeField()
-    address = models.CharField(max_length=1024)
-    street = models.CharField(max_length=1024)
-    city = models.ForeignKey(City)
-    state = models.ForeignKey(State)
-
-
 class PriceModel(models.Model):
     price_per_hour = models.DecimalField(default=0, max_digits=16,
                                          decimal_places=2, null=True)
     price_type = models.CharField(max_length=50)
-
-
-class Availability(models.Model):
-    available_start_date = models.DateTimeField()
-    available_end_date = models.DateTimeField(null=True, blank=True)

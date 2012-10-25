@@ -14,18 +14,18 @@
      <h3>Add availability</h3>
    </div>
    <div class="modal-body">
-     <div class="control-group" id="container_available_start_date">
-      <label for="id_available_start_date">Available Start Date:</label>
+     <div class="control-group" id="container_start">
+      <label for="id_start">Available Start Date:</label>
       <div class="input">
-	<input type="text" id="id_available_start_date" name="available_start_date" class="input-xlarge"> 
-	<div id="message_available_start_date" class="help-inline"></div>
+	<input type="text" id="id_start" name="start" class="input-xlarge"> 
+	<div id="message_start" class="help-inline"></div>
       </div>
     </div>
-    <div class="control-group" id="container_available_end_date">
-      <label for="id_available_end_date">Available End Date:</label>
+    <div class="control-group" id="container_end">
+      <label for="id_end">Available End Date:</label>
       <div class="input">
-	<input type="text" id="id_available_start_date" name="available_end_date" class="input-xlarge"> 
-	<div id="message_available_end_date" class="help-inline"></div>
+	<input type="text" id="id_end" name="end" class="input-xlarge"> 
+	<div id="message_end" class="help-inline"></div>
       </div>
     </div>
    </div>
@@ -34,7 +34,7 @@
       <a href="javascript:void(0)" class="btn btn-primary" onclick="Admin.confirm_availability()">Save</a>
       <a href="javascript:void(0)" class="btn btn-danger" onclick="Admin.remove_availability()">Remove</a>
     </div>
-    {{form.available_id}}
+    {{form.id}}
 </div>
 {%endblock%}
 {%block script_includes%}

@@ -2,7 +2,7 @@ from django import forms
 from django.conf import settings
 from app.utilities import reply_object
 from app.utilities import create_key
-from app.models import PriceModel, Availability
+from app.models import PriceModel
 
 
 class PriceForm(forms.Form):
