@@ -8,7 +8,8 @@ import re
 from facebooksdk import Facebook
 from django.db.models import Q
 from app.models import UserProfile
-from app.utilities import create_key, send_password_reset_email
+from app.utilities import create_key, send_password_reset_email, us_states
+from calendarapp.forms import EventObjectForm
 
 attrs_dict = {'class': 'input-xlarge'}
 
@@ -226,3 +227,32 @@ class PasswordResetForm(forms.Form):
         user.save()
         response["code"] = settings.APP_CODE["CALLBACK"]
         return response
+
+
+class BookingForm(EventObjectForm):
+    time_from_hour = forms.ChoiceField(choices=[(t, t) for t in range(1, 13)],
+                                  widget=forms.Select(
+            attrs={'class': 'span1'}))
+    time_from_minute = forms.ChoiceField(choices=[
+            ('00', '00'), ('15', '15'), ('30', '30'), ('45', '45')],
+                                    widget=forms.Select(
+            attrs={'class': 'span1'}))
+    time_from_ampm = forms.ChoiceField(choices=(('am', 'am'), ('pm', 'pm')),
+                                  widget=forms.Select(
+            attrs={'class': 'span1'}))
+    time_to_hour = forms.ChoiceField(choices=[(t, t) for t in range(1, 13)],
+                                  widget=forms.Select(
+            attrs={'class': 'span1'}))
+    time_to_minute = forms.ChoiceField(choices=[
+            ('00', '00'), ('15', '15'), ('30', '30'), ('45', '45')],
+                                    widget=forms.Select(
+            attrs={'class': 'span1'}))
+    time_to_ampm = forms.ChoiceField(choices=(('am', 'am'), ('pm', 'pm')),
+                                  widget=forms.Select(
+            attrs={'class': 'span1'}))
+    school = forms.CharField()
+    fraternity = forms.CharField()
+    address = forms.CharField()
+    city = forms.CharField()
+    state = forms.ChoiceField(choices=[(s, s) for s in us_states],
+                              widget=forms.Select)

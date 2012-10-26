@@ -215,6 +215,16 @@ var App = {
 	}
 	
     },
+    Calendar:{
+	start_booking:function(event){
+	    $("#id_start").val(event.start);
+	    
+	    $("#id_id").val("");
+	    $('#modal-booking').modal({backdrop: false});
+	    $('#modal-booking').modal('show');
+	    
+	}
+    },
     Util:{
 	format_date_str:function(str_date){
 	    if (!str_date){

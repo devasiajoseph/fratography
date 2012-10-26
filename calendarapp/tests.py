@@ -1,5 +1,6 @@
 from django.test import TestCase
 from calendarapp.calendar_utility import CALENDAR_SETTINGS
+from calendarapp.forms import EventObjectForm
 from app.tests import logged_in_client, verify_json_response
 from django.test.client import Client
 from django.conf import settings

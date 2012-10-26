@@ -1,4 +1,4 @@
-0/*
+/*
  * HTML5 Boilerplate
  *
  * What follows is the result of much research on cross-browser styling.
@@ -652,3 +652,5 @@ div.party-top-content{
         page-break-after: avoid;
     }
 }
+
+.none{display:none;}

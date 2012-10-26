@@ -1,5 +1,4 @@
 from calendarapp.models import EventObject
-from calendarapp.forms import EventObjectForm
 from dateutil import parser
 import simplejson
 
@@ -11,21 +10,24 @@ CALENDAR_SETTINGS = {
         "availability": {
             "class_name": "available-event",
             "title": "Slot available",
+            "event_type": "availability"
             },
         "booked": {
             "class_name": "booked-event",
-            "title": "Booked"
+            "title": "Booked",
+            "event_type": "booked"
             },
         "event": {
             "class_name": "event-event",
-            "title": "Event"
+            "title": "Event",
+            "event_type": "event"
             }
         },
     "date_format": "%Y-%m-%d %H:%M:%S"
     }
 
 
-def format_date(self, raw_date):
+def format_date(raw_date):
         return raw_date.strftime(CALENDAR_SETTINGS["date_format"])
 
 
@@ -38,7 +40,8 @@ def apply_settings(event):
     type_settings = CALENDAR_SETTINGS["event"][event.event_type]
     for key in event_dict:
         if key in type_settings:
-            event_dict["key"] = type_settings[key]
+            event_dict[key] = type_settings[key]
+    del event_dict["_state"]
     return event_dict
 
 

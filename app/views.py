@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
 from app.models import UserProfile, SocialAuth
-from app.forms import PasswordResetForm, PasswordEmailForm
+from app.forms import PasswordResetForm, PasswordEmailForm, BookingForm
 from django.contrib.auth import authenticate, login
 
 
@@ -248,8 +248,10 @@ def password_reset_submit_password(request):
 
 
 def calendar(request):
+    form = BookingForm()
     return render_to_response('site_calendar.html',
-                              context_instance=RequestContext(request))
+                              context_instance=RequestContext(request,
+                                                              {"form": form}))
 
 
 def test(request):

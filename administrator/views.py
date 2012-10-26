@@ -7,9 +7,8 @@ import simplejson
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
-from administrator.forms import PriceForm
+from administrator.forms import PriceForm, AvailabilityForm
 from app.models import PriceModel
-from calendarapp.forms import EventObjectForm
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
 
@@ -21,7 +20,7 @@ def admin_dashboard(request):
 
 
 def calendar(request):
-    form = EventObjectForm()
+    form = AvailabilityForm(event_type="availability")
     return render_to_response(
         'admin_calendar.html',
         context_instance=RequestContext(request, {"form": form}))
@@ -49,7 +48,7 @@ def save_price_perhour(request):
 
 def save_availability(request):
     response = reply_object()
-    form = EventObjectForm(request.POST)
+    form = AvailabilityForm(request.POST, event_type="availability")
     if form.is_valid():
         event_object = form.save()
         response["code"] = settings.APP_CODE["SAVED"]
@@ -57,21 +56,6 @@ def save_availability(request):
         response["code"] = settings.APP_CODE["FORM ERROR"]
         response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
-
-
-def available_time_bkp(request):
-    response = []
-    av = Availability.objects.all()
-    for each_av in av:
-        event = {}
-        event["id"] = each_av.id
-        event["title"] = "available"
-        event["start"] = each_av.available_start_date.strftime("%Y-%m-%d %H:%M:%S")
-        if each_av.available_end_date:
-            event["end"] = each_av.available_end_date.strftime("%Y-%m-%d %H:%M:%S")
-        response.append(event)
-    return HttpResponse(simplejson.dumps(response),
-                        mimetype="application/json")
 
 
 def available_time(request):

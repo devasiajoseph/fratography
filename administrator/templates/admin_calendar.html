@@ -20,21 +20,23 @@
 	<input type="text" id="id_start" name="start" class="input-xlarge"> 
 	<div id="message_start" class="help-inline"></div>
       </div>
-    </div>
-    <div class="control-group" id="container_end">
-      <label for="id_end">Available End Date:</label>
-      <div class="input">
-	<input type="text" id="id_end" name="end" class="input-xlarge"> 
-	<div id="message_end" class="help-inline"></div>
-      </div>
-    </div>
+     </div>
+     <div class="control-group" id="container_end">
+       <label for="id_end">Available End Date:</label>
+       <div class="input">
+	 {{form.school}}
+	 <div id="message_end" class="help-inline"></div>
+       </div>
+     </div>
+     
    </div>
-    <div class="modal-footer">
-      <a href="javascript:void(0)" class="btn" onclick="$('#modal-availability').modal('toggle')">Close</a>
-      <a href="javascript:void(0)" class="btn btn-primary" onclick="Admin.confirm_availability()">Save</a>
-      <a href="javascript:void(0)" class="btn btn-danger" onclick="Admin.remove_availability()">Remove</a>
-    </div>
-    {{form.id}}
+   
+   <div class="modal-footer">
+     <a href="javascript:void(0)" class="btn" onclick="$('#modal-availability').modal('toggle')">Close</a>
+     <a href="javascript:void(0)" class="btn btn-primary" onclick="Admin.confirm_availability()">Save</a>
+     <a href="javascript:void(0)" class="btn btn-danger" onclick="Admin.remove_availability()">Remove</a>
+   </div>
+   {{form.id}}
 </div>
 {%endblock%}
 {%block script_includes%}
@@ -57,11 +59,12 @@
 			selectable: true,
 			selectHelper: true,
                         eventClick: Admin.edit_event,
-                       
+                        eventDragStop: Admin.edit_event,
                         select:Admin.add_availability,
 			editable: true,
 			events: [
-			]
+			],
+                        eventSources:['/admin/available/time']  
 		});
 		
 	});
