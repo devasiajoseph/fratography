@@ -16,6 +16,9 @@ $(function () {
             );
      
 	},
+	prograss:function(e, data){
+	    console.log(data.loaded);
+	},
 	add:function(e, data){
             $.each(data.files, function (index, file) {
 		console.log('Added file: ' + file.name+ "-----"+ file.size+index);
@@ -31,10 +34,15 @@ $(function () {
 });
 
 var UploadImage = Backbone.Model.extend({
-        initialize: function(){
-            
-        }
+    urlRoot:'/admin/album/image',
+    initialize: function(){
+        
+    },
+    delete:function(){
+	
+    }
 });
+
 
 var ImagePreview = Backbone.View.extend({
     initialize: function(attrs){
@@ -49,32 +57,42 @@ var ImagePreview = Backbone.View.extend({
         // Load the compiled HTML into the Backbone "el"
         this.$el.append( template );
 	 
-	$("#cancel_"+this.options.upload_image.cid).bind('click', {index:this.options.upload_image.cid}, this.remove_file);
+	$("#cancel_"+this.options.upload_image.cid).bind('click', {upload_image:this.options.upload_image}, this.remove_file);
+	$("#upload_"+this.options.upload_image.cid).bind('click', {upload_image:this.options.upload_image}, this.upload_file);
 	readImage(this.options.upload_image.get('image').files[0], "image_"+this.options.upload_image.cid)
         
     },
     remove_file:function(event){
-	console.log(event.data.index);
+	upload_stack.remove(event.data.upload_image);
+	$("#upload_container_"+event.data.upload_image.cid).remove()
+    },
+    upload_file:function(event){
+	
+	event.data.upload_image.get('image').submit();
     }
 });
 
 var UploadStack = Backbone.Collection.extend({
-    model: UploadImage
+    model: UploadImage,
+    total_size:function(){
+	total_size = 0;
+	this.each(function(data){
+	    total_size = total_size + data.get('image').files[0].size;
+	});
+    },
+    upload_all:function(){
+	this.each(function(data){
+	    data.get('image').submit();
+	});
+    }
 });
 var upload_stack = new UploadStack();
-
+var total_size = 0;
 function readImage(f, id){
     var reader = new FileReader();
     reader.onload = (function(theFile) {
         return function(e) {
             // Render thumbnail.
-	    /*
-            var span = document.createElement('span');
-            span.innerHTML = ['<img class="thumb" src="', e.target.result,
-                              '" title="', escape(theFile.name), '"/>'].join('');
-            document.getElementById('list').insertBefore(span, null);
-	    */
-	    console.log($("#"+id));
 	    $("#"+id).attr('src', e.target.result);
         };
     })(f);

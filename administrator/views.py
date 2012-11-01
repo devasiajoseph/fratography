@@ -13,6 +13,7 @@ AlbumImageForm
 from app.models import PriceModel
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
+from django.views.decorators.csrf import csrf_exempt
 
 
 def admin_dashboard(request):
@@ -88,12 +89,14 @@ def album_save(request):
                               {"response_data": simplejson.dumps(response)})
 
 
-def album_upload(request):
+def album_image(request, id=0):
     response = reply_object()
-    form = AlbumImageForm(request.POST, request.FILES, request=request)
-    if form.is_valid():
-        response = form.save()
-    else:
-        response["code"] = settings.APP_CODE["FORM ERROR"]
-        response["errors"] = form.errors
+    print id
+    if request.POST:
+        form = AlbumImageForm(request.POST, request.FILES, request=request)
+        if form.is_valid():
+            response = form.save()
+        else:
+            response["code"] = settings.APP_CODE["FORM ERROR"]
+            response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
