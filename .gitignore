@@ -36,5 +36,5 @@ test_debug.py
 .emacs.*
 *_flymake.py
 venv/
-/bkp
-/uploads
+bkp/
+uploads/
