@@ -49,5 +49,13 @@ var Admin = {
 	
 	$('#calendar').fullCalendar('removeEvents',[$("#id_id").val()]);
         $('#modal-availability').modal('hide');
+    },
+    save_album:function(form){
+	var obj = {"value":["id","name", "cover_photo"]};
+	App.submit_data_iframe(form, obj, "loader");
+    },
+    save_album_callback:function(id){
+	$("#id_id").val(id);
+	$("#id_album_id").val(id);
     }
 }

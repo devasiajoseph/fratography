@@ -83,6 +83,12 @@ def create_key(mixer, expiry):
     return {"key": key, "expiry": key_expires}
 
 
+def unique_name(mixer):
+    salt = sha.new(str(random.random())).hexdigest()[:10]
+    key = sha.new(salt + mixer).hexdigest()
+    return key
+
+
 def reply_object():
     """
     reference for the reply json object

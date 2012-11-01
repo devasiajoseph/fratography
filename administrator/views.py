@@ -2,12 +2,14 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template.response import TemplateResponse
 from app.utilities import reply_object, create_key
 import simplejson
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
-from administrator.forms import PriceForm, AvailabilityForm
+from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
+AlbumImageForm
 from app.models import PriceModel
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
@@ -63,3 +65,35 @@ def available_time(request):
     calendar_events = apply_settings_query(event_objects)
     return HttpResponse(simplejson.dumps(calendar_events),
                         mimetype="application/json")
+
+
+def album(request):
+    form = AlbumForm()
+    return TemplateResponse(request, 'admin_album_upload.html',
+                            {"form": form})
+
+
+def album_save(request):
+    if not request.POST:
+        return HttpResponse("waiting")
+    response = reply_object()
+    form = AlbumForm(request.POST, request.FILES, request=request)
+    print request.FILES
+    if form.is_valid():
+        response = form.save()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return render_to_response("admin_album_submit.html",
+                              {"response_data": simplejson.dumps(response)})
+
+
+def album_upload(request):
+    response = reply_object()
+    form = AlbumImageForm(request.POST, request.FILES, request=request)
+    if form.is_valid():
+        response = form.save()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))

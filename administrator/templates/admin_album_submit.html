@@ -1,0 +1,7 @@
+{% extends "iframe_submit.html" %}
+{%block script%}
+<script>
+parent.Admin.save_album_callback(response_data["id"]);
+
+</script>
+{%endblock%}

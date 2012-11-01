@@ -51,8 +51,13 @@ var App = {
 	$("#"+form).submit();
     },
 
-    process_data : function(data_str, callback){
-        data = JSON.parse(data_str);
+    process_data : function(data_str, callback, is_json){
+	if (is_json){
+	    data = data_str;
+	}else{
+	    data = JSON.parse(data_str);
+	}
+        
         switch (data["code"]){
         case "form_error":
             App.process_error(data["errors"]);
@@ -218,12 +223,23 @@ var App = {
     Calendar:{
 	start_booking:function(event){
 	    $("#id_start").val(event.start);
-	    
+	    event_date = event.start;
+	    var day = App.Calendar.week_days[event.start.getDay()];
+	    var month  = App.Calendar.month_names[event.start.getMonth()];
+	    var year = event.start.getFullYear();
+	    var date_day = event.start.getDate();
+	    $("#start-date").html(day+" "+month+" "+date_day+" "+year);
 	    $("#id_id").val("");
 	    $('#modal-booking').modal({backdrop: false});
 	    $('#modal-booking').modal('show');
 	    
-	}
+	},
+	month_names:[ "January", "February", "March", "April", "May", "June",
+		     "July", "August", "September", "October", "November", "December" ],
+	week_days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Staurday"]
+    },
+    Files:{
+	upload_queue:[]
     },
     Util:{
 	format_date_str:function(str_date){
@@ -242,4 +258,4 @@ var App = {
     }
     
 };
-
+var event_date;

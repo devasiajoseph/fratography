@@ -51,25 +51,28 @@
     </div>
     <div class="span3">
       <div class="control-group" id="container_start">
-	<label class="control-label" for="id_start">Date:</label>
 	<div class="controls">
           <span id="start-date"></span>	  
-	  <input type="text" id="id_start" name="start" class="span2" style="display:none;"/>{{form.time_from_hour}}{{form.time_from_minute}}{{form.time_from_ampm}}}From
+	  <input type="text" id="id_start" name="start" class="span2" style="display:none;"/>
+          <div class="input-prepend input-append">	  
+	  {{form.time_to_hour}}{{form.time_to_minute}}{{form.time_to_ampm}}<span class="add-on">From</span>
+          </div>	  
 	</div>
       </div>
       <div class="control-group" id="container_start">
 	<div class="controls">
-	  {{form.time_from_hour}}{{form.time_from_minute}}{{form.time_from_ampm}} }To
+          <div class="input-prepend input-append">	  
+	  {{form.time_from_hour}}{{form.time_from_minute}}{{form.time_from_ampm}}<span class="add-on">To</span>
+          </div>
 	</div>
       </div>
-    
+      
     </div>
     </div>      
     </div>	
     <div class="modal-footer">
       <a href="javascript:void(0)" class="btn" onclick="$('#modal-booking').modal('toggle')">Close</a>
-      <a href="javascript:void(0)" class="btn btn-primary" onclick="Admin.confirm_availability()">Save</a>
-      <a href="javascript:void(0)" class="btn btn-danger" onclick="Admin.remove_availability()">Remove</a>
+      <a href="javascript:void(0)" class="btn btn-primary" onclick="Admin.confirm_availability()">Book Event</a>
     </div>
   {{form.id}}
   </div>

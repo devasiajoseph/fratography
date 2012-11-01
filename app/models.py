@@ -260,3 +260,16 @@ class PriceModel(models.Model):
     price_per_hour = models.DecimalField(default=0, max_digits=16,
                                          decimal_places=2, null=True)
     price_type = models.CharField(max_length=50)
+
+
+class Album(models.Model):
+    name = models.CharField(max_length=1024)
+    cover_photo = models.CharField(max_length=1024)
+    image = models.CharField(max_length=1024)
+
+
+class AlbumImage(models.Model):
+    album = models.ForeignKey(Album)
+    image = models.CharField(max_length=1024)
+    thumbnail = models.CharField(max_length=1024)
+    display = models.CharField(max_length=1024)
