@@ -50,6 +50,7 @@ var ImagePreview = Backbone.View.extend({
         this.$el.append( template );
 	 
 	$("#cancel_"+this.options.upload_image.cid).bind('click', {index:this.options.upload_image.cid}, this.remove_file);
+	readImage(this.options.upload_image.get('image').files[0], "image_"+this.options.upload_image.cid)
         
     },
     remove_file:function(event){
@@ -62,15 +63,19 @@ var UploadStack = Backbone.Collection.extend({
 });
 var upload_stack = new UploadStack();
 
-function readImage(f){
+function readImage(f, id){
     var reader = new FileReader();
     reader.onload = (function(theFile) {
         return function(e) {
             // Render thumbnail.
+	    /*
             var span = document.createElement('span');
             span.innerHTML = ['<img class="thumb" src="', e.target.result,
                               '" title="', escape(theFile.name), '"/>'].join('');
             document.getElementById('list').insertBefore(span, null);
+	    */
+	    console.log($("#"+id));
+	    $("#"+id).attr('src', e.target.result);
         };
     })(f);
     reader.readAsDataURL(f);

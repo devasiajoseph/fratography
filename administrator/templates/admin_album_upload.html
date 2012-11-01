@@ -86,9 +86,9 @@
 <script src="{{MEDIA_URL}}js/underscore.js"></script>
 <script src="{{MEDIA_URL}}js/backbone.js"></script>
 <script type="text/template" id="image_preview_template">
- <tr id="image_<%=index%>">
+ <tr>
    <td class="preview">
-     <img src="#" alt="your image" id="image_<%=index%>"/>  
+     <img src="#" alt="your image" id="image_<%=index%>" width="100"/>  
    </td>
    <td class="name"><%=file.name%></td>
    <td class="size"><%=file.size/1000%>KB</td>
