@@ -2,9 +2,15 @@ $(function () {
     $('#fileupload').fileupload({
         dataType: 'json',
         done: function (e, data) {
+	    console.log(data);
             $.each(data.result, function (index, file) {
-                $('<p/>').text(file.name).appendTo(document.body);
+		var upload_image = new UploadImage({image: file});
+		var uploaded_image_preview = new UploadedImagePreview({el:$("#image_preview_container"), upload_image:upload_image});
+		$("#upload_container_"+file.cid).remove();
+		image_data = upload_stack.getByCid(file.cid);
+		upload_stack.remove(image_data);
             });
+	    
        
         },
 	progressall: function (e, data) {
@@ -24,7 +30,7 @@ $(function () {
 		console.log('Added file: ' + file.name+ "-----"+ file.size+index);
                 var upload_image = new UploadImage({image: data});
 		console.log(upload_image.cid);
-		var image_preview1 = new ImagePreview({el:$("#image_preview_container"), file:file, upload_image:upload_image});
+		var image_preview = new ImagePreview({el:$("#image_preview_container"), file:file, upload_image:upload_image});
 		upload_stack.add(upload_image);
             });
            
@@ -43,7 +49,20 @@ var UploadImage = Backbone.Model.extend({
     }
 });
 
-
+var UploadedImagePreview = Backbone.View.extend({
+    initialize: function(attrs){
+	this.options = attrs;
+	this.render();
+    },
+    render:function(){
+	var variables = { preview:this.options.upload_image.get("image").preview, id: this.options.upload_image.get("image").id};
+        // Compile the template using underscore
+        var template = _.template( $("#image_uploaded_template").html(), variables );
+        // Load the compiled HTML into the Backbone "el"
+        this.$el.append( template );
+    }
+    
+});
 var ImagePreview = Backbone.View.extend({
     initialize: function(attrs){
 	this.options = attrs;
@@ -66,8 +85,7 @@ var ImagePreview = Backbone.View.extend({
 	upload_stack.remove(event.data.upload_image);
 	$("#upload_container_"+event.data.upload_image.cid).remove()
     },
-    upload_file:function(event){
-	
+    upload_file:function(event){	
 	event.data.upload_image.get('image').submit();
     }
 });
@@ -82,6 +100,8 @@ var UploadStack = Backbone.Collection.extend({
     },
     upload_all:function(){
 	this.each(function(data){
+	    console.log(data.cid)
+	    $("#cid").val(data.cid);
 	    data.get('image').submit();
 	});
     }

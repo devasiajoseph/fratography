@@ -30,8 +30,11 @@ def calendar(request):
 
 
 def price_perhour(request):
-    price = PriceModel.objects.get(
+    price, created = PriceModel.objects.get_or_create(
         price_type=settings.PRICE_TYPE["PRICE_PER_HOUR"])
+    if created:
+        price.price_per_hour = 0
+        price.save()
     form = PriceForm(initial={"price": price.price_per_hour})
     return render_to_response(
         'admin_price_perhour.html',

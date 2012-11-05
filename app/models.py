@@ -273,3 +273,4 @@ class AlbumImage(models.Model):
     image = models.CharField(max_length=1024)
     thumbnail = models.CharField(max_length=1024)
     display = models.CharField(max_length=1024)
+    preview = models.CharField(max_length=1024)

@@ -144,15 +144,21 @@ class AlbumForm(ImageForm):
 class AlbumImageForm(ImageForm):
     album_id = forms.IntegerField()
     image = forms.FileField()
+    cid = forms.CharField()
 
     def save(self):
         image = self.handle_uploaded_file(
                     self.request.FILES['image'])
         thumbnail = self.format_image(image, 200.0, "thumbnail")
+        preview = self.format_image(image, 100.0, "preview")
         album = Album.objects.get(pk=self.cleaned_data["album_id"])
         album_image = AlbumImage.objects.create(album=album,
                                                 image=image,
-                                                thumbnail=thumbnail)
+                                                thumbnail=thumbnail,
+                                                preview=preview)
         album_image.save()
         return [{"name":image,
-                 "path":settings.MEDIA_URL + 'uploads/' + image}]
+                 "path":settings.MEDIA_URL + 'uploads/' + image,
+                 "id":album_image.id,
+                 "preview":settings.MEDIA_URL + 'uploads/' + image,
+                 "cid":self.cleaned_data["cid"]}]
