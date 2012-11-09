@@ -1,0 +1,24 @@
+{% extends "admin_base.html" %}
+
+{%block content_body %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Album name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for album in albums%}
+      <tr>
+	<td>{{album.name}}</td>
+	<td>
+	  <a href="/admin/album/edit/{{album.id}}">
+	    <i class="icon-edit"></i>
+	  </a>
+	</td>
+      </tr>
+    {%endfor%}
+  </tbody>
+</table>  
+{%endblock%}

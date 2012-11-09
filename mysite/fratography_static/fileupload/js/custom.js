@@ -1,14 +1,23 @@
 $(function () {
+    if($("#id_album_id").val()){
+	
+	$("#images_container_widget").show();
+	$("#album_delete_button").show();
+	//load uploaded images
+	get_album_images();
+    }
     $('#fileupload').fileupload({
         dataType: 'json',
         done: function (e, data) {
 	    console.log(data);
             $.each(data.result, function (index, file) {
-		var upload_image = new UploadImage({image: file});
-		var uploaded_image_preview = new UploadedImagePreview({el:$("#image_preview_container"), upload_image:upload_image});
+		var upload_image = upload_stack.getByCid(file.cid);
+		upload_image.set({image:data});
+		upload_image.set({file:file})
+		upload_image.set({isUploaded:true});
+		var uploaded_image_preview = new UploadedImagePreview({el:$("#image_preview_container"), upload_image:upload_image, id:file.id});
 		$("#upload_container_"+file.cid).remove();
-		image_data = upload_stack.getByCid(file.cid);
-		upload_stack.remove(image_data);
+		
             });
 	    
        
@@ -42,11 +51,22 @@ $(function () {
 var UploadImage = Backbone.Model.extend({
     urlRoot:'/admin/album/image',
     initialize: function(){
-        
+        this.set({isUploaded:false});
     },
-    delete:function(){
+    delete_file:function(event){
+	console.log(event.data.id);
+	var submit_obj = {"image_id":event.data.id, "image_cid":event.data.cid};
+        App.submit_data({},submit_obj,"/admin/album/image/delete",
+			function(data){
+			    console.log(data.cid);
+			    upload_image = upload_stack.getByCid(data.cid);
+			    upload_stack.remove(upload_image);
+			    $("#upload_container_"+data.id).remove()
+			},
+			"image_loader_"+event.data.id);
 	
-    }
+    },
+    isUploaded:false
 });
 
 var UploadedImagePreview = Backbone.View.extend({
@@ -55,11 +75,20 @@ var UploadedImagePreview = Backbone.View.extend({
 	this.render();
     },
     render:function(){
-	var variables = { preview:this.options.upload_image.get("image").preview, id: this.options.upload_image.get("image").id};
+	var variables = { preview:this.options.upload_image.get("file").preview, id: this.options.id};
         // Compile the template using underscore
         var template = _.template( $("#image_uploaded_template").html(), variables );
         // Load the compiled HTML into the Backbone "el"
         this.$el.append( template );
+	console.log(this.options.id);
+	$("#delete_"+this.options.id).bind('click',
+					   {id:this.options.id,
+					    cid:this.options.upload_image.cid },
+					   this.options.upload_image.delete_file);
+    },
+    delete_file:function(event){
+	console.log(event.data.upload_image.cid);
+	upload_stack.getByCid(event.data.upload_image.cid).delete_file();
     }
     
 });
@@ -100,9 +129,12 @@ var UploadStack = Backbone.Collection.extend({
     },
     upload_all:function(){
 	this.each(function(data){
-	    console.log(data.cid)
-	    $("#cid").val(data.cid);
-	    data.get('image').submit();
+	    console.log(data.cid);
+	    console.log(data.get('image'));
+	    if(!data.get('isUploaded')){
+		$("#cid").val(data.cid);
+		data.get('image').submit();
+	    }
 	});
     }
 });
@@ -117,4 +149,24 @@ function readImage(f, id){
         };
     })(f);
     reader.readAsDataURL(f);
+}
+
+function get_album_images(){
+    var album_id = $("#id_album_id").val();
+    App.get_raw_data("/admin/get/album/images/"+album_id, function(data){
+	for (i in data){
+	    setupUploadedImage(data[i]);
+	}
+    }, "loader")
+}
+
+function setupUploadedImage(data){
+    file = data.fields;
+    var upload_image = new UploadImage();
+    console.log(upload_image.cid);
+    upload_image.set({id:data.pk});
+    upload_image.set({file:file});
+    upload_image.set({isUploaded:true});
+    upload_stack.add(upload_image);
+    var uploaded_image_preview = new UploadedImagePreview({el:$("#image_preview_container"), upload_image:upload_image, id:data.pk});
 }

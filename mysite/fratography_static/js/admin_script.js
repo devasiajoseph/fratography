@@ -57,5 +57,14 @@ var Admin = {
     save_album_callback:function(id){
 	$("#id_id").val(id);
 	$("#id_album_id").val(id);
+	$("#album_delete_button").show();
+	$("#images_container_widget").show();
+    },
+    delete_album:function(){
+	var obj = {"value":["id"]};
+	App.submit_data(obj, {}, "/admin/album/delete", Admin.delete_album_callback, "loader")
+    },
+    delete_album_callback:function(){
+	window.location.href = "/admin/album/list/1";
     }
 }

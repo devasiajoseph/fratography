@@ -3,6 +3,8 @@ import random
 import datetime
 from django.core.mail import send_mail
 from django.conf import settings
+import os
+
 
 us_states = ["Alabama",
              "Alaska",
@@ -54,6 +56,14 @@ us_states = ["Alabama",
              "West Virginia",
              "Wisconsin",
              "Wyoming"]
+
+
+def delete_uploaded_file(file_name):
+    try:
+        os.remove(settings.UPLOAD_PATH + file_name)
+    except:
+        pass
+    return
 
 
 def send_activation_email(email, key):

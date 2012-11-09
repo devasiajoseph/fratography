@@ -20,14 +20,24 @@
       <div id="message_cover_photo" class="help-inline"></div>
     </div>
     <div class="controls">    
-      <button type="button" class="btn btn-primary" onclick="Admin.save_album('id_album_form')">Save album</button>      
-    </div>      
+      <button type="button" class="btn btn-primary" onclick="Admin.save_album('id_album_form')">Save album</button>
+      <button type="button" class="btn btn-danger" id="album_delete_button" onclick="$('#album_delete_confirm').show()" style="display:none;">Delete album</button>
+    </div>
   </div>
+  <div id="album_delete_confirm" style="display:none">
+    <div class="alert alert-block">
+      <h4>Warning!</h4>
+      Deleting this album results in the removal of all pictures in this album and associated data<br/>
+      Are you sure you want to continue? <button class="btn btn-danger" type="button" onclick="Admin.delete_album()">Confirm Delete</button>
+      <button type="button" class="btn btn-warning" id="album_delete_button" onclick="$('#album_delete_confirm').hide()">Cancel</button>
+    </div>
+  </div> 
   {{form.id}}  
   {%csrf_token%}
 </form>
+<div id="images_container_widget" style="display:none;">
 <form id="fileupload" action="/admin/album/image" method="POST" enctype="multipart/form-data">
-<input type="hidden" id="id_album_id" name="album_id" value="1"/>
+<input type="hidden" id="id_album_id" name="album_id" value="{{album.id}}"/>
 <input type="hidden" id="cid" name="cid"/>
 {%csrf_token%}
   <!-- Redirect browsers with JavaScript disabled to the origin page -->
@@ -77,6 +87,7 @@
 </table>
 <output id="list"></output>
 <iframe name="album_iframe" id="id_album_iframe" src="/admin/album/save" style="display:none;"></iframe>
+</div>
 
 {%endblock%}
 {%block script_includes%}
@@ -106,12 +117,13 @@
 <script type="text/template" id="image_uploaded_template">
   <tr id="upload_container_<%=id%>">
    <td class="preview" colspan="3">
-     <img src="<%=preview%>" alt="your image" id="image_<%=id%>" width="100"/>  
+     <img src="{{MEDIA_URL}}uploads/<%=preview%>" alt="your image" id="image_<%=id%>" width="100"/>  
    </td>
    <td class="action">
-     <button class="btn btn-danger" type="submit" id="uploaded_<%=id%>">
+     <button class="btn btn-danger" type="submit" id="delete_<%=id%>">
        <i class="icon-trash icon-white"></i>
      </button>
+     <img src="{{MEDIA_URL}}images/circle-ajax-loader.gif" style="display:none;" id="image_loader_<%=id%>"/>
    </td>
  </tr>
 </script>

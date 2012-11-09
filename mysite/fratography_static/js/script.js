@@ -1,7 +1,11 @@
 var App = {
-    submit_data : function(obj, submit_obj, url, callback, loader_id) {
+    submit_data : function(obj, submit_obj, url, callback, loader_id, no_message) {
 	$("#message___all__").hide();
-        App.show_loader("Submitting", loader_id);
+	if(no_message){
+	    App.show_loader("None", loader_id);
+	}else{
+            App.show_loader("Submitting", loader_id);
+	}
         for(var i in obj["value"]){
             $("#message_"+ obj["value"][i]).html("");
             $("#container_"+ obj["value"][i]).removeClass("error");
@@ -50,7 +54,20 @@ var App = {
         }
 	$("#"+form).submit();
     },
-
+    get_data:function(url, callback, loader_id){
+	App.show_loader("None", loader_id);
+	$.get(url, function(data){
+	    App.hide_loader(loader_id);
+            App.process_data(data, callback, true);
+	});
+    },
+    get_raw_data:function(url, callback, loader_id){
+	App.show_loader("None", loader_id);
+	$.get(url, function(data){
+	    App.hide_loader(loader_id);
+	    callback(data);
+	});
+    },
     process_data : function(data_str, callback, is_json){
 	if (is_json){
 	    data = data_str;

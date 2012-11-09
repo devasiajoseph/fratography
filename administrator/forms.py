@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 from app.utilities import reply_object
-from app.utilities import create_key, unique_name
+from app.utilities import create_key, unique_name, delete_uploaded_file
 from app.models import PriceModel, Album, AlbumImage
 from calendarapp.forms import EventObjectForm
 import os
@@ -158,7 +158,42 @@ class AlbumImageForm(ImageForm):
                                                 preview=preview)
         album_image.save()
         return [{"name":image,
-                 "path":settings.MEDIA_URL + 'uploads/' + image,
                  "id":album_image.id,
-                 "preview":settings.MEDIA_URL + 'uploads/' + image,
+                 "preview": image,
                  "cid":self.cleaned_data["cid"]}]
+
+
+class AlbumImageModForm(forms.Form):
+    image_id = forms.IntegerField()
+    image_cid = forms.CharField()
+
+    def delete_image(self):
+        response = reply_object()
+        image = AlbumImage.objects.get(pk=self.cleaned_data["image_id"])
+        delete_album_image_files(image)
+        image.delete()
+        response["id"] = self.cleaned_data["image_id"]
+        response["cid"] = self.cleaned_data["image_cid"]
+        response["code"] = settings.APP_CODE["DELETED"]
+        return response
+
+
+class AlbumModForm(forms.Form):
+    id = forms.IntegerField()
+
+    def delete_album(self):
+        response = reply_object()
+        album = Album.objects.get(pk=self.cleaned_data["id"])
+        album_images = AlbumImage.objects.filter(album=album)
+        for album_image in album_images:
+            delete_album_image_files(album_image)
+        album.delete()
+        response["code"] = settings.APP_CODE["DELETED"]
+        return response
+
+
+def delete_album_image_files(album_image):
+    delete_uploaded_file(album_image.image)
+    delete_uploaded_file(album_image.thumbnail)
+    delete_uploaded_file(album_image.display)
+    delete_uploaded_file(album_image.preview)

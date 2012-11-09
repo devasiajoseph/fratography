@@ -3,17 +3,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.response import TemplateResponse
-from app.utilities import reply_object, create_key
-import simplejson
+from django.core import serializers
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
+from app.utilities import reply_object, create_key
+import simplejson
+
 import datetime
 from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
-AlbumImageForm
-from app.models import PriceModel
+AlbumImageForm, AlbumImageModForm, AlbumModForm
+from app.models import PriceModel, Album, AlbumImage
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
-from django.views.decorators.csrf import csrf_exempt
 
 
 def admin_dashboard(request):
@@ -77,6 +78,25 @@ def album(request):
                             {"form": form})
 
 
+def album_edit(request, album_id):
+    album = Album.objects.get(pk=album_id)
+    form = AlbumForm(initial={"id": album.id, "name": album.name})
+    return TemplateResponse(request, 'admin_album_upload.html',
+                            {"form": form,
+                             "album": album})
+
+
+def album_delete(request):
+    response = reply_object()
+    form = AlbumModForm(request.POST)
+    if form.is_valid():
+        response = form.delete_album()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
+
+
 def album_save(request):
     if not request.POST:
         return HttpResponse("waiting")
@@ -92,9 +112,14 @@ def album_save(request):
                               {"response_data": simplejson.dumps(response)})
 
 
-def album_image(request, id=0):
+def album_list(request, page):
+    albums = Album.objects.all()
+    return TemplateResponse(request, 'admin_album_list.html',
+                            {"albums": albums})
+
+
+def album_image(request):
     response = reply_object()
-    print id
     if request.POST:
         form = AlbumImageForm(request.POST, request.FILES, request=request)
         if form.is_valid():
@@ -103,3 +128,23 @@ def album_image(request, id=0):
             response["code"] = settings.APP_CODE["FORM ERROR"]
             response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
+
+
+def album_image_delete(request):
+    response = reply_object()
+    form = AlbumImageModForm(request.POST)
+    if form.is_valid():
+        response = form.delete_image()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
+
+
+def get_album_images(request, album_id):
+    response = reply_object()
+    album = Album.objects.get(pk=album_id)
+    album_images = serializers.serialize(
+        'json',
+        AlbumImage.objects.filter(album=album))
+    return HttpResponse(album_images, mimetype="application/json")
