@@ -9,7 +9,14 @@ $(function () {
     $('#fileupload').fileupload({
         dataType: 'json',
         done: function (e, data) {
-	    console.log(data);
+	    //console.log(data);
+	    uploaded_files = uploaded_files + 1;
+	    if (total_files_to_upload==uploaded_files){
+		console.log("upload_complete");
+		total_files_to_upload = 0;
+		uploaded_files = 0;
+		set_progress(100);
+	    }
             $.each(data.result, function (index, file) {
 		var upload_image = upload_stack.getByCid(file.cid);
 		upload_image.set({image:data});
@@ -25,20 +32,19 @@ $(function () {
 	progressall: function (e, data) {
         
             var progress = parseInt(data.loaded / data.total * 100, 10);
-            $('#progress .bar').css(
-		'width',
-		progress + '%'
-            );
+            set_progress(progress);
      
 	},
-	prograss:function(e, data){
-	    console.log(data.loaded);
+	progress:function(e, data){
+	    //console.log("each-----"+data.loaded);
+	    var progress = parseInt(data.loaded / data.total * 100, 10);
+	    
 	},
 	add:function(e, data){
             $.each(data.files, function (index, file) {
-		console.log('Added file: ' + file.name+ "-----"+ file.size+index);
+		//console.log('Added file: ' + file.name+ "-----"+ file.size+index);
                 var upload_image = new UploadImage({image: data});
-		console.log(upload_image.cid);
+		//console.log(upload_image.cid);
 		var image_preview = new ImagePreview({el:$("#image_preview_container"), file:file, upload_image:upload_image});
 		upload_stack.add(upload_image);
             });
@@ -54,11 +60,11 @@ var UploadImage = Backbone.Model.extend({
         this.set({isUploaded:false});
     },
     delete_file:function(event){
-	console.log(event.data.id);
+	//console.log(event.data.id);
 	var submit_obj = {"image_id":event.data.id, "image_cid":event.data.cid};
         App.submit_data({},submit_obj,"/admin/album/image/delete",
 			function(data){
-			    console.log(data.cid);
+			    //console.log(data.cid);
 			    upload_image = upload_stack.getByCid(data.cid);
 			    upload_stack.remove(upload_image);
 			    $("#upload_container_"+data.id).remove()
@@ -80,14 +86,14 @@ var UploadedImagePreview = Backbone.View.extend({
         var template = _.template( $("#image_uploaded_template").html(), variables );
         // Load the compiled HTML into the Backbone "el"
         this.$el.append( template );
-	console.log(this.options.id);
+	//console.log(this.options.id);
 	$("#delete_"+this.options.id).bind('click',
 					   {id:this.options.id,
 					    cid:this.options.upload_image.cid },
 					   this.options.upload_image.delete_file);
     },
     delete_file:function(event){
-	console.log(event.data.upload_image.cid);
+	//console.log(event.data.upload_image.cid);
 	upload_stack.getByCid(event.data.upload_image.cid).delete_file();
     }
     
@@ -128,9 +134,16 @@ var UploadStack = Backbone.Collection.extend({
 	});
     },
     upload_all:function(){
+	reset_progress();
 	this.each(function(data){
-	    console.log(data.cid);
-	    console.log(data.get('image'));
+	    if(!data.get('isUploaded')){
+		total_files_to_upload = total_files_to_upload + 1;
+		
+	    }
+	});
+	this.each(function(data){
+	    //console.log(data.cid);
+	    //console.log(data.get('image'));
 	    if(!data.get('isUploaded')){
 		$("#cid").val(data.cid);
 		data.get('image').submit();
@@ -139,7 +152,8 @@ var UploadStack = Backbone.Collection.extend({
     }
 });
 var upload_stack = new UploadStack();
-var total_size = 0;
+var total_files_to_upload = 0;
+var uploaded_files = 0;
 function readImage(f, id){
     var reader = new FileReader();
     reader.onload = (function(theFile) {
@@ -163,10 +177,22 @@ function get_album_images(){
 function setupUploadedImage(data){
     file = data.fields;
     var upload_image = new UploadImage();
-    console.log(upload_image.cid);
+    //console.log(upload_image.cid);
     upload_image.set({id:data.pk});
     upload_image.set({file:file});
     upload_image.set({isUploaded:true});
     upload_stack.add(upload_image);
     var uploaded_image_preview = new UploadedImagePreview({el:$("#image_preview_container"), upload_image:upload_image, id:data.pk});
+}
+
+function set_progress(progress){
+    $('#progress .bar').css('width', progress + '%');
+    if (progress==100){
+	$('#progress').removeClass('progress-striped');
+    };
+    $("#show-progress").html(progress+"%");
+}
+function reset_progress(){
+    $('#progress .bar').css('width','0%');
+    $('#progress').addClass('progress-striped');
 }
