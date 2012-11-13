@@ -151,11 +151,13 @@ class AlbumImageForm(ImageForm):
                     self.request.FILES['image'])
         thumbnail = self.format_image(image, 200.0, "thumbnail")
         preview = self.format_image(image, 100.0, "preview")
+        display = self.format_image(image, 500.0, "display")
         album = Album.objects.get(pk=self.cleaned_data["album_id"])
         album_image = AlbumImage.objects.create(album=album,
                                                 image=image,
                                                 thumbnail=thumbnail,
-                                                preview=preview)
+                                                preview=preview,
+                                                display=display)
         album_image.save()
         return [{"name":image,
                  "id":album_image.id,

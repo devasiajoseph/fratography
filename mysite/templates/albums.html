@@ -28,15 +28,25 @@
     </select>
   </div>
 </div>
+<div  id="image-modal" class="modal hide fade" tabindex="-1" >
+   <div class="modal-body">
+     <div id="display-image-container">
+       <img src="" id="display-image" class="display-image"/>
+     </div>
+   </div>
+</div>
 {%endblock%}
 {%block script_includes%}
 <script src="{{MEDIA_URL}}js/underscore.js"></script>
 <script src="{{MEDIA_URL}}js/backbone.js"></script>
+<script src="{{MEDIA_URL}}js/jquery.imagesloaded.min.js"></script>
 <script type="text/template" id="album-photo">
   <div class="album">
     <div class="pic-frame">
 
-      <img src="{{MEDIA_URL}}uploads/<%=thumbnail%>">
+      <a href="javascript:void(0)" onclick="displayImage('{{MEDIA_URL}}uploads/<%=display%>')">
+	<img src="{{MEDIA_URL}}uploads/<%=thumbnail%>">
+      </a>	
       <div class="likebox">
         <a href="">
 	  <img src="{{MEDIA_URL}}img/like.jpg">

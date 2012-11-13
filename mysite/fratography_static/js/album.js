@@ -32,6 +32,7 @@ var AlbumPhoto = Backbone.View.extend({
 	var photo = this.options.photo;
 	var variables = {
 	    thumbnail:photo.thumbnail,
+	    display:photo.display
 	}
         var template = _.template( $("#album-photo").html(), variables);
         // Load the compiled HTML into the Backbone "el"
@@ -68,7 +69,6 @@ var AlbumRouter = Backbone.Router.extend({
 	}
     },
     processAlbums:function(album_id, number, count){
-	console.log("page-"+number + " show-"+count);
 	$("#albums-container").html("");
 	var data = {page: number, show: count};
 	
@@ -82,7 +82,6 @@ var AlbumRouter = Backbone.Router.extend({
 	
     },
     processPhotos:function(album_id, number, count){
-	console.log("page-"+number + " show-"+count);
 	$("#albums-container").html("");
 	var send_data = {page: number, show: count, album_id:album_id};
 	
@@ -106,14 +105,14 @@ function create_album_row(count){
     if (count/3>totalRows){
 	totalRows = totalRows + 1;
     }
-    console.log(totalRows);
+    
     for(i=0;i<totalRows;i++){
 	var album_row = new AlbumsRow({"id":i});
     }
 }
 
 function create_album_cover(album, row_id){
-    console.log(album.cover_photo);
+    
     var album_cover = new AlbumCover({
 	el: $("#albums-row-"+row_id),
 	"album":album});
@@ -158,7 +157,7 @@ var PageNumber = Backbone.View.extend({
     render:function(){
 	url_link = this.options.url_pattern.replace(":number", this.options.count);
 	url_link = url_link.replace(":album_id", this.options.album_id);
-	console.log(url_link);
+	
 	if (this.options.count == this.options.number){
 	    this.$el.append('<a class="act" href="#'+url_link+'">'+this.options.count+'</a>')
 	}else{
@@ -166,9 +165,36 @@ var PageNumber = Backbone.View.extend({
 	    }
     },
     page:function(){
-	console.log(this.options.number);
+	//console.log(this.options.number);
     }
 
 });
+
+function displayImage(image){
+    $("#display-image").hide();
+    $("#display-image").attr('src', image);
+    
+    //$("#display-image-container").html('<img src="'+image+'" id="display-image" onload="adjustImageModal()">');
+    
+}
+
+function adjustImageModal(){
+    
+   // $("#image-modal").css('height',$("#display-image").height()+'px');
+   // $("#image-modal").css('width',$("#display-image").width()+'px');
+}
 var album_router = new AlbumRouter;
 Backbone.history.start();
+$(function(){
+    $(".display-image").bind('load', function() {
+	$("#image-modal").css('width','600px');
+	$("#image-modal").modal({keyboard: true});
+	
+    });
+});
+$("#image-modal").on('shown',
+		     function(){
+			 $("#image-modal").css('width',$("#display-image").width()+'px');
+			 $("#display-image").show();
+			 console.log($("#display-image").width());
+		     });
