@@ -174,7 +174,7 @@ function displayImage(image){
     $("#display-image").hide();
     $("#display-image").attr('src', image);
     $("#image-modal").modal({keyboard: true});
-    
+    $("#image-modal").css('width','600px');
     //$("#display-image-container").html('<img src="'+image+'" id="display-image" onload="adjustImageModal()">');
     
 }
