@@ -10,14 +10,14 @@ import simplejson
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
-from app.models import UserProfile, SocialAuth, Album
+from app.models import UserProfile, SocialAuth, Album, AlbumImage
 from app.forms import PasswordResetForm, PasswordEmailForm, BookingForm
 from django.contrib.auth import authenticate, login
 from django.core import serializers
 
 
 def index(request):
-    return render_to_response("university.html",
+    return render_to_response("kappa.html",
                               context_instance=RequestContext(request))
 
 
@@ -268,6 +268,18 @@ def album_objects(request):
         'json',
         Album.objects.all()[pages["from"]:pages["to"]])
     return HttpResponse(albums, mimetype="application/json")
+
+
+def album_photos(request):
+    page = int(request.GET["page"])
+    count = int(request.GET["show"])
+    pages = paginate(page, count)
+    album_id = int(request.GET["album_id"])
+    album = Album.objects.get(pk=album_id)
+    album_photos = serializers.serialize(
+        'json',
+        AlbumImage.objects.filter(album=album)[pages["from"]:pages["to"]])
+    return HttpResponse(album_photos, mimetype="application/json")
 
 
 def test(request):

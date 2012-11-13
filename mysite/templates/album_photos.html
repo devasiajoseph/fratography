@@ -5,14 +5,14 @@
 {% block content_body%}
 <div class="university">
   <header>
-    <img alt="" src="http://localhost:8090/fratography_static/img/recent.jpg">
+    {{name}}
   </header>
   
 </div>
 <div id="album-loader" class="none">
   <img src="{{MEDIA_URL}}images/album-loader.gif" />
 </div>
-<div class="albums" id="albums-container">
+<div class="albums" id="photo-container">
   
 </div>  
 {%endblock%}
@@ -26,31 +26,16 @@
       <img src="{{MEDIA_URL}}uploads/<%=thumbnail%>">
       <div class="likebox">
         <a href="">
-	  <img src="{{MEDIA_URL}}img/like.jpg">
+	  <img src="http://localhost:8090/fratography_static/img/like.jpg">
 	</a>
 	<a href="">
-	  <img src="{{MEDIA_URL}}img/notlike.jpg">
+	  <img src="http://localhost:8090/fratography_static/img/notlike.jpg">
 	</a>
       </div>
     </div>                            
   </div>
 </script>
-<script type="text/template" id="album">
-  <div class="album">
-    <div class="album-title">
-      <a href=""><%=name%></a>
-    </div>
-    <div class="album-cover">
-      <div class="album-cover-holder">      
-	<a href="#album/<%=album_id%>/page/1/show/20"><img alt="" src="{{MEDIA_URL}}uploads/<%=cover_photo%>"></a>
-	<div class="likebox">
-          <a href="javascript:void(0)"><img src="{{MEDIA_URL}}img/like.jpg"></a><a href=""><img src="{{MEDIA_URL}}img/notlike.jpg"></a>
-	</div>
-      </div>
-    </div>
-  </div>
-</script>
-<script type="text/template" id="albums-row" >
+<script type="text/template" id="albums-row">
   <div class="albums-row clearfix" id="albums-row-<%=id%>">
     
   </div>

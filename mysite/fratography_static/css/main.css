@@ -327,6 +327,10 @@ div.album-cover{
     padding:5px;
     position: relative;
 }
+div.album-cover-holder{
+    height:155px;
+    overflow:hidden;
+}
 div.album-cover div.likebox, div.pic-frame div.likebox{
     position: absolute;
     bottom:15px;

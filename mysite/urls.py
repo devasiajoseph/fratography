@@ -49,6 +49,7 @@ urlpatterns = patterns('',
     url(r'^calendar$', 'app.views.calendar', name='calendar'),
     url(r'^albums$', 'app.views.albums', name='albums'),
     url(r'^album/objects$', 'app.views.album_objects', name='album_objects'),
+    url(r'^album/photos$', 'app.views.album_photos', name='album_photos'),
     #administrator
     (r'^admin/', include('administrator.urls')),
     #test url
