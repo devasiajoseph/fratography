@@ -264,10 +264,17 @@ def album_objects(request):
     page = int(request.GET["page"])
     count = int(request.GET["show"])
     pages = paginate(page, count)
-    albums = serializers.serialize(
-        'json',
-        Album.objects.all()[pages["from"]:pages["to"]])
-    return HttpResponse(albums, mimetype="application/json")
+    albums = {}
+    albums["data"] = []
+    for each_album in Album.objects.all()[pages["from"]:pages["to"]]:
+        album_dict = {}
+        album_dict["id"] = each_album.id
+        album_dict["cover_photo"] = each_album.cover_photo
+        album_dict["name"] = each_album.name
+        albums["data"].append(album_dict)
+
+    albums["total_count"] = Album.objects.count()
+    return HttpResponse(simplejson.dumps(albums), mimetype="application/json")
 
 
 def album_photos(request):
@@ -276,10 +283,20 @@ def album_photos(request):
     pages = paginate(page, count)
     album_id = int(request.GET["album_id"])
     album = Album.objects.get(pk=album_id)
-    album_photos = serializers.serialize(
-        'json',
-        AlbumImage.objects.filter(album=album)[pages["from"]:pages["to"]])
-    return HttpResponse(album_photos, mimetype="application/json")
+    album_photos = {}
+    album_photos["data"] = []
+    for each_photo in AlbumImage.objects.filter(album=album)[
+        pages["from"]:pages["to"]]:
+        photo_dict = {}
+        photo_dict["id"] = each_photo.id
+        photo_dict["thumbnail"] = each_photo.thumbnail
+        photo_dict["display"] = each_photo.display
+        album_photos["data"].append(photo_dict)
+
+    album_photos["total_count"] = AlbumImage.objects.filter(
+        album=album).count()
+    return HttpResponse(simplejson.dumps(album_photos),
+                        mimetype="application/json")
 
 
 def test(request):

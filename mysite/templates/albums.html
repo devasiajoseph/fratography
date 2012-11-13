@@ -14,7 +14,20 @@
 </div>
 <div class="albums" id="albums-container">
   
-</div>  
+</div>
+<div class="pagination desp15">
+  <div id="pagination-container">  
+    
+  </div>  
+  <div class="show-count">
+    <label for="show">Show</label>
+    <select id="show-count">
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+</div>
 {%endblock%}
 {%block script_includes%}
 <script src="{{MEDIA_URL}}js/underscore.js"></script>
@@ -42,7 +55,7 @@
     </div>
     <div class="album-cover">
       <div class="album-cover-holder">      
-	<a href="#album/<%=album_id%>/page/1/show/20"><img alt="" src="{{MEDIA_URL}}uploads/<%=cover_photo%>"></a>
+	<a href="#album/<%=album_id%>/page/1"><img alt="" src="{{MEDIA_URL}}uploads/<%=cover_photo%>"></a>
 	<div class="likebox">
           <a href="javascript:void(0)"><img src="{{MEDIA_URL}}img/like.jpg"></a><a href=""><img src="{{MEDIA_URL}}img/notlike.jpg"></a>
 	</div>

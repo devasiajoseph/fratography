@@ -10,9 +10,9 @@ var AlbumCover = Backbone.View.extend({
 	// Compile the template using underscore
 	var album = this.options.album;
 	var variables = {
-	    cover_photo:album.fields.cover_photo,
-	    name:album.fields.name,
-	    album_id:album.pk
+	    cover_photo:album.cover_photo,
+	    name:album.name,
+	    album_id:album.id
 	}
         var template = _.template( $("#album").html(), variables);
         // Load the compiled HTML into the Backbone "el"
@@ -31,7 +31,7 @@ var AlbumPhoto = Backbone.View.extend({
 	// Compile the template using underscore
 	var photo = this.options.photo;
 	var variables = {
-	    thumbnail:photo.fields.thumbnail,
+	    thumbnail:photo.thumbnail,
 	}
         var template = _.template( $("#album-photo").html(), variables);
         // Load the compiled HTML into the Backbone "el"
@@ -57,18 +57,25 @@ var AlbumsRow = Backbone.View.extend({
 
 var AlbumRouter = Backbone.Router.extend({
     routes: {
-	"page/:number/show/:count": "processAlbums",
-	"album/:album_id/page/:number/show/:count": "processPhotos"
+	"album/:album_id/page/:number": "process"
     },
-    processAlbums:function(number, count){
+    process:function(album_id, number){
+	count = $("#show-count").val();
+	if(album_id=="all"){
+	    this.processAlbums(album_id, number, count);
+	}else{
+	    this.processPhotos(album_id, number, count);
+	}
+    },
+    processAlbums:function(album_id, number, count){
 	console.log("page-"+number + " show-"+count);
 	$("#albums-container").html("");
 	var data = {page: number, show: count};
 	
 	create_album_row(count);
 	App.get_raw_data("/album/objects", data, function(data){
-	    for (i in data){
-		create_album_cover(data[i], parseInt(i/3, 10));
+	    for (i in data["data"]){
+		create_album_cover(data["data"][i], parseInt(i/3, 10));
 	    }
 	}, "album-loader");
 	
@@ -77,13 +84,18 @@ var AlbumRouter = Backbone.Router.extend({
     processPhotos:function(album_id, number, count){
 	console.log("page-"+number + " show-"+count);
 	$("#albums-container").html("");
-	var data = {page: number, show: count, album_id:album_id};
+	var send_data = {page: number, show: count, album_id:album_id};
 	
 	create_album_row(count);
-	App.get_raw_data("/album/photos", data, function(data){
-	    for (i in data){
-		create_album_photo(data[i], parseInt(i/4, 10));
+	App.get_raw_data("/album/photos", send_data, function(data){
+	    for (i in data["data"]){
+		create_album_photo(data["data"][i], parseInt(i/4, 10));
 	    }
+	    create_paginator(album_id,
+			     number,
+			     count,
+			     data["total_count"],
+			    "album/:album_id/page/:number")
 	}, "album-loader");
 	
     }
@@ -101,7 +113,7 @@ function create_album_row(count){
 }
 
 function create_album_cover(album, row_id){
-    console.log(album.fields.cover_photo);
+    console.log(album.cover_photo);
     var album_cover = new AlbumCover({
 	el: $("#albums-row-"+row_id),
 	"album":album});
@@ -111,6 +123,52 @@ function create_album_photo(photo, row_id){
 	el: $("#albums-row-"+row_id),
 	"photo":photo});
 }
+function create_paginator(album_id, number, count, total_count, url_pattern){
+    $("#pagination-container").html("");
+    total_pages = parseInt(total_count/count, 10);
+    if (total_count/count>total_pages){
+	total_pages = total_pages + 1;
+    }
+    
+    for(i=1;i<=total_pages;i++){
+	var pageNumber = new PageNumber(
+	    {
+		"album_id":album_id,
+		"number":number,
+		"count":i,
+		"url_pattern":url_pattern}
+	);
+    }
+}
+var PageNumber = Backbone.View.extend({
+    
+    tagName: "a",
+    el:$('#pagination-container'),
+    initialize:function(attrs){
+	this.options = attrs;
+	this.render();
+	
+    },
 
+    events: {
+	"click":"page",
+    },
+    
+
+    render:function(){
+	url_link = this.options.url_pattern.replace(":number", this.options.count);
+	url_link = url_link.replace(":album_id", this.options.album_id);
+	console.log(url_link);
+	if (this.options.count == this.options.number){
+	    this.$el.append('<a class="act" href="#'+url_link+'">'+this.options.count+'</a>')
+	}else{
+	    this.$el.append('<a href="#'+url_link+'">'+this.options.count+'</a>')
+	    }
+    },
+    page:function(){
+	console.log(this.options.number);
+    }
+
+});
 var album_router = new AlbumRouter;
 Backbone.history.start();
