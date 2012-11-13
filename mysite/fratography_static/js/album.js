@@ -173,6 +173,7 @@ var PageNumber = Backbone.View.extend({
 function displayImage(image){
     $("#display-image").hide();
     $("#display-image").attr('src', image);
+    $("#image-modal").modal({keyboard: true});
     
     //$("#display-image-container").html('<img src="'+image+'" id="display-image" onload="adjustImageModal()">');
     
@@ -185,13 +186,7 @@ function adjustImageModal(){
 }
 var album_router = new AlbumRouter;
 Backbone.history.start();
-$(function(){
-    $(".display-image").bind('load', function() {
-	$("#image-modal").css('width','600px');
-	$("#image-modal").modal({keyboard: true});
-	
-    });
-});
+
 $("#image-modal").on('shown',
 		     function(){
 			 $("#image-modal").css('width',$("#display-image").width()+'px');
