@@ -105,3 +105,14 @@ def reply_object():
     """
     reply_object = {"code": ""}
     return reply_object
+
+
+def paginate(page, per_page):
+    if page:
+        page = int(page)
+    else:
+        page = 1
+    pages = {"from": 0, "to": 0}
+    pages["from"] = page * per_page - per_page
+    pages["to"] = page * per_page
+    return pages

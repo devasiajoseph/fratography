@@ -654,3 +654,10 @@ div.party-top-content{
 }
 
 .none{display:none;}
+
+#album-loader img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+

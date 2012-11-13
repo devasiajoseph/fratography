@@ -3,15 +3,17 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template.response import TemplateResponse
 from app.forms import CreateUserForm, LoginForm, PasswordEmailForm
-from app.utilities import reply_object, create_key
+from app.utilities import reply_object, create_key, paginate
 import simplejson
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
-from app.models import UserProfile, SocialAuth
+from app.models import UserProfile, SocialAuth, Album
 from app.forms import PasswordResetForm, PasswordEmailForm, BookingForm
 from django.contrib.auth import authenticate, login
+from django.core import serializers
 
 
 def index(request):
@@ -252,6 +254,20 @@ def calendar(request):
     return render_to_response('site_calendar.html',
                               context_instance=RequestContext(request,
                                                               {"form": form}))
+
+
+def albums(request):
+    return TemplateResponse(request, "albums.html", {})
+
+
+def album_objects(request):
+    page = int(request.GET["page"])
+    count = int(request.GET["show"])
+    pages = paginate(page, count)
+    albums = serializers.serialize(
+        'json',
+        Album.objects.all()[pages["from"]:pages["to"]])
+    return HttpResponse(albums, mimetype="application/json")
 
 
 def test(request):

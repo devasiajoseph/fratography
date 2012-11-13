@@ -61,9 +61,9 @@ var App = {
             App.process_data(data, callback, true);
 	});
     },
-    get_raw_data:function(url, callback, loader_id){
+    get_raw_data:function(url, data, callback, loader_id){
 	App.show_loader("None", loader_id);
-	$.get(url, function(data){
+	$.get(url, data, function(data){
 	    App.hide_loader(loader_id);
 	    callback(data);
 	});

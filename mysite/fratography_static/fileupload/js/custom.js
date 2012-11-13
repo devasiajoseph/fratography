@@ -167,7 +167,7 @@ function readImage(f, id){
 
 function get_album_images(){
     var album_id = $("#id_album_id").val();
-    App.get_raw_data("/admin/get/album/images/"+album_id, function(data){
+    App.get_raw_data("/admin/get/album/images/"+album_id, {},function(data){
 	for (i in data){
 	    setupUploadedImage(data[i]);
 	}

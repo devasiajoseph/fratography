@@ -47,6 +47,8 @@ urlpatterns = patterns('',
         'app.views.password_reset_submit_password',
         name='password_reset_submit_password'),
     url(r'^calendar$', 'app.views.calendar', name='calendar'),
+    url(r'^albums$', 'app.views.albums', name='albums'),
+    url(r'^album/objects$', 'app.views.album_objects', name='album_objects'),
     #administrator
     (r'^admin/', include('administrator.urls')),
     #test url
