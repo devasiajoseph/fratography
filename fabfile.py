@@ -33,6 +33,11 @@ def commit_deploy(commit_message):
     restart_supervisor()
 
 
+def remote_migrate(app):
+    with cd(production_project_path):
+        run("python manage.py migrate %s" % app)
+
+
 def run_remote_test(app):
     with cd(production_project_path):
         run("python manage.py test %s" % app)

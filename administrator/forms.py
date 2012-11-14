@@ -6,6 +6,7 @@ from app.models import PriceModel, Album, AlbumImage
 from calendarapp.forms import EventObjectForm
 import os
 from PIL import Image, ImageOps
+from datetime import datetime
 
 
 class PriceForm(forms.Form):
@@ -130,7 +131,8 @@ class AlbumForm(ImageForm):
         return response
 
     def save_album(self):
-        album = Album.objects.create(name=self.cleaned_data["name"])
+        album = Album.objects.create(name=self.cleaned_data["name"],
+                                     created_date=datetime.now())
         album.save()
         return album
 

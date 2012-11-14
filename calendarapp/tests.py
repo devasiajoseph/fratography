@@ -1,9 +1,11 @@
 from django.test import TestCase
+from django.test.client import Client
+from django.conf import settings
 from calendarapp.calendar_utility import CALENDAR_SETTINGS
 from calendarapp.forms import EventObjectForm
 from app.tests import logged_in_client, verify_json_response
-from django.test.client import Client
-from django.conf import settings
+from app.utilities import calculate_points
+from datetime import datetime, timedelta
 
 
 class CalendarTest(TestCase):
@@ -25,3 +27,14 @@ class CalendarTest(TestCase):
         c = Client()
         response = c.get("/admin/available/time")
         print response.content
+
+
+class VotingTest(TestCase):
+
+    def test_calculate_points(self):
+        four_months_before = datetime.now() - timedelta(weeks=15)
+        three_months_before = datetime.now() - timedelta(weeks=28)
+        points_100 = calculate_points(100, four_months_before)
+        points_120 = calculate_points(180, three_months_before)
+        print points_100
+        print points_120

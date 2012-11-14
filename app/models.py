@@ -266,6 +266,18 @@ class Album(models.Model):
     name = models.CharField(max_length=1024)
     cover_photo = models.CharField(max_length=1024)
     image = models.CharField(max_length=1024)
+    votes = models.IntegerField(default=0)
+    points = models.DecimalField(max_digits=16, decimal_places=9, default=0.0)
+    created_date = models.DateTimeField()
+
+    def calculate_points(self):
+        gravity = 1.8
+        naive_date = self.created_date.replace(tzinfo=None)
+        time_elapsed = datetime.datetime.now() - naive_date
+        hours = time_elapsed.total_seconds() / 3600
+        points = self.votes / pow((hours + 2), gravity)
+        self.points = points
+        self.save()
 
 
 class AlbumImage(models.Model):

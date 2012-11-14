@@ -4,6 +4,7 @@ import datetime
 from django.core.mail import send_mail
 from django.conf import settings
 import os
+import datetime
 
 
 us_states = ["Alabama",
@@ -116,3 +117,14 @@ def paginate(page, per_page):
     pages["from"] = page * per_page - per_page
     pages["to"] = page * per_page
     return pages
+
+
+def calculate_points(votes, created_date):
+    gravity = 3.6
+    naive_date = created_date.replace(tzinfo=None)
+    print naive_date
+    time_elapsed = datetime.datetime.now() - naive_date
+    semester = time_elapsed.total_seconds() / 3600 / 24 / 180
+    print semester
+    points = (votes - 1) / pow((semester + 2), gravity)
+    return points
