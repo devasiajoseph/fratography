@@ -286,3 +286,13 @@ class AlbumImage(models.Model):
     thumbnail = models.CharField(max_length=1024)
     display = models.CharField(max_length=1024)
     preview = models.CharField(max_length=1024)
+
+
+class AlbumImageVotes(models.Model):
+    key = models.CharField(max_length=1024)
+    album_image = models.ForeignKey(AlbumImage)
+
+
+class AlbumVotes(models.Model):
+    key = models.CharField(max_length=1024)
+    album = models.ForeignKey(Album)

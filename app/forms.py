@@ -256,3 +256,29 @@ class BookingForm(EventObjectForm):
     city = forms.CharField()
     state = forms.ChoiceField(choices=[(s, s) for s in us_states],
                               widget=forms.Select)
+
+
+class VoteForm(forms.Form):
+    vote = forms.IntegerField()
+    album_id = forms.IntegerField()
+    album_image_id = forms.IntegerField()
+    vote_type = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(VoteForm, self).__init__(*args, **kwargs)
+
+    def clean_vote(self):
+        if self.cleaned_data["vote"] != 1 or self.cleaned_data["vote"] != -1:
+            raise forms.ValidationError(("Invalid Vote"))
+        else:
+            return self.cleaned_data["vote"]
+
+    def vote(self):
+        return
+
+    def vote_image(self):
+        return
+
+    def vote_album(self):
+        return
