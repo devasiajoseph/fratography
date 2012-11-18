@@ -1,6 +1,6 @@
 from django import forms
 from django.conf import settings
-from app.utilities import reply_object
+from app.utilities import reply_object,unique_name
 from django.contrib.auth.models import User, check_password
 from django.contrib.auth import authenticate, login
 import requests
@@ -275,6 +275,10 @@ class VoteForm(forms.Form):
             return self.cleaned_data["vote"]
 
     def vote(self):
+        if vote_type == "album":
+            self.vote_album()
+        elif vote_type == "image":
+            self.vote_image()
         return
 
     def vote_image(self):
