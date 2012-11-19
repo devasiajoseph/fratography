@@ -48,10 +48,11 @@
 	<img src="{{MEDIA_URL}}uploads/<%=thumbnail%>">
       </a>	
       <div class="likebox">
-        <a href="">
+	<img src="{{MEDIA_URL}}images/small-loader.gif" class="none" id="album_image_loader_<%=image_id%>"/>	
+        <a href="javascript:void(0)" onclick="vote(1,<%=image_id%>,'image')">
 	  <img src="{{MEDIA_URL}}img/like.jpg">
 	</a>
-	<a href="">
+	<a href="javascript:void(0)" onclick="vote(-1,<%=image_id%>,'image')">
 	  <img src="{{MEDIA_URL}}img/notlike.jpg">
 	</a>
       </div>
@@ -71,8 +72,8 @@
           <a href="javascript:void(0)" onclick="vote(1,<%=album_id%>,'album')">
 	    <img src="{{MEDIA_URL}}img/like.jpg">
 	  </a>
-	  <a href="javascript:void(0)">
-	    <img  src="{{MEDIA_URL}}img/notlike.jpg" onclick="vote(-1,<%=album_id%>,'album')">
+	  <a href="javascript:void(0)" onclick="vote(-1,<%=album_id%>,'album')">
+	    <img  src="{{MEDIA_URL}}img/notlike.jpg" >
 	  </a>
 	</div>
       </div>

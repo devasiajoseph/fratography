@@ -32,7 +32,8 @@ var AlbumPhoto = Backbone.View.extend({
 	var photo = this.options.photo;
 	var variables = {
 	    thumbnail:photo.thumbnail,
-	    display:photo.display
+	    display:photo.display,
+	    image_id:photo.id
 	}
         var template = _.template( $("#album-photo").html(), variables);
         // Load the compiled HTML into the Backbone "el"
