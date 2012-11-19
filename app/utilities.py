@@ -122,9 +122,7 @@ def paginate(page, per_page):
 def calculate_points(votes, created_date):
     gravity = 3.6
     naive_date = created_date.replace(tzinfo=None)
-    print naive_date
     time_elapsed = datetime.datetime.now() - naive_date
     semester = time_elapsed.total_seconds() / 3600 / 24 / 180
-    print semester
     points = (votes - 1) / pow((semester + 2), gravity)
     return points

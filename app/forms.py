@@ -7,7 +7,7 @@ import requests
 import re
 from facebooksdk import Facebook
 from django.db.models import Q
-from app.models import UserProfile
+from app.models import UserProfile, AlbumVote, AlbumImageVote, Album, AlbumImage
 from app.utilities import create_key, send_password_reset_email, us_states
 from calendarapp.forms import EventObjectForm
 
@@ -260,29 +260,49 @@ class BookingForm(EventObjectForm):
 
 class VoteForm(forms.Form):
     vote = forms.IntegerField()
-    album_id = forms.IntegerField()
-    album_image_id = forms.IntegerField()
-    vote_type = forms.IntegerField()
+    object_id = forms.IntegerField()
+    vote_type = forms.CharField()
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(VoteForm, self).__init__(*args, **kwargs)
 
     def clean_vote(self):
-        if self.cleaned_data["vote"] != 1 or self.cleaned_data["vote"] != -1:
-            raise forms.ValidationError(("Invalid Vote"))
-        else:
+        if self.cleaned_data["vote"] == 1 or self.cleaned_data["vote"] == -1:
             return self.cleaned_data["vote"]
+        else:
+            raise forms.ValidationError(("Invalid Vote"))
+            
 
-    def vote(self):
-        if vote_type == "album":
-            self.vote_album()
-        elif vote_type == "image":
-            self.vote_image()
-        return
+    def do_vote(self):
+        if self.cleaned_data["vote_type"] == "album":
+            return self.vote_album()
+        elif self.cleaned_data["vote_type"] == "image":
+            return self.vote_image()
+        
 
     def vote_image(self):
-        return
+        response = reply_object()
+        album_image = AlbumImage.objects.get(pk=self.cleaned_data["object_id"])
+        if "user_key" not in self.request.session:
+            self.request.session["user_key"] = unique_name(self.request.META["REMOTE_ADDR"])
+            
+        album_image_vote, created = AlbumImageVote.objects.get_or_create(
+            key=self.request.session["user_key"], album_image=album_image, vote=self.cleaned_data["vote"])
+        response["code"] = settings.APP_CODE["SERVER MESSAGE"]
+        response[settings.APP_CODE["SERVER MESSAGE"]] = "Vote submitted"
+        
+        return response
 
     def vote_album(self):
-        return
+        response = reply_object()
+        album = Album.objects.get(pk=self.cleaned_data["object_id"])
+        if "user_key" not in self.request.session:
+            self.request.session["user_key"] = unique_name(self.request.META["REMOTE_ADDR"])
+            
+        album_vote, created = AlbumVote.objects.get_or_create(
+            key=self.request.session["user_key"], album=album, vote=self.cleaned_data["vote"])
+        response["code"] = settings.APP_CODE["SERVER MESSAGE"]
+        response[settings.APP_CODE["SERVER MESSAGE"]] = "Vote submitted"
+        
+        return response

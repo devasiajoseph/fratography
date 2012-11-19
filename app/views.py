@@ -11,7 +11,8 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
 from app.models import UserProfile, SocialAuth, Album, AlbumImage
-from app.forms import PasswordResetForm, PasswordEmailForm, BookingForm
+from app.forms import PasswordResetForm, PasswordEmailForm, BookingForm,\
+    VoteForm
 from django.contrib.auth import authenticate, login
 from django.core import serializers
 
@@ -298,7 +299,18 @@ def album_photos(request):
     return HttpResponse(simplejson.dumps(album_photos),
                         mimetype="application/json")
 
-
+    
+def vote(request):
+    response = reply_object()
+    form = VoteForm(request.POST, request=request)
+    if form.is_valid():
+        response = form.do_vote()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
+    
+    
 def test(request):
     """
     Test function

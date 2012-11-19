@@ -59,7 +59,7 @@
   </div>
 </script>
 <script type="text/template" id="album">
-  <div class="album">
+  <div class="album" id="album_cover_<%=album_id%>">
     <div class="album-title">
       <a href=""><%=name%></a>
     </div>
@@ -67,7 +67,13 @@
       <div class="album-cover-holder">      
 	<a href="#album/<%=album_id%>/page/1"><img alt="" src="{{MEDIA_URL}}uploads/<%=cover_photo%>"></a>
 	<div class="likebox">
-          <a href="javascript:void(0)"><img src="{{MEDIA_URL}}img/like.jpg"></a><a href=""><img src="{{MEDIA_URL}}img/notlike.jpg"></a>
+	  <img src="{{MEDIA_URL}}images/small-loader.gif" class="none" id="album_cover_loader_<%=album_id%>"/>
+          <a href="javascript:void(0)" onclick="vote(1,<%=album_id%>,'album')">
+	    <img src="{{MEDIA_URL}}img/like.jpg">
+	  </a>
+	  <a href="">
+	    <img href="javascript:void(0)" src="{{MEDIA_URL}}img/notlike.jpg" onclick="vote(-1,<%=album_id%>,'album')">
+	  </a>
 	</div>
       </div>
     </div>

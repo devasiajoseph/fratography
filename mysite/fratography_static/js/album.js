@@ -198,3 +198,13 @@ $("#image-modal").on('shown',
 			 $("#display-image").show();
 			 console.log($("#display-image").width());
 		     });
+function vote(vote, object_id, vote_type){
+    var loader = "loader";
+    if (vote_type=="album"){
+	loader = "album_cover_loader_"+object_id;
+    }else{
+	loader = "album_image_loader_"+object_id;
+    }
+    submit_obj = {"vote":vote, "object_id":object_id, "vote_type":vote_type};
+    App.submit_data({}, submit_obj, "/vote", function(data){alert(data["code"]);},loader);
+}

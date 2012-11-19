@@ -27,6 +27,8 @@ if len(manage_command) != 0:
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+#SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -211,7 +213,7 @@ PRICE_TYPE = {"PRICE_PER_HOUR": "price_per_hour"}
 
 APP_USERNAME = "dev"
 APP_PASSWORD = "password"
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 ADMIN_EMAIL = "admin@site.com"
 SITE_URL = "http://198.58.96.200/"
 AUTH_PROFILE_MODULE = 'app.UserProfile'

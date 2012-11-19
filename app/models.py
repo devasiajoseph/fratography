@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from app.utilities import send_activation_email, create_key
+from django.dispatch import receiver
+from app.utilities import send_activation_email, create_key, calculate_points
 from django.conf import settings
 from django.core.context_processors import csrf
 from app.facebooksdk import Facebook
@@ -12,6 +13,7 @@ from django.core.urlresolvers import reverse
 import simplejson
 from twython import Twython
 from oauth2client.client import OAuth2WebServerFlow
+import datetime
 
 
 class State(models.Model):
@@ -62,7 +64,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     return
 
 # connect to the signal
-post_save.connect(create_user_profile, sender=User)
+#post_save.connect(create_user_profile, sender=User)
 
 
 class SocialAuth(object):
@@ -270,12 +272,8 @@ class Album(models.Model):
     points = models.DecimalField(max_digits=16, decimal_places=9, default=0.0)
     created_date = models.DateTimeField()
 
-    def calculate_points(self):
-        gravity = 1.8
-        naive_date = self.created_date.replace(tzinfo=None)
-        time_elapsed = datetime.datetime.now() - naive_date
-        hours = time_elapsed.total_seconds() / 3600
-        points = self.votes / pow((hours + 2), gravity)
+    def calculate_rank(self):
+        points = calculate_points(self.votes, self.created_date)
         self.points = points
         self.save()
 
@@ -288,11 +286,29 @@ class AlbumImage(models.Model):
     preview = models.CharField(max_length=1024)
 
 
-class AlbumImageVotes(models.Model):
+class AlbumImageVote(models.Model):
     key = models.CharField(max_length=1024)
     album_image = models.ForeignKey(AlbumImage)
+    vote = models.IntegerField(default=0)
 
-
-class AlbumVotes(models.Model):
+class AlbumVote(models.Model):
     key = models.CharField(max_length=1024)
     album = models.ForeignKey(Album)
+    vote = models.IntegerField(default=0)
+    
+
+@receiver(post_save, sender=AlbumImageVote)
+def calculate_image_points(sender, instance, **kwargs):
+    album = instance.album_image.album
+    album.votes = album.votes + instance.vote
+    album.save()
+    album.calculate_rank()
+    return
+
+@receiver(post_save, sender=AlbumVote)
+def calculate_album_points(sender, instance, **kwargs):
+    album = instance.album
+    album.votes = album.votes + instance.vote
+    album.save()
+    album.calculate_rank()
+    return

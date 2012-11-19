@@ -58,6 +58,9 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=1024)),
             ('cover_photo', self.gf('django.db.models.fields.CharField')(max_length=1024)),
             ('image', self.gf('django.db.models.fields.CharField')(max_length=1024)),
+            ('votes', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('points', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=16, decimal_places=9)),
+            ('created_date', self.gf('django.db.models.fields.DateTimeField')()),
         ))
         db.send_create_signal('app', ['Album'])
 
@@ -71,6 +74,24 @@ class Migration(SchemaMigration):
             ('preview', self.gf('django.db.models.fields.CharField')(max_length=1024)),
         ))
         db.send_create_signal('app', ['AlbumImage'])
+
+        # Adding model 'AlbumImageVote'
+        db.create_table('app_albumimagevote', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('key', self.gf('django.db.models.fields.CharField')(max_length=1024)),
+            ('album_image', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.AlbumImage'])),
+            ('vote', self.gf('django.db.models.fields.IntegerField')(default=0)),
+        ))
+        db.send_create_signal('app', ['AlbumImageVote'])
+
+        # Adding model 'AlbumVote'
+        db.create_table('app_albumvote', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('key', self.gf('django.db.models.fields.CharField')(max_length=1024)),
+            ('album', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['app.Album'])),
+            ('vote', self.gf('django.db.models.fields.IntegerField')(default=0)),
+        ))
+        db.send_create_signal('app', ['AlbumVote'])
 
 
     def backwards(self, orm):
@@ -92,14 +113,23 @@ class Migration(SchemaMigration):
         # Deleting model 'AlbumImage'
         db.delete_table('app_albumimage')
 
+        # Deleting model 'AlbumImageVote'
+        db.delete_table('app_albumimagevote')
+
+        # Deleting model 'AlbumVote'
+        db.delete_table('app_albumvote')
+
 
     models = {
         'app.album': {
             'Meta': {'object_name': 'Album'},
             'cover_photo': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
+            'points': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '16', 'decimal_places': '9'}),
+            'votes': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'app.albumimage': {
             'Meta': {'object_name': 'AlbumImage'},
@@ -109,6 +139,20 @@ class Migration(SchemaMigration):
             'image': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
             'preview': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
             'thumbnail': ('django.db.models.fields.CharField', [], {'max_length': '1024'})
+        },
+        'app.albumimagevote': {
+            'Meta': {'object_name': 'AlbumImageVote'},
+            'album_image': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['app.AlbumImage']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'key': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
+            'vote': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+        },
+        'app.albumvote': {
+            'Meta': {'object_name': 'AlbumVote'},
+            'album': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['app.Album']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'key': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
+            'vote': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         'app.city': {
             'Meta': {'object_name': 'City'},
