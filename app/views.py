@@ -18,7 +18,7 @@ from django.core import serializers
 
 
 def index(request):
-    return render_to_response("kappa.html",
+    return render_to_response("map.html",
                               context_instance=RequestContext(request))
 
 

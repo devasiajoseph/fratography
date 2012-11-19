@@ -1,151 +1,193 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Frat</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    
-    <!--<link rel="stylesheet" href="{{MEDIA_URL}}css/normalize.css">-->
-    <link rel="stylesheet" href="{{MEDIA_URL}}css/main.css">
-    <link rel="stylesheet" href="{{MEDIA_URL}}css/normalize.css">
-    <link rel="stylesheet" href="{{MEDIA_URL}}initializer/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{MEDIA_URL}}initializer/css/bootstrap-responsive.min.css">
-    <script type="text/javascript" src="{{MEDIA_URL}}jquery/jquery-1.8.2.min.js"></script>    
-    <script src="{{MEDIA_URL}}js/script.js"></script>
-    <!--<script src="{{MEDIA_URL}}js/vendor/modernizr-2.6.1.min.js"></script>-->
-    <script src="{{MEDIA_URL}}initializer/js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
-    {% block extra_includes%}
-    {%endblock%}
-  </head>
-  <body>
-    <!--[if lt IE 7]>
-        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-    
-    <!-- Add your site or application content here -->
-    <header>
-      <div class="container">
-        <a id="logo" href="/" title="Fratography - Remembering the night you don't..."><img src="{{MEDIA_URL}}img/top.png" alt="Fratography - Remembering the night you don't..." title="Fratography - Remembering the night you don't..." /></a>
-        <nav>
-          <ul>
-            <li>
-              <a href="/">HOME</a>
-            </li>
-            <li>
-              <a href="/">Frattiest Photos of the Week</a>
-              <ul>
-                <li><a href="">Alpha Tau Omega</a></li>
-                <li><a href="">Delta Tau Delta</a></li>
-                <li><a href="">Kappa Alpha</a></li>
-                <li><a href="">Kappa Sigma</a></li>
-                <li><a href="">Phi Gamma Delta</a></li>
-                <li><a href="">Phi Kappa Psi</a></li>
-                <li><a href="">Pi Kappa Alpha</a></li>
-                <li><a href="">Sigma Alpha Epsilon</a></li>
-                <li><a href="">Sigma Chi</a></li>
-                <li><a href="">Sigma Phi Epsilon</a></li>
-                <li><a href="">Zeta Beta Tau</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/">Terms</a>
-            </li>
-            <li>
-              <a href="/">Contact</a>
-            </li>
-          </ul>
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title></title>
+  
+  <link rel="stylesheet" href="{{MEDIA_URL}}css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{MEDIA_URL}}css/bootstrap-responsive.min.css">
+  <link rel="stylesheet" href="{{MEDIA_URL}}css/style.css">
+  
+  <!--GOOGLE FONT, UNCOMMENT THIS STYLESHEET TO CHANGE HEADER FONT FAMILY
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400' rel='stylesheet' type='text/css'>
+  -->
+  <!--http://www.google.com/webfonts-->
+  
+  <script type="text/javascript" src="{{MEDIA_URL}}js/jquery.min.js"></script>
+  <script type="text/javascript" src="{{MEDIA_URL}}js/bootstrap.min.js"></script>
+  <script src="{{MEDIA_URL}}js/script.js"></script>  
+  {% block extra_includes%}
+  {%endblock%}  
+  
+</head>
+
+<body>
+  <header id="header">
+    <section class="container">
+      <img src="{{MEDIA_URL}}img/logo-fratography--remembering-the-night-you-dont.jpg" alt="Fratography | Remembering the night you don't" />
+    </section>
+    <section class="container">
+      <div class="navbar">
+        <nav id="primary-link" class="navbar-inner">
+	  <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse" id="alt">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <form class="navbar-form pull-right">
+            <input type="text" placeholder="Search" name="search" id="search" class="search-query" />
+          </form>
+          <div class="collapse nav-collapse pull-left" id="close-open">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Fratties Photos Of The Week <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Lorem Lipsum</a></li>
+                  <li><a href="#">Sitamet Consect</a></li>
+                  <li><a href="#">Adispicing</a></li>
+                  <li><a href="#">Lorem Lipsum</a></li>
+                  <li><a href="#">Sitamet Consect</a></li>
+                  <li><a href="#">Adispicing</a></li>
+                  <li><a href="#">Lorem Lipsum</a></li>
+                  <li><a href="#">Sitamet Consect</a></li>
+                  <li><a href="#">Adispicing</a></li>
+                  <li><a href="#">Lorem Lipsum</a></li>
+                  <li><a href="#">Sitamet Consect</a></li>
+                  <li><a href="#">Adispicing</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Terms</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
         </nav>
-        <div class="search">
-          <form action="/search">
-            <input type="text" placeholder="Search here..." name="search">
-            <input type="submit" value=">">    
-          </form>                    
-        </div>
       </div>
-    </header>
-    
-    <div class="container main clearfix">
-      <div class="sidebar">
-        <div class="frats">
-          <header><img src="{{MEDIA_URL}}img/frats.png" alt="Fraternities" /></header>
-          <ul>
-            <li><a href="">&#9658; Alpha Tau Omega</a></li>
-            <li><a href="">&#9658; Delta Tau Delta</a></li>
-            <li><a href="">&#9658; Kappa Alpha</a></li>
-            <li><a href="">&#9658; Kappa Sigma</a></li>
-            <li><a href="">&#9658; Phi Gamma Delta</a></li>
-            <li><a href="">&#9658; Phi Kappa Psi</a></li>
-            <li><a href="">&#9658; Pi Kappa Alpha</a></li>
-            <li><a href="">&#9658; Sigma Alpha Epsilon</a></li>
-            <li><a href="">&#9658; Sigma Chi</a></li>
-            <li><a href="">&#9658; Sima Phi Epsilon</a></li>
-            <li><a href="">&#9658; Zeta Beta Tau</a></li>
-          </ul>
-        </div>
-	
-        <div class="frats desp15">
-          <header><img src="{{MEDIA_URL}}img/sors.png" alt="Sororities" /></header>
-          <ul>
-            <li><a href="">&#9658; Alpha Chi Omega</a></li>
-            <li><a href="">&#9658; Alpha Delta Pi</a></li>
-            <li><a href="">&#9658; Alpha Phi</a></li>
-            <li><a href="">&#9658; Chi Omega</a></li>
-            <li><a href="">&#9658; Delta Gamma</a></li>
-            <li><a href="">&#9658; Kappa Alpha Theta</a></li>
-            <li><a href="">&#9658; Kappa Delta</a></li>
-            <li><a href="">&#9658; Kappa Kappa Gamma</a></li>
-            <li><a href="">&#9658; Pi Beta Phi</a></li>
-            <li><a href="">&#9658; Tri-Delt</a></li>
-            <li><a href="">&#9658; Zeta Tau Alpha</a></li>
-          </ul>
-        </div>
+    </section>
+  </header>
+  
+  <section class="container" id="main">
+    <div style="text-align:center">
+      <a href="#" class="btn btn-inverse btn-navbar collapsed aside" data-toggle="collapse" data-target=".nav1">
+        <i class="icon-white icon-chevron-right pull-left"></i> FRATERNITIES
+      </a>
+      <a href="#" class="btn btn-inverse btn-navbar collapsed aside" data-toggle="collapse" data-target=".nav2">
+        <i class="icon-white icon-chevron-left pull-right"></i> SORORITIES
+      </a>
+    </div>
+    <div class="row" id="side">
+      <aside class="span3" id="sidebar">
+        <h4>Fraternities</h4>
+        <ul class="nav nav-list nav1 collapse">
+          <li class="active"><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
+          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
+          <li><a href="#" class="btn">Adispicing Elite</a></li>
+          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
+          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
+          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
+          <li><a href="#" class="btn">Adispicing Elite</a></li>
+          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
+          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
+          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
+          <li><a href="#" class="btn">Adispicing Elite</a></li>
+        </ul>
+        <h4>Sororities</h4>
+        <ul class="nav nav-list nav2 collapse">
+          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
+          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
+          <li><a href="#" class="btn">Adispicing Elite</a></li>
+          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
+          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
+          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
+          <li><a href="#" class="btn">Adispicing Elite</a></li>
+          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
+          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
+          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
+          <li><a href="#" class="btn">Adispicing Elite</a></li>
+        </ul>
+      </aside>
+      <script>
+	$('.dropdown-toggle').hover(function(){
+	$(this).find('.caret').css({'border-top-color' : '#fff'});
+	},function(){
+	$(this).find('.caret').css({'border-top-color' : '#777'});
+	});
+	$('.aside').click(function(){
+	$(this).toggleClass('active');
+	$(this).find('i').toggleClass('icon-chevron-down', 'icon-chevron-right');
+	$($(this).attr('data-target')).left($(this).left());
+	});
+      </script>
+      <article class="span9">
+	<h2 id="page-title">{%block page-title%}{%endblock%}</h2>
+        <div class="content-inner">
+          {% block content_body%}
+	  {% endblock %}	    
+	</div>
+      </article>
+    </div>
+  </section>
+  
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+	<section id="copy-write" class="span8">
+          <h3><i class="icon-info"></i> Copyright &copy; 2014 - 2012</h3>
+          <p>
+	    LastNightsParty Inc. All Rights Reserved. All photography on this site is the property of LastNightsParty Inc and cannot be used without permission except for personal use. If you are interested in using any photos, images or works from this site, please contact us for permission first.
+          </p>
+          <div id="social">
+            <label>Follow me :</label>
+            <ul class="social">
+              <li><a href="#"><i class="icon-facebook"></i></a></li>
+              <li><a href="#"><i class="icon-twitter"></i></a></li>
+              <li><a href="#"><i class="icon-rss"></i></a></li>
+              <li><a href="#"><i class="icon-email"></i></a></li>
+            </ul>
+          </div>
+	</section>
+	<section id="signup-bottom" class="span4">
+          <div class="inner-signup">
+            <form class="clearfix">
+              <legend><i class="icon-newsletter"></i> Newsletter Signup</legend>
+              <label for="subscribe">Special offers, extra departures and news</label>
+              <input type="text" name="subscribe" id="subscribe" />
+              <input type="button" class="btn btn-mini btn-danger pull-right" id="signup" value="signup" />
+            </form>
+          </div>
+	</section>
       </div>
-      <div class="content">
-        {%block content_body %}
-	{%endblock%}
+      <div class="row">
+	<a href="#" class="to-top">Top <i class="icon icon-white icon-arrow-up"></i></a>
+	<script>
+	  $('.to-top').click(function(e){
+	  $('html, body').animate({
+	  scrollTop: 0
+	  }, 800);
+	  e.preventDefault();
+	  })
+	</script>
       </div>
     </div>
-    <footer>
-      <div class="container clearfix">
-        <div class="copyright">
-          <h3 class="info">Copyright &copy; 2004-2012</h3>
-          LastNightsParty Inc. All Rights Reserved. All photography on this site is the property of LastNightsParty Inc and cannot be used without permission except for personal use. If you are interested in using any photos, images or works from this site, please contact us for permission first.
-          <h3>Follow me:<a href=""><img src="{{MEDIA_URL}}img/icon-fb.png" alt=""></a><a href=""><img src="{{MEDIA_URL}}img/icon-twitter.png" alt=""></a><a href=""><img src="{{MEDIA_URL}}img/icon-rss.png" alt=""></a><a href=""><img src="{{MEDIA_URL}}img/icon-email.png" alt=""></a></h3>
-        </div>
-        <div class="newsletter-signup">
-          <h3 class="email">Newsletter Signup</h3>
-          <p>Special offers, extra departures and news.</p>
-          <p><input type="text" placeholder="Enter email..." ></p>
-          <p><input type="submit" value="Signup"> </p>
-        </div>
-        <a href="#" id="totop"><img src="{{MEDIA_URL}}img/to-top.png" /></a>
-      </div>
-      
-    </footer>
-    
-    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>-->
-    <script>window.jQuery || document.write('<script src="{{MEDIA_URL}}js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-      <script src="{{MEDIA_URL}}js/plugins.js"></script>
-      <script src="{{MEDIA_URL}}js/main.js"></script>
-      <script src="{{MEDIA_URL}}initializer/js/vendor/bootstrap.min.js"></script>
-      
-      <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-      <!--<script>
-          var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-          (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-          g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-          s.parentNode.insertBefore(g,s)}(document,'script'));
-          </script>-->
-      {%block script_includes%}
-      {%endblock%}
-{%csrf_token%}      
-  </body>
+  </footer>
   
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Modal header</h3>
+    </div>
+    <div class="modal-body">
+      <p>One fine body</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+  {%block script_includes%}
+  {%endblock%}  
+  
+</body>
 </html>

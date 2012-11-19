@@ -1,0 +1,64 @@
+{% extends "site_base.html" %}
+{%block extra_includes%}
+<script type="text/javascript" src="{{MEDIA_URL}}js/raphael.js"></script> <!--http://newsignature.github.com/us-map/-->
+<script type="text/javascript" src="{{MEDIA_URL}}js/color.jquery.js"></script> <!--^^^-->
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.usmap.js"></script> <!--^^^-->  
+{%endblock%}
+{% block page-title %}
+  Choose your location
+{% endblock %}
+{%block content_body %}
+  <div class="map-outer">
+    <div id="map">
+      <div class="point">
+        <div class="popover top" style="top: -185px; left: -113.5px; display: block;">
+          <div class="arrow"></div>
+          <div class="popover-inner">
+            <h3 class="popover-title"><strong>CONTACT OFFICE</strong></h3>
+            <div class="popover-content">
+              <p>Group SA Rue Middelbourg, 64 B</p><br />
+              <table class="table">
+                <tr>
+		  <td>
+		    <strong>Tel </strong>
+		  </td>
+		  <td>: + 32 (0)2 647 92 35
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+		    <strong>Fax </strong>
+		  </td>
+		  <td>: + 32 (0)2 705 27 78</td>
+		</tr>
+	      </table>
+	    </div>
+          </div>
+        </div>
+        <i class="icon-map-marker icon-white"></i>
+      </div>
+    </div>
+  </div>
+  <script>
+    function usMap(){
+    $('#map').css({'width' : $('#map').width(), 'height' : $('#map').height() });
+    $('#map').usmap({
+    'stateStyles': {
+    fill: '#d3d3d3', 
+    "stroke-width": 1,
+    'stroke' : '#fff'
+    },
+    'stateHoverStyles': {
+    fill: '#6f0707',
+    },
+    'click' : function(event, data) {
+    console.log(event);
+    $('.point').css({'display' : 'block', 'left' : event.originalEvent.offsetX - 8, 'top' : event.originalEvent.offsetY - 17});
+    },
+    showLabels: false,
+    });
+    }
+    usMap();
+  </script>
+  
+{%endblock%}
