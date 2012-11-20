@@ -375,3 +375,157 @@ footer#footer{
 		height:350px;
 	}
 }
+/*from previous css*/
+div.albums{
+    padding-top:10px;
+}
+div.album{
+    float:left;
+    margin-right: 4px;
+}
+div.album.last{
+    margin-right: 0;
+}
+div.albums-row{
+    padding-top:20px;
+}
+div.album-title{
+    padding-bottom: 10px;
+}
+div.album-title a{
+    color:#730707;
+    font:bold 12px/12px Tahoma, sans-serif;
+    text-decoration: none;
+}
+div.album-cover{
+    width:214px;
+    height:171px;
+    background: url(../img/album-frame.png) no-repeat;
+    padding:5px;
+    position: relative;
+}
+div.album-cover-holder{
+    height:155px;
+    overflow:hidden;
+}
+div.album-cover div.likebox, div.pic-frame div.likebox{
+    position: absolute;
+    bottom:15px;
+    right:14px;
+    border:1px solid #ccc;
+    height: 20px;
+    background: #fff;
+    line-height: 18px;
+}
+div.likebox a{
+    margin:0;
+    padding:0;
+}
+div.likebox img{
+    margin:0;
+    padding:0;
+}
+div.pagination{
+    border:1px solid #ccc;
+    line-height: 28px;
+    height:28px;
+    padding:0 20px;
+}
+.none{display:none;}
+.pic-frame{
+    width:150px;
+    padding:5px;
+    border: 1px solid #ccc;
+    position: relative;
+}
+div.pic-gallery div.pic-frame img:first{
+    width: 150px;
+    height: 120px;
+}
+
+div.pic-frame div.likebox{
+    bottom: 0;
+    right: -1px;
+}
+
+div.albums.pic-gallery div.album{
+    margin-right: 10px;
+}
+div.albums.pic-gallery div.album.last{
+    margin-right: 0;
+}
+
+.show-count{
+    float:right;
+    font:normal 11px/28px Tahoma, sans-serif;
+    color:#555;    
+}
+
+div.pic-gallery3 div.pic-frame{
+    width: 210px;
+}
+div.pic-gallery3 div.pic-frame div.likebox{
+    bottom:10px;
+    right: 70px;
+}
+div.pic-gallery3 div.pic-frame img.kappa3{
+    width: 210px;
+    height: 165px;
+}
+div.photo-top{
+    width: 380px;
+    margin-right: 20px;
+    float:left;   
+}
+
+div.photo-top header, div.party-top header{
+    height:29px;
+    background:none;
+    border-bottom:1px solid #ccc;
+}
+
+div.photo-top-content{
+    padding-top: 10px;
+}
+
+div.photo-top-item{
+    width: 195px;
+    float:left;
+    margin-top: 10px;
+}
+div.photo-top-item.second{
+    width: 185px;
+}
+div.photo-place{
+    width:24px;
+    border:1px solid #ccc;
+    height: 23px;
+    font:normal 14px/23px Tahoma, sans-serif;
+    color:#7c7c7c;
+    text-align: center;
+    float: left;
+    border-right: none;
+    /*background: url(../img/bg-place.png) repeat-x;*/
+}
+.second div.top-photo div.pic-frame{
+    margin-right: 0;
+}
+
+div.top-photo div.pic-frame{
+    float:left;
+    padding: 4px;
+    margin-right: 10px;
+}
+#album-loader img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#image-modal .modal-body {
+	max-height: 550px;
+}
+
+#image-modal .modal-body #display-image{
+	max-height: 550px;
+}
+/*from previous css ends*/
