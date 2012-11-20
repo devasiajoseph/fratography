@@ -3,7 +3,7 @@ from django.conf import settings
 from app.utilities import reply_object
 from app.utilities import create_key, unique_name, delete_uploaded_file
 from app.models import PriceModel, Album, AlbumImage
-from calendarapp.forms import EventObjectForm
+from calendarapp.forms import EventObjectForm, EventModForm
 import os
 from PIL import Image, ImageOps
 from datetime import datetime
@@ -36,6 +36,16 @@ class AvailabilityForm(EventObjectForm):
     def save_availability(self):
         response = reply_object()
         event_object = self.save()
+        response["code"] = settings.APP_CODE["SAVED"]
+        return response
+
+
+class AvailabilityModForm(EventModForm):
+    id = forms.IntegerField()
+    
+    def delete_availability(self):
+        response = reply_object()
+        deleted_id = self.delete_event()
         response["code"] = settings.APP_CODE["SAVED"]
         return response
 

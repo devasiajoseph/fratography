@@ -11,7 +11,7 @@ import simplejson
 
 import datetime
 from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
-AlbumImageForm, AlbumImageModForm, AlbumModForm
+AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm
 from app.models import PriceModel, Album, AlbumImage
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
@@ -64,6 +64,18 @@ def save_availability(request):
         response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
 
+    
+def remove_availability(request):
+    response = reply_object()
+    form = AvailabilityModForm(request.POST)
+    if form.is_valid():
+        response = form.delete_availability()
+        response["code"] = settings.APP_CODE["DELETED"]
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
+    
 
 def available_time(request):
     event_objects = EventObject.objects.filter(event_type="availability")

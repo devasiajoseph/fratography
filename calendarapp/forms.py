@@ -58,3 +58,10 @@ class EventObjectForm(forms.Form):
         event_object.save()
         event_obj.save()
         return event_object
+
+
+class EventModForm(forms.Form):
+    def delete_event(self):
+        event_object = EventObject.objects.get(pk=self.cleaned_data["id"])
+        event_object.delete()
+        return self.cleaned_data["id"]

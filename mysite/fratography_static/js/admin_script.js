@@ -46,9 +46,12 @@ var Admin = {
         $('#modal-availability').modal('show');
     },
     remove_availability:function(){
-	
-	$('#calendar').fullCalendar('removeEvents',[$("#id_id").val()]);
-        $('#modal-availability').modal('hide');
+	console.log($("#id_id").val());
+	submit_obj = {"id":$("#id_id").val()}
+	App.submit_data({}, submit_obj,"/admin/remove/availability", function(data){
+	    $('#calendar').fullCalendar('removeEvents',[$("#id_id").val()]);
+            $('#modal-availability').modal('hide');
+	}, "loader");
     },
     save_album:function(form){
 	var obj = {"value":["id","name", "cover_photo"]};
