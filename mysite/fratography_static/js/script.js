@@ -54,9 +54,9 @@ var App = {
         }
 	$("#"+form).submit();
     },
-    get_data:function(url, callback, loader_id){
+    get_data:function(url, data, callback, loader_id){
 	App.show_loader("None", loader_id);
-	$.get(url, function(data){
+	$.get(url, data, function(data){
 	    App.hide_loader(loader_id);
             App.process_data(data, callback, true);
 	});
@@ -69,12 +69,14 @@ var App = {
 	});
     },
     process_data : function(data_str, callback, is_json){
+	
 	if (is_json){
 	    data = data_str;
 	}else{
 	    data = JSON.parse(data_str);
 	}
-        
+	console.log(data_str);
+        console.log(data["code"]);
         switch (data["code"]){
         case "form_error":
             App.process_error(data["errors"]);
@@ -123,6 +125,9 @@ var App = {
 	    if(callback){
 		callback(data);
 	    }
+	    break;
+	case "redirect":
+	    window.location.href = data["redirect_url"];
             break;
         default:
             alert("unknown response");
@@ -249,11 +254,41 @@ var App = {
 	    $("#id_id").val("");
 	    $('#modal-booking').modal({backdrop: false});
 	    $('#modal-booking').modal('show');
+	    App.Calendar.calculate_amount();
 	    
 	},
 	month_names:[ "January", "February", "March", "April", "May", "June",
 		     "July", "August", "September", "October", "November", "December" ],
-	week_days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Staurday"]
+	week_days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Staurday"],
+	get_start_end:function(){
+	    start_date = $("#start-date").html();
+	    fromTimeHour = $("#id_time_from_hour").val();
+	    fromTimeMinute = $("#id_time_from_minute").val();
+	    fromTimeAmPm = $("#id_time_from_ampm").val();
+	    toTimeHour = $("#id_time_to_hour").val();
+	    toTimeMinute = $("#id_time_to_minute").val();
+	    toTimeAmPm = $("#id_time_to_ampm").val();
+	    start = start_date + " " + fromTimeHour+ ":"+fromTimeMinute+fromTimeAmPm;
+	    end = start_date + " " + toTimeHour+ ":"+toTimeMinute+toTimeAmPm;
+	    return {"start":start, "end":end};
+	},
+	calculate_amount:function(){
+	    start_end = App.Calendar.get_start_end();
+	    App.get_data("/calculate/price", {start:start_end["start"], end:start_end["end"]},
+			 function(data){
+			     
+			     $("#total-amount").html(data["price"]);
+			 },
+			 "calculate-amount-loader");
+	    
+	},
+	book_event:function(){
+	    start_end = App.Calendar.get_start_end();
+	    $("#id_start_str").val(start_end["start"]);
+	    $("#id_end_str").val(start_end["end"]);
+	    var obj = {"value":["start_str", "end_str", "school", "fraternity","address", "city", "state"]};
+	    console.log(obj);
+	}
     },
     Files:{
 	upload_queue:[]

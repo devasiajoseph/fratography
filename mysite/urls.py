@@ -51,6 +51,8 @@ urlpatterns = patterns('',
     url(r'^album/objects$', 'app.views.album_objects', name='album_objects'),
     url(r'^album/photos$', 'app.views.album_photos', name='album_photos'),
     url(r'^vote$', 'app.views.vote', name='vote'),
+    url(r'^calculate/price$', 'app.views.calculate_price', name='calculate_price'),
+    url(r'^book/event$', 'app.views.book_event', name='book_event'),
     #administrator
     (r'^admin/', include('administrator.urls')),
     #test url

@@ -230,26 +230,31 @@ class PasswordResetForm(forms.Form):
 
 
 class BookingForm(EventObjectForm):
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(BookingForm, self).__init__(*args, **kwargs)
     time_from_hour = forms.ChoiceField(choices=[(t, t) for t in range(1, 13)],
                                   widget=forms.Select(
-            attrs={'class': 'span1'}))
+            attrs={'class': 'span1 time-selector'}), required=False)
     time_from_minute = forms.ChoiceField(choices=[
             ('00', '00'), ('15', '15'), ('30', '30'), ('45', '45')],
                                     widget=forms.Select(
-            attrs={'class': 'span1'}))
+            attrs={'class': 'span1 time-selector'}), required=False)
     time_from_ampm = forms.ChoiceField(choices=(('am', 'am'), ('pm', 'pm')),
                                   widget=forms.Select(
-            attrs={'class': 'span1'}))
+            attrs={'class': 'span1 time-selector'}), required=False)
     time_to_hour = forms.ChoiceField(choices=[(t, t) for t in range(1, 13)],
                                   widget=forms.Select(
-            attrs={'class': 'span1'}))
+            attrs={'class': 'span1 time-selector'}), required=False)
     time_to_minute = forms.ChoiceField(choices=[
             ('00', '00'), ('15', '15'), ('30', '30'), ('45', '45')],
                                     widget=forms.Select(
-            attrs={'class': 'span1'}))
+            attrs={'class': 'span1 time-selector'}), required=False)
     time_to_ampm = forms.ChoiceField(choices=(('am', 'am'), ('pm', 'pm')),
                                   widget=forms.Select(
-            attrs={'class': 'span1'}))
+            attrs={'class': 'span1 time-selector'}), required=False)
+    start_str = forms.CharField(widget=forms.HiddenInput())
+    end_str = forms.CharField(widget=forms.HiddenInput())
     school = forms.CharField()
     fraternity = forms.CharField()
     address = forms.CharField()
@@ -258,6 +263,12 @@ class BookingForm(EventObjectForm):
                               widget=forms.Select)
 
 
+    def start_booking_session(self):
+        response = reply_object()
+        response["code"] = settings.APP_CODE["REDIRECT"]
+        response["redirect_url"] = "/"
+        return response
+        
 class VoteForm(forms.Form):
     vote = forms.IntegerField()
     object_id = forms.IntegerField()

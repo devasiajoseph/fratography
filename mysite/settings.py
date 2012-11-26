@@ -207,6 +207,7 @@ APP_CODE = {
     "SAVED": "saved",
     "DELETED": "deleted",
     "UPDATED": "updated",
+    "REDIRECT": "redirect"
 }
 
 PRICE_TYPE = {"PRICE_PER_HOUR": "price_per_hour"}

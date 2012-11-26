@@ -432,6 +432,7 @@ div.pagination{
     padding:0 20px;
 }
 .none{display:none;}
+.hidden{visibility:hidden;}
 .pic-frame{
     width:150px;
     padding:5px;
@@ -529,3 +530,13 @@ div.top-photo div.pic-frame{
 	max-height: 550px;
 }
 /*from previous css ends*/
+/*custom styles*/
+.total-amount-container{
+    margin:50px 0px 0px 0px;
+}
+.total-amount{
+    font-weight:bold;
+    color: #730707;
+    font-size:24px;
+}
+/*custom styles end*/

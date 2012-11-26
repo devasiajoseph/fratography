@@ -10,14 +10,17 @@ import simplejson
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
-from app.models import UserProfile, SocialAuth, Album, AlbumImage
-from app.forms import PasswordResetForm, PasswordEmailForm, BookingForm,\
-    VoteForm
+from app.models import UserProfile, SocialAuth, Album, AlbumImage, PriceModel
+from app.forms import BookingForm, VoteForm
 from django.contrib.auth import authenticate, login
 from django.core import serializers
+from dateutil import parser
 
 
 def index(request):
+    """
+    Index page
+    """
     return render_to_response("map.html",
                               context_instance=RequestContext(request))
 
@@ -251,6 +254,9 @@ def password_reset_submit_password(request):
 
 
 def calendar(request):
+    """
+    Booking page
+    """
     form = BookingForm()
     return render_to_response('site_calendar.html',
                               context_instance=RequestContext(request,
@@ -258,10 +264,17 @@ def calendar(request):
 
 
 def albums(request):
+    """
+    Display Albums.
+    Note that all calls to display photos and albums are ajax based
+    """
     return TemplateResponse(request, "albums.html", {})
 
 
 def album_objects(request):
+    """
+    Ajax request handler to display albums
+    """
     page = int(request.GET["page"])
     count = int(request.GET["show"])
     pages = paginate(page, count)
@@ -279,6 +292,9 @@ def album_objects(request):
 
 
 def album_photos(request):
+    """
+    Ajax request handler to display album photos
+    """
     page = int(request.GET["page"])
     count = int(request.GET["show"])
     pages = paginate(page, count)
@@ -301,6 +317,9 @@ def album_photos(request):
 
     
 def vote(request):
+    """
+    Voting request handler for albums and photos
+    """
     response = reply_object()
     form = VoteForm(request.POST, request=request)
     if form.is_valid():
@@ -309,6 +328,49 @@ def vote(request):
         response["code"] = settings.APP_CODE["FORM ERROR"]
         response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
+
+
+def calculate_price(request):
+    """
+    Price calculator while booking
+    """
+    try:
+        response = reply_object()
+        start = request.GET["start"]
+        end = request.GET["end"]
+        
+        (h, m, s) = str(parser.parse(end) - parser.parse(start)).split(':')
+        decimal_time = int(h) * 3600 + int(m) * 60 + int(s)
+    
+        
+        billable_hours = decimal_time/(60 * 60)
+    
+        price_per_hour = PriceModel.objects.get(
+            price_type=settings.PRICE_TYPE["PRICE_PER_HOUR"])
+    
+        response["price"] = price_per_hour.price_per_hour * billable_hours
+    except:
+        response["price"] = 0
+
+    response["code"] = settings.APP_CODE["CALLBACK"]
+    
+    return HttpResponse(simplejson.dumps(response),
+                        mimetype="applicaiton/json")
+
+    
+def book_event(request):
+    """
+    Request Handler for booking event
+    """
+    response = reply_object()
+    form = BookingForm(request.POST, request)
+    if form.is_valid():
+        response = form.start_booking_session()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response),
+                        mimetype="applicaiton/json")
     
     
 def test(request):
