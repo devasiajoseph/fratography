@@ -6,7 +6,7 @@
 {%endblock%}
 {%block content_body %}
   <div id="calendar" style="margin-top:10px;width:800px;"></div>
-  <div class="modal none" id="modal-booking" style="width:600px;">
+  <div class="modal none" id="modal-booking" style="width:750px;">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="$('#modal-booking').modal('toggle')">&times;</button>
       <h3>Book for an Event</h3>
@@ -17,40 +17,41 @@
 	  <div class="control-group" id="container_school">
 	    <label class="control-label" for="id_school">School:</label>
 	    <div class="controls">
-	      {{form.school}}
+	      {{form.school}}<span id="message_school" class="help-inline"></span>	  	    
 	    </div>
+	    
 	  </div>
 	  <div class="control-group" id="container_fraternity">
 	    <label class="control-label" for="id_fraternity">Fraternity:</label>
 	    <div class="controls">
-	      {{form.fraternity}}  
-              <div id="message_fraternity" class="help-inline"></div>	  
+	      {{form.fraternity}}
+              <span id="message_fraternity" class="help-inline"></span>	  
 	    </div>
 	  </div>
 	  <div class="control-group" id="container_address">
 	    <label class="control-label" for="id_address">Address:</label>
 	    <div class="controls">
-	      {{form.address}}  
-              <div id="message_address" class="help-inline"></div>	  
+	      {{form.address}}
+              <span id="message_address" class="help-inline"></span>	  
 	    </div>
 	  </div>
 	  <div class="control-group" id="container_city">
 	    <label class="control-label" for="id_city">City:</label>
 	    <div class="controls">
-	      {{form.city}}  
-              <div id="message_city" class="help-inline"></div>	  
+	      {{form.city}}
+              <span id="message_city" class="help-inline"></span>	  
 	    </div>
 	  </div>
 	  <div class="control-group" id="container_state">
 	    <label class="control-label" for="id_state">State:</label>
 	    <div class="controls">
-	      {{form.state}}  
-              <div id="message_state" class="help-inline"></div>	  
+	      {{form.state}}
+              <span id="message_state" class="help-inline"></span>	  
 	    </div>
 	  </div>
 	</div>
 	<div class="span3">
-	  <div class="control-group" id="container_start">
+	  <div class="control-group" id="container_start_group">
 	    <div class="controls">
               <span id="start-date"></span>	  
 	      <input type="text" id="id_start" name="start" class="span2" style="display:none;"/>
@@ -59,21 +60,23 @@
               </div>	  
 	    </div>
 	  </div>
-	  <div class="control-group" id="container_end">
+	  <div class="control-group" id="container_end_group">
 	    <div class="controls">
               <div class="input-prepend input-append">	  
 		{{form.time_to_hour}}{{form.time_to_minute}}{{form.time_to_ampm}}<span class="add-on">To</span>
               </div>
 	    </div>
 	  </div>
-	  <div class="total-amount-container">
+	  <!--<div class="total-amount-container">
 	    <span id="calculate-amount-loader" class="none"> <img src="{{MEDIA_URL}}images/small-loader.gif"/>Calculating...</span><br/>
 	    Total Amount : <span class="total-amount">$</span><span id="total-amount" class="total-amount">0</span>
-	  </div>	
+	  </div>-->
+<a class="wepay-widget-button wepay-green" id="wepay_widget_anchor_50b5c405daf4b" href="https://stage.wepay.com/stores/966156/item/473787">Book Now</a><script type="text/javascript">var WePay = WePay || {};WePay.load_widgets = WePay.load_widgets || function() { };WePay.widgets = WePay.widgets || [];WePay.widgets.push( {object_id: 473787,widget_type: "store_item_buy_now",anchor_id: "wepay_widget_anchor_50b5c405daf4b",widget_options: {store_id: 966156,show_item_price: false,show_item_images: true,button_text_sold_out: "Sold Out",show_item_custom_options: true,button_text: "Book Now"}});if (!WePay.script) {WePay.script = document.createElement('script');WePay.script.type = 'text/javascript';WePay.script.async = true;WePay.script.src = 'https://stage.wepay.com/min/js/widgets.v2.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(WePay.script, s);} else if (WePay.load_widgets) {WePay.load_widgets();}</script>	  
 	</div>
       </div>      
       {{form.start_str}}
-      {{form.end_str}}      
+      {{form.end_str}}
+      <input type="hidden" name="start" id="id_start"/>
     </div>
     <div class="modal-footer">
       <a href="javascript:void(0)" class="btn" onclick="$('#modal-booking').modal('toggle')">Close</a>
@@ -111,7 +114,7 @@
 			],
                         eventSources:['/admin/available/time']  
 		});
-                $(".time-selector").on("change", App.Calendar.calculate_amount);
+                //$(".time-selector").on("change", App.Calendar.calculate_amount);
                 });
 
 function this_can(ding){

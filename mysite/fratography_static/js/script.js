@@ -254,7 +254,7 @@ var App = {
 	    $("#id_id").val("");
 	    $('#modal-booking').modal({backdrop: false});
 	    $('#modal-booking').modal('show');
-	    App.Calendar.calculate_amount();
+	    //App.Calendar.calculate_amount();
 	    
 	},
 	month_names:[ "January", "February", "March", "April", "May", "June",
@@ -284,10 +284,11 @@ var App = {
 	},
 	book_event:function(){
 	    start_end = App.Calendar.get_start_end();
-	    $("#id_start_str").val(start_end["start"]);
-	    $("#id_end_str").val(start_end["end"]);
-	    var obj = {"value":["start_str", "end_str", "school", "fraternity","address", "city", "state"]};
-	    console.log(obj);
+	    $("#id_start").val(start_end["start"]);
+	    $("#id_end").val(start_end["start"]);
+	  
+	    var obj = {"value":["start", "end", "school", "fraternity","address", "city", "state"]};
+	    App.submit_data(obj,{},"/book/event", function(){}, "loader");
 	}
     },
     Files:{

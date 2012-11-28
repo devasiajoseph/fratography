@@ -7,7 +7,8 @@ import requests
 import re
 from facebooksdk import Facebook
 from django.db.models import Q
-from app.models import UserProfile, AlbumVote, AlbumImageVote, Album, AlbumImage
+from app.models import UserProfile, AlbumVote, AlbumImageVote, Album, AlbumImage,\
+    EventBooking
 from app.utilities import create_key, send_password_reset_email, us_states
 from calendarapp.forms import EventObjectForm
 
@@ -253,8 +254,6 @@ class BookingForm(EventObjectForm):
     time_to_ampm = forms.ChoiceField(choices=(('am', 'am'), ('pm', 'pm')),
                                   widget=forms.Select(
             attrs={'class': 'span1 time-selector'}), required=False)
-    start_str = forms.CharField(widget=forms.HiddenInput())
-    end_str = forms.CharField(widget=forms.HiddenInput())
     school = forms.CharField()
     fraternity = forms.CharField()
     address = forms.CharField()
@@ -265,8 +264,17 @@ class BookingForm(EventObjectForm):
 
     def start_booking_session(self):
         response = reply_object()
+        event_object = self.save()
+        order_key = unique_name(self.request.META['REMOTE_ADDR'])
+        event_booking = EventBooking.objects.create(
+            event=event_object,
+            order_key=order_key,
+            status=settings.EVENT_BOOKING_STATUS["PENDING"]
+        )
+        event_booking.save()
+        
         response["code"] = settings.APP_CODE["REDIRECT"]
-        response["redirect_url"] = "/"
+        response["redirect_url"] = "/payment"
         return response
         
 class VoteForm(forms.Form):

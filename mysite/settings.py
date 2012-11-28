@@ -228,6 +228,10 @@ FBAPP_ID = ""
 FBAPP_SECRET = ""
 FBAPP_REDIRECT_URI = "http://yoursite/fbauth"
 
+EVENT_BOOKING_STATUS = {"PENDING":"pending",
+                        "ACTIVE":"active",
+                        "CANCELLED":"cancelled"}
+
 
 FBAPP_AUTH_REDIRECT = "https://www.facebook.com/dialog/oauth?\
 client_id=%(FBAPP_ID)s&\

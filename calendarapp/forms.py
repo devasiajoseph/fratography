@@ -56,7 +56,7 @@ class EventObjectForm(forms.Form):
         event_object.end = parser.parse(self.cleaned_data["end"])
         event_object = self.set_calendar_settings(event_object)
         event_object.save()
-        event_obj.save()
+        event_object.save()
         return event_object
 
 

@@ -53,6 +53,7 @@ urlpatterns = patterns('',
     url(r'^vote$', 'app.views.vote', name='vote'),
     url(r'^calculate/price$', 'app.views.calculate_price', name='calculate_price'),
     url(r'^book/event$', 'app.views.book_event', name='book_event'),
+    url(r'^payment$', 'app.views.payment', name='payment'),
     #administrator
     (r'^admin/', include('administrator.urls')),
     #test url

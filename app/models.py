@@ -14,6 +14,7 @@ import simplejson
 from twython import Twython
 from oauth2client.client import OAuth2WebServerFlow
 import datetime
+from calendarapp.models import EventObject
 
 
 class State(models.Model):
@@ -312,3 +313,10 @@ def calculate_album_points(sender, instance, **kwargs):
     album.save()
     album.calculate_rank()
     return
+
+
+class EventBooking(models.Model):
+    event = models.ForeignKey(EventObject)
+    order_key = models.CharField(max_length=1024)
+    status = models.CharField(max_length=20)
+    

@@ -1,24 +1,24 @@
 from django.db import models
-from dateutil import parser
-import simplejson
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
 
 
 CALENDAR_SETTINGS = {
     "event":
         {
-        "availability": {
-            "class_name": "available-event",
-            "title": "Slot available",
+            "availability": {
+                "class_name": "available-event",
+                "title": "Slot available",
             },
-        "booked": {
-            "class_name": "booked-event",
-            "title": "Booked"
+            "booked": {
+                "class_name": "booked-event",
+                "title": "Booked"
             },
-        "event": {
-            "class_name": "event-event",
-            "title": "Event"
+            "event": {
+                "class_name": "event-event",
+                "title": "Event"
+            },
+            "pending_payment":{
+                "class_name": "pending-payment",
+                "title": "Event peyment pending"
             }
         },
     "date_format": "%Y-%m-%d %H:%M:%S"

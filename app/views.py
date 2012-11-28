@@ -363,14 +363,19 @@ def book_event(request):
     Request Handler for booking event
     """
     response = reply_object()
-    form = BookingForm(request.POST, request)
+    form = BookingForm(request.POST, request=request)
     if form.is_valid():
         response = form.start_booking_session()
     else:
         response["code"] = settings.APP_CODE["FORM ERROR"]
         response["errors"] = form.errors
-    return HttpResponse(simplejson.dumps(response),
-                        mimetype="applicaiton/json")
+    return HttpResponse(simplejson.dumps(response))
+
+def payment(request):
+    """
+    Payment page
+    """
+    return TemplateResponse(request, "payment.html", {})
     
     
 def test(request):
