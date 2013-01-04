@@ -1,8 +1,9 @@
 from django import forms
 from django.conf import settings
+from django.db.models.loading import get_model
 from app.utilities import reply_object
 from app.utilities import create_key, unique_name, delete_uploaded_file
-from app.models import PriceModel, Album, AlbumImage
+from app.models import PriceModel, Album, AlbumImage, AlbumCategory
 from calendarapp.forms import EventObjectForm, EventModForm
 import os
 from PIL import Image, ImageOps
@@ -211,3 +212,67 @@ def delete_album_image_files(album_image):
     delete_uploaded_file(album_image.thumbnail)
     delete_uploaded_file(album_image.display)
     delete_uploaded_file(album_image.preview)
+
+
+class ObjectModForm(forms.Form):
+    object_id = forms.IntegerField(required=False)
+
+    def delete_object(self, model_name):
+        response = reply_object()
+        get_model(model_name, 'app').objects.get(pk=self.cleaned_data["object_id"]).delete()
+        response["code"] = settings.APP_CODE["DELETED"]
+        return response
+
+    
+class CategoryForm(ObjectModForm):
+    name = forms.CharField()
+    parent = forms.IntegerField()
+
+    def get_parent(self):
+        parent = None
+        if self.cleaned_data["parent"] != 0:
+            parent = AlbumCategory.objects.get(pk=self.cleaned_data["parent"])
+        return parent
+
+    def save(self):
+        response = reply_object()
+        object_id = self.cleaned_data[" object_id"]
+        if object_id == 0 or\
+           object_id == u'' or\
+           object_id == None:
+            response = self.save_category()
+        else:
+            response = self.update_category()
+
+        return response
+
+    def save_category(self):
+        response = reply_object()
+        parent = self.get_parent()
+        if parent:
+            level = parent.level + 1
+        else:
+            level = 0
+        album_category = AlbumCategory.object.create(
+            name=self.cleaned_data, parent=parent, level=level)
+        album_category.save()
+        response["code"] = settings.APP_CODE["SAVED"]
+        return response
+
+    def update_category(self):
+        response = reply_object()
+        parent = self.get_parent()
+        if parent:
+            level = parent.level + 1
+        else:
+            level = 0
+        album_category = AlbumCategory.object.get(pk=self.cleaned_data["object_id"])
+        album_category.parent = parent
+        album_category.name = self.cleaned_data["name"]
+        album_category.level = level
+        album_category.save()
+        response["code"] = settings.APP_CODE["UPDATED"]
+        return response
+
+    def delete_category(self):
+        return self.delete_object('AlbumCategory')

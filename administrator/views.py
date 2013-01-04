@@ -11,7 +11,7 @@ import simplejson
 
 import datetime
 from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
-AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm
+AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm, AlbumCategory
 from app.models import PriceModel, Album, AlbumImage
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
@@ -154,9 +154,15 @@ def album_image_delete(request):
 
 
 def get_album_images(request, album_id):
-    response = reply_object()
     album = Album.objects.get(pk=album_id)
     album_images = serializers.serialize(
         'json',
         AlbumImage.objects.filter(album=album))
     return HttpResponse(album_images, mimetype="application/json")
+
+
+def album_category(request):
+    if request.POST:
+        return HttpResponse("hello")
+    else:
+        return TemplateResponse(request, 'admin_album_category.html', {})

@@ -59,6 +59,8 @@ us_states = ["Alabama",
              "Wyoming"]
 
 
+
+
 def delete_uploaded_file(file_name):
     try:
         os.remove(settings.UPLOAD_PATH + file_name)

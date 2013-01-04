@@ -69,5 +69,8 @@ var Admin = {
     },
     delete_album_callback:function(){
 	window.location.href = "/admin/album/list/1";
+    },
+    add_category:function(parent){
+	$("#add-category").modal({show:true, backdrop:false});
     }
 }

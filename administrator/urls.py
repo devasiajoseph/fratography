@@ -45,4 +45,5 @@ urlpatterns = patterns('',
     url(r'^get/album/images/(?P<album_id>[0-9]+)$',
         'administrator.views.get_album_images',
         name='get_album_images'),
+    url(r'^album/category', 'administrator.views.album_category')
 )

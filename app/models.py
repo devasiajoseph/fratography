@@ -264,6 +264,11 @@ class PriceModel(models.Model):
                                          decimal_places=2, null=True)
     price_type = models.CharField(max_length=50)
 
+    
+class AlbumCategory(models.Model):
+    name = models.CharField(max_length=1024)
+    parent = models.ForeignKey('self', null=True, blank=True)
+
 
 class Album(models.Model):
     name = models.CharField(max_length=1024)

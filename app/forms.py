@@ -8,7 +8,7 @@ import re
 from facebooksdk import Facebook
 from django.db.models import Q
 from app.models import UserProfile, AlbumVote, AlbumImageVote, Album, AlbumImage,\
-    EventBooking
+    EventBooking, AlbumCategory
 from app.utilities import create_key, send_password_reset_email, us_states
 from calendarapp.forms import EventObjectForm
 
@@ -325,3 +325,4 @@ class VoteForm(forms.Form):
         response[settings.APP_CODE["SERVER MESSAGE"]] = "Vote submitted"
         
         return response
+        
