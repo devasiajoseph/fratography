@@ -7,34 +7,30 @@
   }  
 </style>
 <div class="row">
-  <div class="span3 category-container">
+  <div class="span4 category-container">
     <a href="javascript:void(0)" onclick="Admin.add_category(0)"><i class="icon-plus"></i>Add new category</a>
     <ul>
-      <li>Category</li>
-      <li>Category</li>
-      <li>Category</li>
-      <li>Category</li>
+      {%for category in categories%}      
+	<li class="category-list" id="container_{{category.id}}">
+	  <a href="javascript:void(0)" onclick="Admin.get_subcategories({{category.id}})">{{category.name}}</a>
+	  <span class="category-mod" id="category-mod-{{category.id}}">
+	    <i class="icon-edit pointer" onclick="Admin.edit_category({{category.id}})"></i> | 
+	    <i class="icon-trash pointer" onclick="Admin.delete_category({{category.id}})"></i>
+	  </span>
+	</li>
+      {%endfor%}
     </ul>
   </div>
-  <div class="span3">
-    <table class="table">
-      <tr>
-	<td>
-	  <a href="javascript:void(0)">Add new item in this category</a>
-	</td>
-      </tr>  
-      <tr>
-	<td>
-	  Sub category1
-	</td>
-      </tr>
-      <tr>
-	<td>
-	  Sub category2
-	</td>
-      </tr>
-    </table>
-    
+  <div class="span4">
+    <div id="subcategory_holder" class="none">    
+      <div>    
+	<a href="javascript:void(0)" onclick="Admin.add_subcategory()">Add new item in this category</a>
+      </div>
+      <ul id="subcategory_container">
+	
+      </ul>
+    </div>
+    <input id="id_category_parent" type="hidden"/>
   </div>
 </div>
 <div class="modal none" id="add-category">
@@ -43,24 +39,29 @@
     <h3>Add</h3>
   </div>
   <div class="modal-body">
-    <input type="text" id="id_name" class="span8"/>
+    <div class="control-group" id="container_name">	  
+      <label>Name</label>
+      <input type="text" id="id_name" class="span8"/>
+      <span id="message_name" class="help-inline"></span> 
+    </div>
   </div>
   <div class="modal-footer">
     <a href="#" class="btn">Close</a>
-    <a href="#" class="btn btn-primary">Save changes</a>
+    <a href="javascript:void(0)" onclick="Admin.save_category()" class="btn btn-primary">Save changes</a>
   </div>
   
 </div>
+<input type="hidden" id="id_object_id"/>
+<input type="hidden" id="id_parent"/>
 <script type="text/template" id="subcategory_template">
-  <li id="<%=id>">
-    <%=name>
+  <li class="category-list" id="container_<%=id%>"><%=name%> 
+    <span class="category-mod" id="category-mod-<%=id%>">
+      <i class="icon-edit pointer" onclick="Admin.edit_category(<%=id%>)"></i> | 
+      <i class="icon-trash pointer" onclick="Admin.delete_category(<%=id%>)"></i>
+    </span>
   </li>
 </script>
 {%endblock%}
-{% block script_includes%}
-<script type="text/javascript">
-function add_item(){
-  
-  }
-</script>
+{%block script_includes%}
+
 {%endblock%}

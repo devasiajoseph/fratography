@@ -1,18 +1,15 @@
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.conf import settings
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response
 from django.template.response import TemplateResponse
 from django.core import serializers
-from django.contrib.auth import logout
-from django.core.urlresolvers import reverse
-from app.utilities import reply_object, create_key
+from app.utilities import reply_object
 import simplejson
-
-import datetime
 from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
-AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm, AlbumCategory
-from app.models import PriceModel, Album, AlbumImage
+AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm,\
+CategoryForm, ObjectModForm
+from app.models import PriceModel, Album, AlbumImage, AlbumCategory
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
 
@@ -162,7 +159,60 @@ def get_album_images(request, album_id):
 
 
 def album_category(request):
-    if request.POST:
-        return HttpResponse("hello")
+    categories = AlbumCategory.objects.filter(parent=None).order_by('name')
+    print categories
+    
+    return TemplateResponse(request, 'admin_album_category.html', {"categories":categories})
+
+
+def album_category_save(request):
+    response = reply_object()
+    form = CategoryForm(request.POST)
+    if form.is_valid():
+        response = form.save()
     else:
-        return TemplateResponse(request, 'admin_album_category.html', {})
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
+
+
+def album_category_get(request):
+    response = reply_object()
+    category = AlbumCategory.objects.get(pk=request.GET["object_id"])
+    response["code"] = settings.APP_CODE["CALLBACK"]
+    response["name"] = category.name
+    response["object_id"] = category.id
+    if not category.parent:
+        response["parent"] = 0
+    else:
+        response["parent"] = category.parent.id
+    return HttpResponse(simplejson.dumps(response),
+                        mimetype="application/json")
+
+
+def album_category_delete(request):
+    response = reply_object()
+    form = ObjectModForm(request.POST, model="AlbumCategory")
+    if form.is_valid():
+        response = form.delete_object()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
+
+
+def album_category_sub(request):
+    response = reply_object()
+    subcategories = []
+    sub_objects = AlbumCategory.objects.filter(
+        parent=AlbumCategory.objects.get(pk=request.GET["object_id"]))
+    for each_obj in sub_objects:
+        dict_sub = {}
+        dict_sub["id"] = each_obj.id
+        dict_sub["name"] = each_obj.name
+        subcategories.append(dict_sub)
+
+    response["code"] = settings.APP_CODE["CALLBACK"]
+    response["subcategories"] = subcategories
+    return HttpResponse(simplejson.dumps(response),
+                        mimetype="application/json")

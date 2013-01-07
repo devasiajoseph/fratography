@@ -36,7 +36,26 @@ var App = {
         $.post(url, submit_obj, function(data){
             App.hide_loader(loader_id);
             App.process_data(data, callback);
-        });
+        }).error(function(xhr){
+	    App.hide_loader(loader_id);
+	    App.handle_ajax_error(xhr);
+	});
+    },
+    handle_ajax_error:function(xhr){
+	switch (xhr.status){
+	    case 404:
+	    App.show_error("Requested function not found");
+	    break;
+	    case 403:
+	    App.show_error("You don't have access to perform this action");
+	    break;
+	    case 500:
+	    App.show_error("A system error has occured.");
+	    break;
+	    default:
+	    App.show_error("Error!!!");
+	};
+
     },
     submit_data_iframe:function(form, obj, loader_id){
 	$("#message___all__").hide();

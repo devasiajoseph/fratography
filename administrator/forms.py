@@ -217,9 +217,17 @@ def delete_album_image_files(album_image):
 class ObjectModForm(forms.Form):
     object_id = forms.IntegerField(required=False)
 
-    def delete_object(self, model_name):
+    def __init__(self, *args, **kwargs):
+        self.model = kwargs.pop('model', None)
+        super(ObjectModForm, self).__init__(*args, **kwargs)
+
+
+    def delete_object(self):
         response = reply_object()
-        get_model(model_name, 'app').objects.get(pk=self.cleaned_data["object_id"]).delete()
+        print self.model
+        print get_model(self.model, 'app')
+        get_model('app', self.model).objects.get(pk=self.cleaned_data["object_id"]).delete()
+        response["object_id"] = self.cleaned_data["object_id"]
         response["code"] = settings.APP_CODE["DELETED"]
         return response
 
@@ -236,7 +244,7 @@ class CategoryForm(ObjectModForm):
 
     def save(self):
         response = reply_object()
-        object_id = self.cleaned_data[" object_id"]
+        object_id = self.cleaned_data["object_id"]
         if object_id == 0 or\
            object_id == u'' or\
            object_id == None:
@@ -249,12 +257,8 @@ class CategoryForm(ObjectModForm):
     def save_category(self):
         response = reply_object()
         parent = self.get_parent()
-        if parent:
-            level = parent.level + 1
-        else:
-            level = 0
-        album_category = AlbumCategory.object.create(
-            name=self.cleaned_data, parent=parent, level=level)
+        album_category = AlbumCategory.objects.create(
+            name=self.cleaned_data["name"], parent=parent)
         album_category.save()
         response["code"] = settings.APP_CODE["SAVED"]
         return response
@@ -262,17 +266,9 @@ class CategoryForm(ObjectModForm):
     def update_category(self):
         response = reply_object()
         parent = self.get_parent()
-        if parent:
-            level = parent.level + 1
-        else:
-            level = 0
-        album_category = AlbumCategory.object.get(pk=self.cleaned_data["object_id"])
+        album_category = AlbumCategory.objects.get(pk=self.cleaned_data["object_id"])
         album_category.parent = parent
         album_category.name = self.cleaned_data["name"]
-        album_category.level = level
         album_category.save()
         response["code"] = settings.APP_CODE["UPDATED"]
         return response
-
-    def delete_category(self):
-        return self.delete_object('AlbumCategory')

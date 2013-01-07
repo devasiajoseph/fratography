@@ -65,12 +65,70 @@ var Admin = {
     },
     delete_album:function(){
 	var obj = {"value":["id"]};
-	App.submit_data(obj, {}, "/admin/album/delete", Admin.delete_album_callback, "loader")
+	App.submit_data(obj, {}, "/admin/album/delete", Admin.delete_album_callback, "loader");
     },
     delete_album_callback:function(){
 	window.location.href = "/admin/album/list/1";
     },
     add_category:function(parent){
+	$("#id_parent").val(parent);
+	$("#id_object_id").val("");
 	$("#add-category").modal({show:true, backdrop:false});
+    },
+    add_subcategory:function(){
+	console.log($("#id_category_parent").val());
+	Admin.add_category($("#id_category_parent").val());
+	
+    },
+    save_category:function(){
+	var obj = {"value":["object_id", "parent", "name"]};
+	App.submit_data(obj, {}, "/admin/album/category/save", Admin.save_category_callback, "loader");
+    },
+    save_category_callback:function(){
+	window.location.reload();
+    },
+    edit_category:function(object_id){
+	App.get_data("/admin/album/category/get", {"object_id":object_id},
+		     function(data){
+			 $("#id_object_id").val(data["object_id"]);
+			 $("#id_parent").val(data["parent"]);
+			 $("#id_name").val(data["name"]);
+			 $("#add-category").modal({show:true, backdrop:false});
+		     },
+		     "loader");
+    },
+    delete_category:function(object_id){
+	var submit_obj = {"object_id":object_id};
+	App.submit_data({}, submit_obj, "/admin/album/category/delete", Admin.delete_category_callback, "loader");
+    },
+    delete_category_callback:function(data){
+	$("#container_"+data["object_id"]).remove();
+    },
+    get_subcategories:function(object_id){
+	$("#id_category_parent").val(object_id);
+	App.get_data("/admin/album/category/sub", {"object_id":object_id},
+		     function(data){
+			 $("#subcategory_container").html("");
+			 for (i in data["subcategories"]){
+			     var subcategory_view = new SubCategoryView({ el: $("#subcategory_container"),
+									  "subcategory":data["subcategories"][i] });
+			 }
+			 $("#subcategory_holder").show();
+		     },
+		     "loader");
     }
+    
 }
+
+SubCategoryView = Backbone.View.extend({
+        initialize: function(attrs){
+	    this.options = attrs;
+            this.render();
+        },
+        render: function(){
+            // Compile the template using underscore
+            var template = _.template( $("#subcategory_template").html(), this.options.subcategory );
+            // Load the compiled HTML into the Backbone "el"
+            this.$el.html( template );
+        }
+    });
