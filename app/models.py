@@ -277,7 +277,11 @@ class Album(models.Model):
     votes = models.IntegerField(default=0)
     points = models.DecimalField(max_digits=16, decimal_places=9, default=0.0)
     created_date = models.DateTimeField()
-
+    category = models.ForeignKey(AlbumCategory, null=True, blank=True,
+                                 related_name="category")
+    subcategory = models.ForeignKey(AlbumCategory, null=True, blank=True,
+                                    related_name="subcategory")
+    
     def calculate_rank(self):
         points = calculate_points(self.votes, self.created_date)
         self.points = points

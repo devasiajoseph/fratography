@@ -116,6 +116,17 @@ var Admin = {
 			 $("#subcategory_holder").show();
 		     },
 		     "loader");
+    },
+    load_subcategories:function(object_id){
+	App.get_data("/admin/album/category/sub" , {"object_id":object_id},
+		     function(data){
+			 $("#id_subcategory").html("");
+			 for (i in data["subcategories"]){
+			     $("#id_subcategory").append('<option value="'+data["subcategories"][i].id+'">'+data["subcategories"][i].name+'</option>')
+			 }
+			 $("#id_subcategory").val($("#id_subcategory_value").val());
+		     },
+		     "loader");	
     }
     
 }
@@ -132,3 +143,11 @@ SubCategoryView = Backbone.View.extend({
             this.$el.append( template );
         }
     });
+$(function(){
+    $("#id_category").change(function(e){
+	Admin.load_subcategories(e.target.value);
+    });
+    if($("#id_category").val()){
+	Admin.load_subcategories($("#id_category").val());
+    }
+});

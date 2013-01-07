@@ -94,7 +94,16 @@ class AlbumForm(ImageForm):
     name = forms.CharField()
     cover_photo = forms.FileField(widget=forms.ClearableFileInput(
             attrs={"class": "input-file"}), required=False)
+    category = forms.ChoiceField(choices=(), widget=forms.Select)
+    subcategory = forms.IntegerField()
 
+    def __init__(self, *args, **kwargs):
+        super(AlbumForm, self).__init__(*args, **kwargs)
+        category_choices = [(category_obj.id, category_obj.name)\
+                       for category_obj in AlbumCategory.objects.filter(parent=None)]
+        category_choices.insert(0, ('',''))
+        self.fields['category'].choices = category_choices
+    
     def clean(self):
         if self.cleaned_data["id"] == 0 or\
                 self.cleaned_data["id"] == u'' or\
@@ -142,14 +151,22 @@ class AlbumForm(ImageForm):
         return response
 
     def save_album(self):
+        category = AlbumCategory.objects.get(pk=self.cleaned_data["category"])
+        subcategory = AlbumCategory.objects.get(pk=self.cleaned_data["subcategory"])
         album = Album.objects.create(name=self.cleaned_data["name"],
+                                     category=category,
+                                     subcategory=subcategory,
                                      created_date=datetime.now())
         album.save()
         return album
 
     def update_album(self):
+        category = AlbumCategory.objects.get(pk=self.cleaned_data["category"])
+        subcategory = AlbumCategory.objects.get(pk=self.cleaned_data["subcategory"])
         album = Album.objects.get(pk=self.cleaned_data["id"])
         album.name = self.cleaned_data["name"]
+        album.category=category
+        album.subcategory=subcategory
         album.save()
         return album
 

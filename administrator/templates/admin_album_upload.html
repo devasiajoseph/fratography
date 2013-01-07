@@ -13,6 +13,21 @@
       <div id="message_name" class="help-inline"></div>      
     </div>
   </div>
+  <div class="control-group" id="container_category">
+    <label class="control-label" for="id_category">Category:</label>
+    <div class="controls">
+      {{form.category}}
+      <div id="message_category" class="help-inline"></div>      
+    </div>
+  </div>
+  <div class="control-group" id="container_subcategory">
+    <label class="control-label" for="id_subcategory">Sub Category:</label>
+    <div class="controls">
+      <select id="id_subcategory" name="subcategory"></select>
+      <div id="message_subcategory" class="help-inline"></div>      
+    </div>
+    <input type="hidden" id="id_subcategory_value" value="{{album.subcategory.id}}"/>
+  </div>  
   <div class="control-group" id="container_cover_photo">
     <label class="control-label" for="id_cover_photo">Cover Photo:</label>
     <div class="controls">
@@ -128,5 +143,5 @@
    </td>
  </tr>
 </script>
-<script src="{{MEDIA_URL}}fileupload/js/custom.js"></script>  
+<script src="{{MEDIA_URL}}fileupload/js/custom.js"></script>
 {%endblock%}
