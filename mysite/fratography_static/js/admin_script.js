@@ -129,6 +129,6 @@ SubCategoryView = Backbone.View.extend({
             // Compile the template using underscore
             var template = _.template( $("#subcategory_template").html(), this.options.subcategory );
             // Load the compiled HTML into the Backbone "el"
-            this.$el.html( template );
+            this.$el.append( template );
         }
     });
