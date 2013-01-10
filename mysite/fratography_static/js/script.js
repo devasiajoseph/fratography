@@ -94,8 +94,7 @@ var App = {
 	}else{
 	    data = JSON.parse(data_str);
 	}
-	console.log(data_str);
-        console.log(data["code"]);
+	
         switch (data["code"]){
         case "form_error":
             App.process_error(data["errors"]);

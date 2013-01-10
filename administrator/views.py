@@ -4,11 +4,12 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template.response import TemplateResponse
 from django.core import serializers
+from django.db.models.loading import get_model
 from app.utilities import reply_object
 import simplejson
 from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
 AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm,\
-CategoryForm, ObjectModForm
+CategoryForm, ObjectModForm, GenericModForm
 from app.models import PriceModel, Album, AlbumImage, AlbumCategory
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
@@ -216,3 +217,38 @@ def album_category_sub(request):
     response["subcategories"] = subcategories
     return HttpResponse(simplejson.dumps(response),
                         mimetype="application/json")
+
+
+def generic_mod_view(request, model_name):
+    return TemplateResponse(request, 'admin_generic_view.html', {})
+
+
+def generic_mod_get(request, model_name):
+    response = reply_object()
+    generic_model = get_model('app', model_name)
+    generic_obj = generic_model.objects.get(pk=request.GET["object_id"])
+    generic_dict = {}
+    generic_dict["object_id"] = generic_obj.id
+    generic_dict["name"] = generic_obj.name
+    response["code"] = settings.APP_CODE["CALLBACK"]
+    response["object"] = generic_dict
+    return HttpResponse(simplejson.dumps(response),
+                        mimetype="application/json")
+
+
+def generic_mod_list(request, model_name):
+    generic_objects = get_model('app', model_name).objects.all()
+    return TemplateResponse(request, 'admin_generic_list.html',
+                            {"generic_objects": generic_objects,
+                             "model_name": model_name})
+
+
+def generic_mod_action(request, model_name):
+    response = reply_object()
+    form = GenericModForm(request.POST, model=model_name)
+    if form.is_valid():
+        response = form.action()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))

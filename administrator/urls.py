@@ -49,5 +49,12 @@ urlpatterns = patterns('',
     url(r'^album/category/save$', 'administrator.views.album_category_save'),
     url(r'^album/category/get$', 'administrator.views.album_category_get'),
     url(r'^album/category/delete$', 'administrator.views.album_category_delete'),
-    url(r'^album/category/sub$', 'administrator.views.album_category_sub'),                   
+    url(r'^album/category/sub$', 'administrator.views.album_category_sub'),
+    url(r'^generic-mod-list/(?P<model_name>[0-9a-z]+)$',
+        'administrator.views.generic_mod_list'),
+    url(r'^generic-mod-action/(?P<model_name>[0-9a-z]+)$',
+        'administrator.views.generic_mod_action'),
+    url(r'^generic-mod-get/(?P<model_name>[0-9a-z]+)$',
+        'administrator.views.generic_mod_get'),
+    
 )

@@ -76,7 +76,6 @@ var Admin = {
 	$("#add-category").modal({show:true, backdrop:false});
     },
     add_subcategory:function(){
-	console.log($("#id_category_parent").val());
 	Admin.add_category($("#id_category_parent").val());
 	
     },
@@ -127,6 +126,33 @@ var Admin = {
 			 $("#id_subcategory").val($("#id_subcategory_value").val());
 		     },
 		     "loader");	
+    },
+    GenericMod:{
+	add_object:function(){
+	    $("#id_object_id").val("");
+	    $("#add-generic-object").modal({show:true, backdrop:false});
+	},
+	save_object:function(){
+	    var obj = {"value":["name","object_id"]};
+	    App.submit_data(obj, {do:"save"}, "/admin/generic-mod-action/"+$("#id_model_name").val(), Admin.GenericMod.save_object_callback, "loader");
+	},
+	save_object_callback:function(data){
+	    $("#id_object_id").val("");
+	    $("#add-generic-object").modal('hide');
+	},
+	delete_object:function(object_id){
+	    App.submit_data({}, {do:"delete", name:"na", object_id:object_id}, "/admin/generic-mod-action/"+$("#id_model_name").val(), Admin.GenericMod.delete_object_callback, "loader");
+	},
+	delete_object_callback:function(data){
+	    $("#id_object_container_"+data["object_id"]).remove();
+	},
+	edit_object:function(object_id){
+	    App.get_data("/admin/generic-mod-get/"+$("#id_model_name").val(), {object_id:object_id}, function(data){
+		$("#id_object_id").val(data["object"]["object_id"]);
+		$("#id_name").val(data["object"]["name"]);
+		$("#add-generic-object").modal({show:true, backdrop:false});
+	    }, "loader")
+	}
     }
     
 }

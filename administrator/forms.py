@@ -233,6 +233,7 @@ def delete_album_image_files(album_image):
 
 class ObjectModForm(forms.Form):
     object_id = forms.IntegerField(required=False)
+    name = forms.CharField()
 
     def __init__(self, *args, **kwargs):
         self.model = kwargs.pop('model', None)
@@ -241,12 +242,72 @@ class ObjectModForm(forms.Form):
 
     def delete_object(self):
         response = reply_object()
-        print self.model
-        print get_model(self.model, 'app')
         get_model('app', self.model).objects.get(pk=self.cleaned_data["object_id"]).delete()
         response["object_id"] = self.cleaned_data["object_id"]
         response["code"] = settings.APP_CODE["DELETED"]
         return response
+
+
+class GenericModForm(forms.Form):
+    object_id = forms.IntegerField(required=False)
+    name = forms.CharField()
+    do = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        self.model = get_model('app', kwargs.pop('model', None))
+        super(GenericModForm, self).__init__(*args, **kwargs)
+
+
+    def action(self):
+        response = reply_object()
+        if self.cleaned_data["do"] == "save":
+            response = self.save() 
+        elif self.cleaned_data["do"] == "delete":
+            response = self.delete_object()
+
+        return response
+
+    def save(self):
+        response = reply_object()
+        object_id = self.cleaned_data["object_id"]
+        if object_id == 0 or\
+           object_id == u'' or\
+           object_id == None:
+            response = self.save_object()
+        else:
+            response = self.update_object()
+
+        return response
+
+    def delete_object(self):
+        response = reply_object()
+        self.model.objects.get(pk=self.cleaned_data["object_id"]).delete()
+        response["object_id"] = self.cleaned_data["object_id"]
+        response["code"] = settings.APP_CODE["DELETED"]
+        return response
+
+    def save_object(self):
+        response = reply_object()
+        new_object = self.model.objects.create(name=self.cleaned_data["name"])
+        new_object.save()
+        response["code"] = settings.APP_CODE["SAVED"]
+        response["object_id"] = new_object.id
+        response["name"] = new_object.name
+        return response
+
+    def update_object(self):
+        response = reply_object()
+        generic_obj = self.model.objects.get(pk=self.cleaned_data["object_id"])
+        generic_obj.name = self.cleaned_data["name"]
+        generic_obj.save()
+        response["code"] = settings.APP_CODE["UPDATED"]
+        response["object_id"] = generic_obj.id
+        response["name"] = generic_obj.name
+        return response
+
+
+class CollegeForm(ObjectModForm):
+    name = forms.CharField()
 
     
 class CategoryForm(ObjectModForm):

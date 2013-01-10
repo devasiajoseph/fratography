@@ -270,6 +270,10 @@ class AlbumCategory(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True)
 
 
+class College(models.Model):
+    name = models.CharField(max_length=1024)
+
+
 class Album(models.Model):
     name = models.CharField(max_length=1024)
     cover_photo = models.CharField(max_length=1024)
@@ -281,6 +285,7 @@ class Album(models.Model):
                                  related_name="category")
     subcategory = models.ForeignKey(AlbumCategory, null=True, blank=True,
                                     related_name="subcategory")
+    college = models.ForeignKey(College, null=True, blank=True)
     
     def calculate_rank(self):
         points = calculate_points(self.votes, self.created_date)
