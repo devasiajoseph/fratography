@@ -60,11 +60,11 @@ Recent
 <script type="text/template" id="album">
   <div class="album" id="album_cover_<%=album_id%>">
     <div class="album-title">
-      <a href="#album/<%=album_id%>/page/1"><%=name%></a>
+      <a href="#<%=album_id%>/1"><%=name%></a>
     </div>
     <div class="album-cover">
       <div class="album-cover-holder">      
-	<a href="#album/<%=album_id%>/page/1"><img alt="" src="{{MEDIA_URL}}uploads/<%=cover_photo%>"></a>
+	<a href="#<%=album_id%>/1"><img alt="" src="{{MEDIA_URL}}uploads/<%=cover_photo%>"></a>
 	<div class="likebox">
 	  <img src="{{MEDIA_URL}}images/small-loader.gif" class="none" id="album_cover_loader_<%=album_id%>"/>
           <a href="javascript:void(0)" onclick="vote(1,<%=album_id%>,'album')">
@@ -80,7 +80,6 @@ Recent
 </script>
 <script type="text/template" id="albums-row" >
   <div class="albums-row clearfix" id="albums-row-<%=id%>">
-    
   </div>
 </script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/album.js"></script> 

@@ -56,10 +56,9 @@ var AlbumsRow = Backbone.View.extend({
         this.$el.append( template );
     }
 });
-
 var AlbumRouter = Backbone.Router.extend({
     routes: {
-	"album/:album_id/page/:number": "process"
+	":album_id/:number": "process"
     },
     process:function(album_id, number){
 	count = $("#show-count").val();
@@ -82,7 +81,7 @@ var AlbumRouter = Backbone.Router.extend({
 			     number,
 			     count,
 			     data["total_count"],
-			    "album/:album_id/page/:number");
+			    ":album_id/:number");
 	}, "album-loader");
 	
 	
@@ -100,7 +99,7 @@ var AlbumRouter = Backbone.Router.extend({
 			     number,
 			     count,
 			     data["total_count"],
-			    "album/:album_id/page/:number");
+			    ":album_id/:number");
 	}, "album-loader");
 	
     }
