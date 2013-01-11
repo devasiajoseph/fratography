@@ -139,6 +139,7 @@ var Admin = {
 	save_object_callback:function(data){
 	    $("#id_object_id").val("");
 	    $("#add-generic-object").modal('hide');
+	    window.location.reload();
 	},
 	delete_object:function(object_id){
 	    App.submit_data({}, {do:"delete", name:"na", object_id:object_id}, "/admin/generic-mod-action/"+$("#id_model_name").val(), Admin.GenericMod.delete_object_callback, "loader");

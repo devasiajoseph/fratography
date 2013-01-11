@@ -10,10 +10,11 @@ import simplejson
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
-from app.models import UserProfile, SocialAuth, Album, AlbumImage, PriceModel
+from app.models import UserProfile, SocialAuth, Album, AlbumImage, PriceModel,\
+College
 from app.forms import BookingForm, VoteForm
 from django.contrib.auth import authenticate, login
-from django.core import serializers
+#from django.core import serializers
 from dateutil import parser
 
 
@@ -262,6 +263,11 @@ def calendar(request):
                               context_instance=RequestContext(request,
                                                               {"form": form}))
 
+def college_view(request, college_name):
+    print college_name
+    college_obj = get_object_or_404(College, name=college_name)
+    return TemplateResponse(request, "albums.html", {"college_name": college_name})
+
 
 def albums(request):
     """
@@ -269,6 +275,16 @@ def albums(request):
     Note that all calls to display photos and albums are ajax based
     """
     return TemplateResponse(request, "albums.html", {})
+
+def serialize_album(query_object):
+    albums = []
+    for each_album in query_object:
+        album_dict = {}
+        album_dict["id"] = each_album.id
+        album_dict["cover_photo"] = each_album.cover_photo
+        album_dict["name"] = each_album.name
+        albums.append(album_dict)
+    return albums
 
 
 def album_objects(request):
@@ -278,19 +294,37 @@ def album_objects(request):
     page = int(request.GET["page"])
     count = int(request.GET["show"])
     pages = paginate(page, count)
+    if "college_name" in request.GET:
+        college_name = request.GET["college_name"]
+        print college_name
+        if request.GET["album_id"] == "all":
+            query_object = Album.objects.filter(
+                college__name=college_name)[pages["from"]:pages["to"]]
+        else:
+            query_object = Album.objects.filter(
+                college__name=college_name, pk=int(request.GET["album_id"]))[pages["from"]:pages["to"]]
+    else:
+        query_object = Album.objects.all()[pages["from"]:pages["to"]]
+    
     albums = {}
-    albums["data"] = []
-    for each_album in Album.objects.all()[pages["from"]:pages["to"]]:
-        album_dict = {}
-        album_dict["id"] = each_album.id
-        album_dict["cover_photo"] = each_album.cover_photo
-        album_dict["name"] = each_album.name
-        albums["data"].append(album_dict)
-
-    print albums
+    albums["data"] = serialize_album(query_object)
+    
 
     albums["total_count"] = Album.objects.count()
     return HttpResponse(simplejson.dumps(albums), mimetype="application/json")
+
+    
+def serialize_photos(query_object):
+    album_photos = []
+    for each_photo in query_object:
+        photo_dict = {}
+        photo_dict["id"] = each_photo.id
+        photo_dict["thumbnail"] = each_photo.thumbnail
+        photo_dict["display"] = each_photo.display
+        album_photos.append(photo_dict)
+
+    return album_photos
+
 
 
 def album_photos(request):

@@ -58,22 +58,34 @@ var AlbumsRow = Backbone.View.extend({
 });
 var AlbumRouter = Backbone.Router.extend({
     routes: {
-	":album_id/:number": "process"
+	":album_id/:number": "process",
+	"*path":  "defaultRoute"
     },
-    process:function(album_id, number){
-	count = $("#show-count").val();
-	if(album_id=="all"){
-	    this.processAlbums(album_id, number, count);
+    defaultRoute:function(){
+	console.log("default reached");
+	if($("#id_college_name").val()!=""){
+	    console.log("college page");
+	    this.processAlbums("all", 1);
 	}else{
-	    this.processPhotos(album_id, number, count);
+	    console.log("no man's page");
 	}
     },
-    processAlbums:function(album_id, number, count){
+    process:function(album_id, number){
+	
+	if(album_id=="all"){
+	    this.processAlbums(album_id, number);
+	}else{
+	    this.processPhotos(album_id, number);
+	}
+    },
+    processAlbums:function(album_id, number){
 	$("#albums-container").html("");
-	var data = {page: number, show: count};
+	college_name = $("#id_college_name").val();
+	count = count = $("#show-count").val();
+	var data = {page: number, show: count, album_id:album_id, college_name:college_name};
 	
 	create_album_row(count);
-	App.get_raw_data("/album/objects", data, function(data){
+	App.get_raw_data("/app/album/objects", data, function(data){
 	    for (i in data["data"]){
 		create_album_cover(data["data"][i], parseInt(i/3, 10));
 	    }
@@ -86,12 +98,14 @@ var AlbumRouter = Backbone.Router.extend({
 	
 	
     },
-    processPhotos:function(album_id, number, count){
+    processPhotos:function(album_id, number){
 	$("#albums-container").html("");
-	var send_data = {page: number, show: count, album_id:album_id};
+	count = $("#show-count").val();
+	college_name = $("#id_college_name").val();
+	var send_data = {page: number, show: count, album_id:album_id, college_name:college_name};
 	
 	create_album_row(count);
-	App.get_raw_data("/album/photos", send_data, function(data){
+	App.get_raw_data("/app/album/photos", send_data, function(data){
 	    for (i in data["data"]){
 		create_album_photo(data["data"][i], parseInt(i/4, 10));
 	    }
@@ -206,5 +220,5 @@ function vote(vote, object_id, vote_type){
 	loader = "album_image_loader_"+object_id;
     }
     submit_obj = {"vote":vote, "object_id":object_id, "vote_type":vote_type};
-    App.submit_data({}, submit_obj, "/vote", function(data){alert(data["code"]);},loader);
+    App.submit_data({}, submit_obj, "/app/vote", function(data){alert(data["code"]);},loader);
 }

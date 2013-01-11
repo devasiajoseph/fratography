@@ -292,7 +292,7 @@ var App = {
 	},
 	calculate_amount:function(){
 	    start_end = App.Calendar.get_start_end();
-	    App.get_data("/calculate/price", {start:start_end["start"], end:start_end["end"]},
+	    App.get_data("/app/calculate/price", {start:start_end["start"], end:start_end["end"]},
 			 function(data){
 			     
 			     $("#total-amount").html(data["price"]);
@@ -306,7 +306,7 @@ var App = {
 	    $("#id_end").val(start_end["start"]);
 	  
 	    var obj = {"value":["start", "end", "school", "fraternity","address", "city", "state"]};
-	    App.submit_data(obj,{},"/book/event", function(){}, "loader");
+	    App.submit_data(obj,{},"/app/book/event", function(){}, "loader");
 	}
     },
     Files:{
