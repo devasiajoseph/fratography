@@ -287,6 +287,8 @@ def album_objects(request):
         album_dict["name"] = each_album.name
         albums["data"].append(album_dict)
 
+    print albums
+
     albums["total_count"] = Album.objects.count()
     return HttpResponse(simplejson.dumps(albums), mimetype="application/json")
 

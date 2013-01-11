@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db.models.loading import get_model
 from app.utilities import reply_object
 from app.utilities import create_key, unique_name, delete_uploaded_file
-from app.models import PriceModel, Album, AlbumImage, AlbumCategory
+from app.models import PriceModel, Album, AlbumImage, AlbumCategory, College
 from calendarapp.forms import EventObjectForm, EventModForm
 import os
 from PIL import Image, ImageOps
@@ -94,6 +94,7 @@ class AlbumForm(ImageForm):
     name = forms.CharField()
     cover_photo = forms.FileField(widget=forms.ClearableFileInput(
             attrs={"class": "input-file"}), required=False)
+    college = forms.ChoiceField(choices=(), widget=forms.Select)
     category = forms.ChoiceField(choices=(), widget=forms.Select)
     subcategory = forms.IntegerField()
 
@@ -101,8 +102,11 @@ class AlbumForm(ImageForm):
         super(AlbumForm, self).__init__(*args, **kwargs)
         category_choices = [(category_obj.id, category_obj.name)\
                        for category_obj in AlbumCategory.objects.filter(parent=None)]
-        category_choices.insert(0, ('',''))
         self.fields['category'].choices = category_choices
+        category_choices.insert(0, ('',''))
+        college_choices = [(college.id, college.name)\
+                       for college in College.objects.all()]
+        self.fields['college'].choices = college_choices
     
     def clean(self):
         if self.cleaned_data["id"] == 0 or\
@@ -153,7 +157,9 @@ class AlbumForm(ImageForm):
     def save_album(self):
         category = AlbumCategory.objects.get(pk=self.cleaned_data["category"])
         subcategory = AlbumCategory.objects.get(pk=self.cleaned_data["subcategory"])
+        college = College.objects.get(pk=self.cleaned_data["college"])
         album = Album.objects.create(name=self.cleaned_data["name"],
+                                     college=college,
                                      category=category,
                                      subcategory=subcategory,
                                      created_date=datetime.now())
@@ -163,8 +169,10 @@ class AlbumForm(ImageForm):
     def update_album(self):
         category = AlbumCategory.objects.get(pk=self.cleaned_data["category"])
         subcategory = AlbumCategory.objects.get(pk=self.cleaned_data["subcategory"])
+        college = College.objects.get(pk=self.cleaned_data["college"])
         album = Album.objects.get(pk=self.cleaned_data["id"])
         album.name = self.cleaned_data["name"]
+        album.college = college
         album.category=category
         album.subcategory=subcategory
         album.save()

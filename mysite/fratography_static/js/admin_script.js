@@ -97,7 +97,7 @@ var Admin = {
 		     "loader");
     },
     delete_category:function(object_id){
-	var submit_obj = {"object_id":object_id};
+	var submit_obj = {"object_id":object_id, name:"na"};
 	App.submit_data({}, submit_obj, "/admin/album/category/delete", Admin.delete_category_callback, "loader");
     },
     delete_category_callback:function(data){

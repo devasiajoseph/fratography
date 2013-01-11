@@ -274,7 +274,8 @@ if LOCALHOST:
     'app',
     'administrator',
     'calendarapp',
-    'south'
+    'south',
+    'django_extensions'
 
     # Uncomment the next line to enable the admin:
         # 'django.contrib.admin',
