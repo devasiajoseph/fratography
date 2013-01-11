@@ -90,7 +90,10 @@ def album(request):
 
 def album_edit(request, album_id):
     album = Album.objects.get(pk=album_id)
-    form = AlbumForm(initial={"id": album.id, "name": album.name, "category":album.category.id})
+    form = AlbumForm(initial={"id": album.id,
+                              "name": album.name,
+                              "category":album.category.id,
+                              "college":album.college.id})
     return TemplateResponse(request, 'admin_album_upload.html',
                             {"form": form,
                              "album": album})
