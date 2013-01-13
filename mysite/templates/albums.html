@@ -3,7 +3,7 @@
 
 {%endblock%}
 {%block page-title%}
-Recent
+{{page_title}}
 {%endblock%}}
 {% block content_body%}
 
@@ -34,6 +34,7 @@ Recent
    </div>
 </div>
 <input type="hidden" name="college_name" id="id_college_name" value="{{college_name}}"/>
+<input type="hidden" name="subcategory_name" id="id_subcategory_name" value="{{subcategory_name}}"/>
 {%endblock%}
 {%block script_includes%}
 <script src="{{MEDIA_URL}}js/underscore.js"></script>

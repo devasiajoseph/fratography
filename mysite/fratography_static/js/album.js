@@ -62,11 +62,13 @@ var AlbumRouter = Backbone.Router.extend({
 	"*path":  "defaultRoute"
     },
     defaultRoute:function(){
-	console.log("default reached");
 	if($("#id_college_name").val()!=""){
 	    console.log("college page");
 	    this.processAlbums("all", 1);
-	}else{
+	}else if($("#id_album_subcategory")){
+	    this.processAlbums("all", 1);
+	}	 
+	else{
 	    console.log("no man's page");
 	}
     },
@@ -81,8 +83,13 @@ var AlbumRouter = Backbone.Router.extend({
     processAlbums:function(album_id, number){
 	$("#albums-container").html("");
 	college_name = $("#id_college_name").val();
+	subcategory_name = $("#id_subcategory_name").val();
 	count = count = $("#show-count").val();
-	var data = {page: number, show: count, album_id:album_id, college_name:college_name};
+	var data = {page: number,
+		    show: count,
+		    album_id:album_id,
+		    college_name:college_name,
+		    subcategory_name:subcategory_name};
 	
 	create_album_row(count);
 	App.get_raw_data("/app/album/objects", data, function(data){

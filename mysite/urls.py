@@ -21,5 +21,8 @@ urlpatterns = patterns('',
     #test url
     url(r'^test$', 'app.views.test', name='test'),
     url(r'^albums/$', 'app.views.albums', name='albums'),
-    url(r'^(?P<college_name>[0-9a-zA-Z ]+)$', 'app.views.college_view', name='collge_view'),
+    url(r'^(?P<college_name>[0-9a-zA-Z ]+)$', 'app.views.college_view',
+        name='college_view'),
+    url(r'^org/(?P<subcategory_name>[0-9a-zA-Z ]+)$',
+        'app.views.subcategory_view', name='subcategory_view'),
 )

@@ -11,7 +11,7 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 import datetime
 from app.models import UserProfile, SocialAuth, Album, AlbumImage, PriceModel,\
-College
+College, AlbumCategory
 from app.forms import BookingForm, VoteForm
 from django.contrib.auth import authenticate, login
 #from django.core import serializers
@@ -264,9 +264,17 @@ def calendar(request):
                                                               {"form": form}))
 
 def college_view(request, college_name):
-    print college_name
     college_obj = get_object_or_404(College, name=college_name)
-    return TemplateResponse(request, "albums.html", {"college_name": college_name})
+    return TemplateResponse(request, "albums.html",
+                            {"college_name": college_obj.name,
+                             "page_title": college_obj.name})
+
+
+def subcategory_view(request, subcategory_name):
+    subcategory_obj = get_object_or_404(AlbumCategory, name=subcategory_name)
+    return TemplateResponse(request, "albums.html",
+                            {"subcategory_name": subcategory_obj.name,
+                             "page_title": subcategory_obj.name})
 
 
 def albums(request):
@@ -294,15 +302,17 @@ def album_objects(request):
     page = int(request.GET["page"])
     count = int(request.GET["show"])
     pages = paginate(page, count)
-    if "college_name" in request.GET:
+    if request.GET["college_name"]:
         college_name = request.GET["college_name"]
-        print college_name
         if request.GET["album_id"] == "all":
             query_object = Album.objects.filter(
                 college__name=college_name)[pages["from"]:pages["to"]]
         else:
             query_object = Album.objects.filter(
                 college__name=college_name, pk=int(request.GET["album_id"]))[pages["from"]:pages["to"]]
+    elif request.GET["subcategory_name"]:
+        subcategory_name = request.GET["subcategory_name"]
+        query_object = Album.objects.filter(subcategory__name=subcategory_name)
     else:
         query_object = Album.objects.all()[pages["from"]:pages["to"]]
     
