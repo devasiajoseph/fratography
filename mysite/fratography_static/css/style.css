@@ -425,12 +425,12 @@ div.likebox img{
     margin:0;
     padding:0;
 }
-div.pagination{
+/*div.pagination{
     border:1px solid #ccc;
     line-height: 28px;
     height:28px;
     padding:0 20px;
-}
+}*/
 .none{display:none;}
 .hidden{visibility:hidden;}
 .pic-frame{

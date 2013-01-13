@@ -185,9 +185,9 @@ var PageNumber = Backbone.View.extend({
 	url_link = url_link.replace(":album_id", this.options.album_id);
 	
 	if (this.options.count == this.options.number){
-	    this.$el.append('<a class="act" href="#'+url_link+'">'+this.options.count+'</a>')
+	    this.$el.append('<li class="active"><a class="act" href="#'+url_link+'">'+this.options.count+'</a></li>')
 	}else{
-	    this.$el.append('<a href="#'+url_link+'">'+this.options.count+'</a>')
+	    this.$el.append('<li><a href="#'+url_link+'">'+this.options.count+'</a></li>')
 	    }
     },
     page:function(){
