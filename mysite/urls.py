@@ -20,6 +20,13 @@ urlpatterns = patterns('',
     url(r'^admin/', include('administrator.urls')),
     #test url
     url(r'^test$', 'app.views.test', name='test'),
+    url(r'^contact$', 'django.views.generic.simple.direct_to_template',
+        {'template': 'contact.html',
+         'extra_context':{'page_title':'Contact'}}),
+    url(r'^terms$', 'django.views.generic.simple.direct_to_template',
+        {'template': 'terms.html',
+         'extra_context':{'page_title':'Terms and conditions'}}),
+    #albums
     url(r'^albums/$', 'app.views.albums', name='albums'),
     url(r'^(?P<college_name>[0-9a-zA-Z ]+)$', 'app.views.college_view',
         name='college_view'),

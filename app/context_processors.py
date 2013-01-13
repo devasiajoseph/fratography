@@ -8,9 +8,9 @@ def upload_path(context):
 def categories(context):
     fraternities = AlbumCategory.objects.filter(
         parent=AlbumCategory.objects.get(name="Fraternity")
-    )
+    ).order_by('name')
     sororities = AlbumCategory.objects.filter(
         parent=AlbumCategory.objects.get(name="Sorority")
-    )
+    ).order_by('name')
     return {"fraternities": fraternities,
             "sororities": sororities}
