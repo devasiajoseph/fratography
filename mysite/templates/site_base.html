@@ -41,7 +41,7 @@
           </form>
           <div class="collapse nav-collapse pull-left" id="close-open">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><a href="/">Home</a></li>
               <li class="dropdown">
                 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Fratties Photos Of The Week <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -81,31 +81,17 @@
       <aside class="span3" id="sidebar">
         <h4>Fraternities</h4>
         <ul class="nav nav-list nav1 collapse">
-          <li class="active"><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
-          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
-          <li><a href="#" class="btn">Adispicing Elite</a></li>
-          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
-          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
-          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
-          <li><a href="#" class="btn">Adispicing Elite</a></li>
-          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
-          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
-          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
-          <li><a href="#" class="btn">Adispicing Elite</a></li>
+	  {%for fraternity in fraternities%}
+	    
+            <li {%ifequal fraternity.name subcategory_name%} class="active"{%endifequal%}><a href="/org/{{fraternity.name}}" class="btn">{{fraternity.name}}</a></li>
+	  {%endfor%}	  
+          
         </ul>
         <h4>Sororities</h4>
         <ul class="nav nav-list nav2 collapse">
-          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
-          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
-          <li><a href="#" class="btn">Adispicing Elite</a></li>
-          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
-          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
-          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
-          <li><a href="#" class="btn">Adispicing Elite</a></li>
-          <li><a href="#" class="btn">Sed Do Eusemud</a></li>
-          <li><a href="#" class="btn">Lorem Ipsum Dolor</a></li>
-          <li><a href="#" class="btn">Sitamet Consecteur</a></li>
-          <li><a href="#" class="btn">Adispicing Elite</a></li>
+	  {%for sorority in sororities%}
+            <li {%ifequal sorority.name subcategory_name%} class="active"{%endifequal%}><a href="/org/{{sorority.name}}" class="btn">{{sorority.name}}</a></li>
+	  {%endfor%}
         </ul>
       </aside>
       <script>
