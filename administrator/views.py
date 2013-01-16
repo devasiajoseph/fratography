@@ -239,6 +239,7 @@ def generic_mod_get(request, model_name):
     generic_dict = {}
     generic_dict["object_id"] = generic_obj.id
     generic_dict["name"] = generic_obj.name
+    generic_dict["url"] = generic_obj.url
     response["code"] = settings.APP_CODE["CALLBACK"]
     response["object"] = generic_dict
     return HttpResponse(simplejson.dumps(response),

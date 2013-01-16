@@ -133,7 +133,7 @@ var Admin = {
 	    $("#add-generic-object").modal({show:true, backdrop:false});
 	},
 	save_object:function(){
-	    var obj = {"value":["name","object_id"]};
+	    var obj = {"value":["name","object_id", "url"]};
 	    App.submit_data(obj, {do:"save"}, "/admin/generic-mod-action/"+$("#id_model_name").val(), Admin.GenericMod.save_object_callback, "loader");
 	},
 	save_object_callback:function(data){
@@ -151,6 +151,7 @@ var Admin = {
 	    App.get_data("/admin/generic-mod-get/"+$("#id_model_name").val(), {object_id:object_id}, function(data){
 		$("#id_object_id").val(data["object"]["object_id"]);
 		$("#id_name").val(data["object"]["name"]);
+		$("#id_url").val(data["object"]["url"]);
 		$("#add-generic-object").modal({show:true, backdrop:false});
 	    }, "loader")
 	}

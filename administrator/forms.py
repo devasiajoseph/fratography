@@ -258,6 +258,7 @@ class ObjectModForm(forms.Form):
 
 class GenericModForm(forms.Form):
     object_id = forms.IntegerField(required=False)
+    url = forms.CharField(required=False)
     name = forms.CharField()
     do = forms.CharField()
 
@@ -265,6 +266,24 @@ class GenericModForm(forms.Form):
         self.model = get_model('app', kwargs.pop('model', None))
         super(GenericModForm, self).__init__(*args, **kwargs)
 
+    def clean(self):
+        object_id = self.cleaned_data["object_id"]
+        url = self.cleaned_data["url"]
+        invalid_url = False
+        if object_id == 0 or\
+           object_id == u'' or\
+           object_id == None:
+            if(self.model.objects.filter(url=url).exists()):
+                invalid_url = True
+        else:
+            if(self.model.objects.filter(url=url).exclude(pk=self.cleaned_data["object_id"]).exists()):
+                invalid_url = True
+
+        if invalid_url:
+            raise forms.ValidationError(("Another object has the same URL. URLs should be unique"))
+        else:
+            return self.cleaned_data
+        
 
     def action(self):
         response = reply_object()
@@ -296,7 +315,12 @@ class GenericModForm(forms.Form):
 
     def save_object(self):
         response = reply_object()
-        new_object = self.model.objects.create(name=self.cleaned_data["name"])
+        if self.cleaned_data["url"] == "":
+            url = self.cleaned_data["name"]
+        else:
+            url = self.cleaned_data["url"]
+        new_object = self.model.objects.create(name=self.cleaned_data["name"],
+                                               url=url)
         new_object.save()
         response["code"] = settings.APP_CODE["SAVED"]
         response["object_id"] = new_object.id
@@ -305,8 +329,13 @@ class GenericModForm(forms.Form):
 
     def update_object(self):
         response = reply_object()
+        if self.cleaned_data["url"] == "":
+            url = self.cleaned_data["name"]
+        else:
+            url = self.cleaned_data["url"]
         generic_obj = self.model.objects.get(pk=self.cleaned_data["object_id"])
         generic_obj.name = self.cleaned_data["name"]
+        generic_obj.url = url
         generic_obj.save()
         response["code"] = settings.APP_CODE["UPDATED"]
         response["object_id"] = generic_obj.id

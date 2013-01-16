@@ -272,6 +272,7 @@ class AlbumCategory(models.Model):
 
 class College(models.Model):
     name = models.CharField(max_length=1024)
+    url = models.CharField(max_length=1024, null=True, blank=True)
 
 
 class Album(models.Model):

@@ -266,7 +266,7 @@ def calendar(request):
                                                               {"form": form}))
 
 def college_view(request, college_name):
-    college_obj = get_object_or_404(College, name=college_name)
+    college_obj = get_object_or_404(College, url=college_name)
     return TemplateResponse(request, "albums.html",
                             {"college_name": college_obj.name,
                              "page_title": college_obj.name})
