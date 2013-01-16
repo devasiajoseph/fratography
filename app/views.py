@@ -363,15 +363,17 @@ def album_photos(request):
     album_photos = {}
     album_photos["data"] = []
     if album_id == "frattiest_week":
+        total_count = 10
         query_object = AlbumImage.objects.all().order_by(
             'votes', 'album__created_date')[:10]
     else:
         album = Album.objects.get(pk=int(album_id))
+        total_count = AlbumImage.objects.filter(album=album).count()
         query_object = AlbumImage.objects.filter(album=album)[
             pages["from"]:pages["to"]]
 
     album_photos["data"] = serialize_photos(query_object)
-    album_photos["total_count"] = query_object.count()
+    album_photos["total_count"] = total_count
     return HttpResponse(simplejson.dumps(album_photos),
                         mimetype="application/json")
 
