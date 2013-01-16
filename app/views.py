@@ -23,7 +23,9 @@ def index(request):
     Index page
     """
     return render_to_response("map.html",
-                              context_instance=RequestContext(request))
+                              context_instance=RequestContext(
+                                  request,
+                                  {"home":"active"}))
 
 
 def home(request):
@@ -285,7 +287,8 @@ def frattiest_view(request, order):
     
     return TemplateResponse(request, "albums.html",
                             {"photo_order": order_type,
-                             "page_title": "Frattiest Photos"})
+                             "page_title": "Frattiest Photos",
+                             "frattiest":"active"})
 
 
 def albums(request):
