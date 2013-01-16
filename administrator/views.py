@@ -1,26 +1,31 @@
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template.response import TemplateResponse
 from django.core import serializers
 from django.db.models.loading import get_model
+from django.contrib.auth.decorators import user_passes_test
+from django.core.urlresolvers import reverse
 from app.utilities import reply_object
 import simplejson
 from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
 AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm,\
 CategoryForm, ObjectModForm, GenericModForm
 from app.models import PriceModel, Album, AlbumImage, AlbumCategory
+from app.forms import LoginForm
 from calendarapp.calendar_utility import apply_settings_query
 from calendarapp.models import EventObject
 
 
+#@user_passes_test(lambda u: u.is_superuser, login_url="/admin/login")
 def admin_dashboard(request):
     return render_to_response(
         "admin_dashboard.html",
         context_instance=RequestContext(request))
 
 
+#@user_passes_test(lambda u: u.is_superuser, login_url="/admin/login")
 def calendar(request):
     form = AvailabilityForm(event_type="availability")
     return render_to_response(
@@ -28,6 +33,7 @@ def calendar(request):
         context_instance=RequestContext(request, {"form": form}))
 
 
+#@user_passes_test(lambda u: u.is_superuser, login_url="/admin/login")
 def price_perhour(request):
     price, created = PriceModel.objects.get_or_create(
         price_type=settings.PRICE_TYPE["PRICE_PER_HOUR"])

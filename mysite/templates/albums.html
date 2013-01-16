@@ -35,6 +35,7 @@
 </div>
 <input type="hidden" name="college_name" id="id_college_name" value="{{college_name}}"/>
 <input type="hidden" name="subcategory_name" id="id_subcategory_name" value="{{subcategory_name}}"/>
+<input type="hidden" name="photo_order" id="id_photo_order" value="{{photo_order}}"/>
 {%endblock%}
 {%block script_includes%}
 <script src="{{MEDIA_URL}}js/underscore.js"></script>
@@ -52,9 +53,6 @@
         <a href="javascript:void(0)" onclick="vote(1,<%=image_id%>,'image')">
 	  <img src="{{MEDIA_URL}}img/like.jpg">
 	</a>
-	<a href="javascript:void(0)" onclick="vote(-1,<%=image_id%>,'image')">
-	  <img src="{{MEDIA_URL}}img/notlike.jpg">
-	</a>
       </div>
     </div>                            
   </div>
@@ -71,9 +69,6 @@
 	  <img src="{{MEDIA_URL}}images/small-loader.gif" class="none" id="album_cover_loader_<%=album_id%>"/>
           <a href="javascript:void(0)" onclick="vote(1,<%=album_id%>,'album')">
 	    <img src="{{MEDIA_URL}}img/like.jpg">
-	  </a>
-	  <a href="javascript:void(0)" onclick="vote(-1,<%=album_id%>,'album')">
-	    <img  src="{{MEDIA_URL}}img/notlike.jpg" >
 	  </a>
 	</div>
       </div>

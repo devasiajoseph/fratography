@@ -28,6 +28,8 @@ urlpatterns = patterns('',
          'extra_context':{'page_title':'Terms and conditions'}}),
     #albums
     url(r'^albums/$', 'app.views.albums', name='albums'),
+    url(r'^frattiest/(?P<order>[0-9a-zA-Z ]+)$', 'app.views.frattiest_view',
+        name='frattiest_view'),
     url(r'^(?P<college_name>[0-9a-zA-Z ]+)$', 'app.views.college_view',
         name='college_view'),
     url(r'^org/(?P<subcategory_name>[0-9a-zA-Z ]+)$',

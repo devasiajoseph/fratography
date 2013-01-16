@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	  "http://www.w3.org/TR/html4/strict.dtd">
+ <html lang="en">
+   <head>
+     <title>{% block title %}{% endblock %}</title>
+     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style/bootstrap.css">
+     <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}style/custom.css">
+     <link rel="shortcut icon" href="{{MEDIA_URL}}/images/favicon.ico" />
+     <script src="{{ MEDIA_URL }}js/jquery.js"></script>
+     <script src="{{ MEDIA_URL }}js/script.js"></script>
+	<script src="{{ MEDIA_URL }}js/bootstrap.min.js"></script>
+        {% block extra_includes %}{%endblock%}
+   </head>
+   <body>
+     
+    
+     <div style="z-index: 5;" class="topbar-wrapper">
+       {% include "site_navigation.html" %} 
+     </div>
+          
+     <div class="container">
+       <div class="row">
+	 <div class="span2">
+	 </div>
+	 <div class="span5" style="margin-bottom:100px;min-height:500px;">
+	   {% block content%}
+	     
+           {%endblock%}
+	 </div>
+	 
+       </div>
+     </div>
+
+{% csrf_token %}
+</body>
+{% block script_includes%} {% endblock %}
+
+</html>

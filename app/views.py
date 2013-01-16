@@ -277,6 +277,17 @@ def subcategory_view(request, subcategory_name):
                              "page_title": subcategory_obj.name})
 
 
+def frattiest_view(request, order):
+    if order == "week":
+        order_type = "frattiest_week"
+    else:
+        order_type = "frattiest_all"
+    
+    return TemplateResponse(request, "albums.html",
+                            {"photo_order": order_type,
+                             "page_title": "Frattiest Photos"})
+
+
 def albums(request):
     """
     Display Albums.
@@ -344,20 +355,20 @@ def album_photos(request):
     page = int(request.GET["page"])
     count = int(request.GET["show"])
     pages = paginate(page, count)
-    album_id = int(request.GET["album_id"])
-    album = Album.objects.get(pk=album_id)
+    album_id = request.GET["album_id"]
+    
     album_photos = {}
     album_photos["data"] = []
-    for each_photo in AlbumImage.objects.filter(album=album)[
-        pages["from"]:pages["to"]]:
-        photo_dict = {}
-        photo_dict["id"] = each_photo.id
-        photo_dict["thumbnail"] = each_photo.thumbnail
-        photo_dict["display"] = each_photo.display
-        album_photos["data"].append(photo_dict)
+    if album_id == "frattiest_week":
+        query_object = AlbumImage.objects.all().order_by(
+            'votes', 'album__created_date')[:10]
+    else:
+        album = Album.objects.get(pk=int(album_id))
+        query_object = AlbumImage.objects.filter(album=album)[
+            pages["from"]:pages["to"]]
 
-    album_photos["total_count"] = AlbumImage.objects.filter(
-        album=album).count()
+    album_photos["data"] = serialize_photos(query_object)
+    album_photos["total_count"] = query_object.count()
     return HttpResponse(simplejson.dumps(album_photos),
                         mimetype="application/json")
 

@@ -299,6 +299,7 @@ class AlbumImage(models.Model):
     thumbnail = models.CharField(max_length=1024)
     display = models.CharField(max_length=1024)
     preview = models.CharField(max_length=1024)
+    votes = models.IntegerField(default=0)
 
 
 class AlbumImageVote(models.Model):
@@ -318,6 +319,9 @@ def calculate_image_points(sender, instance, **kwargs):
     album.votes = album.votes + instance.vote
     album.save()
     album.calculate_rank()
+    album_image = instance.album_image
+    album_image.votes = instance.album_image.votes + instance.vote
+    album_image.save()
     return
 
 @receiver(post_save, sender=AlbumVote)

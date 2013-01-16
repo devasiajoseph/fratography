@@ -65,9 +65,13 @@ var AlbumRouter = Backbone.Router.extend({
 	if($("#id_college_name").val()!=""){
 	    console.log("college page");
 	    this.processAlbums("all", 1);
-	}else if($("#id_album_subcategory")){
+	}else if($("#id_subcategory_name").val()!=""){
+	    console.log("subcategory page");
 	    this.processAlbums("all", 1);
-	}	 
+	}else if($("#id_photo_order").val()!=""){
+	    console.log("order_page");
+	    this.processPhotos($("#id_photo_order").val(), 1);
+	}
 	else{
 	    console.log("no man's page");
 	}
