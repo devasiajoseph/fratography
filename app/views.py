@@ -279,7 +279,7 @@ def subcategory_view(request, subcategory_name):
                              "page_title": subcategory_obj.name})
 
 
-def frattiest_view(request, order):
+def frattiest_view_bkp(request, order):
     if order == "week":
         order_type = "frattiest_week"
     else:
@@ -291,7 +291,15 @@ def frattiest_view(request, order):
                              "frattiest":"active"})
 
 
-def albums(request):
+def frattiest_view(request, order):
+    photos = AlbumImage.objects.all().order_by(
+            '-votes', 'album__created_date')[:10]
+    albums = Album.objects.all().order_by('-points')
+    return TemplateResponse(request, "frattiest.html", {"photos": photos,
+                                                        "albums": albums})
+
+
+def album(request):
     """
     Display Albums.
     Note that all calls to display photos and albums are ajax based

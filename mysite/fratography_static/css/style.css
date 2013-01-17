@@ -529,6 +529,98 @@ div.top-photo div.pic-frame{
 #image-modal .modal-body #display-image{
 	max-height: 550px;
 }
+/*--FRATTIEST PHOTOS--*/
+.photo-number {
+	display: inline-block;
+	padding: 4px 8px;
+	margin-bottom: 0;
+	font-size: 14px;
+	line-height: 20px;
+	color: #888;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));
+	background-image: -webkit-linear-gradient(top,#fff,#e6e6e6);
+	background-image: -o-linear-gradient(top,#fff,#e6e6e6);
+	background-image: linear-gradient(to bottom,#fff,#e6e6e6);
+	background-image: -moz-linear-gradient(top,#fff,#e6e6e6);
+	background-repeat: repeat-x;
+	border: 1px solid #bbb;
+	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+	border-bottom-color: #a2a2a2;
+	-webkit-border-radius: 4px 0 0 4px;
+	-moz-border-radius: 4px 0 0 4px;
+	border-radius: 4px 0 0 4px;
+	filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff',endColorstr='#ffe6e6e6',GradientType=0);
+	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+}
+.frattiest-photos {
+	text-align: center;
+}
+.frattiest-photo{
+	float: left;
+	margin-right: 5px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.top-ranked-photo{
+	text-align: center;
+}
+.btn-like-tr {
+	margin-top: -63px;
+	-webkit-border-radius: 4px 4px 0 0;
+	-moz-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
+}
+/*--*/
+
+/*--BEST PARTIES--*/
+.best-parties .well{
+	//max-height: 670px;
+	padding-right:5px;
+}
+.best-parties .top-ranked-photo{
+	position:relative;
+	top: 5px;
+	left: 5px;
+	cursor:pointer;
+}
+.best-parties img.thumbnail{
+	width:200px;
+	height:157px;
+	position:relative;
+	z-index:2;
+}
+.best-parties .thumbnail-back{
+	width:200px;
+	height:157px;
+	position:absolute;
+	top:5px;
+	left:5px;
+	z-index:1;
+}
+.btn.btn-like-tr {
+	position: relative;
+	z-index: 3;
+}
+/*--------- Tiny Scrollbar */
+#scrollbar1 .viewport {height: 670px; overflow: hidden; position: relative; }
+#scrollbar1 .overview { list-style: none; position: absolute; left: 0; top: 0; padding: 0; margin: 0; }
+#scrollbar1 .scrollbar{ background: transparent url(../img/bg-scrollbar-track-y.png) repeat-Y 0 0; position: relative; background-position: 0 0; float: right; width: 15px; border:1px solid #ccc;-webkit-border-radius: 10px;-moz-border-radius: 10px;border-radius: 10px;}
+#scrollbar1 .thumb { background: transparent url(../img/bg-scrollbar-thumb-y.png) no-repeat 50% 100%; height: 20px; width: 25px; cursor: pointer; overflow: hidden; position: absolute; top: 0; left: -5px; background-position-y: center;-webkit-border-radius: 10px;-moz-border-radius: 10px;border-radius: 10px}
+#scrollbar1 .thumb .end { background: transparent url(../img/bg-scrollbar-thumb-y.png) no-repeat 50% 0; overflow: hidden; height: 5px; width: 25px; }
+#scrollbar1 .disable { display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+/*---------
+
+/*---*/
+
 /*from previous css ends*/
 /*custom styles*/
 .total-amount-container{

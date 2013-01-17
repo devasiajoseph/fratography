@@ -72,6 +72,9 @@ var AlbumRouter = Backbone.Router.extend({
 	    console.log("order_page");
 	    this.processPhotos($("#id_photo_order").val(), 1);
 	}
+	else if($("#id_album_id").val()!=""){
+	    //this.
+	}
 	else{
 	    console.log("no man's page");
 	}

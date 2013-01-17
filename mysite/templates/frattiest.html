@@ -1,0 +1,57 @@
+{% extends "site_base.html" %}
+{%block extra_includes%}
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.tinyscrollbar.min.js"></script>
+{%endblock%}
+{%block page-title%}
+{{page_title}}
+{%endblock%}}
+{% block content_body%}
+
+  <div class="span7 clearfix">
+    <h2>Frattiest Photos of the Week</h2>
+    <div class="content-inner frattiest-photos">
+      {%for each_photo in photos%}
+	<div class="frattiest-photo">
+	  <div class="photo-number pull-left">{{forloop.counter}}</div>
+	  <div class="pull-left top-ranked-photo">
+	    <img class="thumbnail" src="{{MEDIA_URL}}uploads/{{each_photo.thumbnail}}">
+	    <a class="btn btn-like-tr" href="#"><i class="icon-thumbs-up"></i> Likes <span class="like-ctr">{{each_photo.votes}}</span></a>
+	  </div>
+	
+	</div>
+    {%endfor%}
+    </div>
+  </div>
+<div class="span5 best-parties">
+  <h2>Best Parties of the Semester</h2>
+  <div class="content-inner">
+    <div id="scrollbar1" class="well">
+      <div class="scrollbar" style="height: 670px;">
+	<div class="track" style="height: 670px;">
+	  <div class="thumb" style="top: 420.628px; height: 201.3px;">
+	    <div class="end">
+	    </div>
+	  </div>
+	</div>
+      </div>
+      <div class="viewport">
+	<div class="overview" style="top: -1400px;">
+	  {%for each_album in albums%}
+	    <h4>{{each_album.name}}</h4>
+	    <div class="top-ranked-photo" onclick="window.location='/album/#{{each_album.id}}/1'">
+	      <img class="thumbnail" src="{{MEDIA_URL}}uploads/{{each_album.cover_photo}}">
+	      <div class="thumbnail thumbnail-back"></div>
+	      <a class="btn btn-like-tr" href="#"><i class="icon-thumbs-up"></i> Likes <span class="like-ctr">{{each_album.votes}}</span></a>
+	    </div>
+	  {%endfor%}
+	  
+	</div>
+      </div>
+    </div>
+    <script>
+      $('#scrollbar1').tinyscrollbar();
+      
+    </script>
+  </div>
+</div>
+{%endblock%}
