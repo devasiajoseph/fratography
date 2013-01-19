@@ -1,6 +1,6 @@
 {% extends "site_base.html" %}
 {%block extra_includes%}
-
+<link rel="stylesheet" href="{{MEDIA_URL}}/css/jquery.lightbox-0.5.css">
 {%endblock%}
 {%block page-title%}
 {{page_title}}
@@ -30,9 +30,16 @@
    <div class="modal-body">
      <div id="display-image-container">
        <img src="" id="display-image" class="display-image"/>
+       <div id="lightbox-nav" style="">
+	 <a id="lightbox-nav-btnPrev" href="javascript:void(0)" style="height: 310px; background: url('{{MEDIA_URL}}images/lightbox-btn-prev.gif') no-repeat scroll left 15% transparent;" onclick="steerImage('previous')"></a>
+	 <a id="lightbox-nav-btnNext" href="javascript:void(0)" style="height: 320px; background: url('{{MEDIA_URL}}images/lightbox-btn-next.gif') no-repeat scroll right 15% transparent;" onclick="steerImage('next')"></a>
+       </div>
+
      </div>
    </div>
 </div>
+<input type="hidden" name="selected_image" id="id_selected_image" />
+<input type="hidden" name="media_url" id="id_media_url" value="{{MEDIA_URL}}"/>
 <input type="hidden" name="college_name" id="id_college_name" value="{{college_name}}"/>
 <input type="hidden" name="subcategory_name" id="id_subcategory_name" value="{{subcategory_name}}"/>
 <input type="hidden" name="photo_order" id="id_photo_order" value="{{photo_order}}"/>
@@ -45,7 +52,7 @@
   <div class="album">
     <div class="pic-frame">
 
-      <a href="javascript:void(0)" onclick="displayImage('{{MEDIA_URL}}uploads/<%=display%>')">
+      <a href="javascript:void(0)" onclick="displayImage('{{MEDIA_URL}}uploads/<%=display%>', <%=image_id%>)">
 	<img src="{{MEDIA_URL}}uploads/<%=thumbnail%>">
       </a>	
       <div class="likebox">

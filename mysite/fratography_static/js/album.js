@@ -102,6 +102,7 @@ var AlbumRouter = Backbone.Router.extend({
 	App.get_raw_data("/app/album/objects", data, function(data){
 	    for (i in data["data"]){
 		create_album_cover(data["data"][i], parseInt(i/3, 10));
+		
 	    }
 	    create_paginator(album_id,
 			     number,
@@ -110,8 +111,8 @@ var AlbumRouter = Backbone.Router.extend({
 			    ":album_id/:number");
 	}, "album-loader");
 	
-	
     },
+    
     processPhotos:function(album_id, number){
 	$("#albums-container").html("");
 	count = $("#show-count").val();
@@ -122,6 +123,8 @@ var AlbumRouter = Backbone.Router.extend({
 	App.get_raw_data("/app/album/photos", send_data, function(data){
 	    for (i in data["data"]){
 		create_album_photo(data["data"][i], parseInt(i/4, 10));
+		albumLinkedList[data["data"][i]["id"]] = data["data"][i];
+		albumList.push(data["data"][i]["id"]);
 	    }
 	    create_paginator(album_id,
 			     number,
@@ -132,6 +135,9 @@ var AlbumRouter = Backbone.Router.extend({
 	
     }
 });
+var albumLinkedList = {};
+var albumList = [];
+
 function create_album_row(count){
     
     var totalRows = parseInt(count/3, 10);
@@ -203,19 +209,52 @@ var PageNumber = Backbone.View.extend({
 
 });
 
-function displayImage(image){
+function steerImage(direction){
+    var current_id = parseInt($("#id_selected_image").val());
+    var current_index = albumList.indexOf(current_id);
+    if (direction == "next"){
+	if ( current_index < (albumList.length - 1)){
+	    next_id = albumList[current_index + 1];
+	    console.log(next_id);
+	    next_image_url = $("#id_media_url").val() + "uploads/"+albumLinkedList[next_id]["display"];
+	    displaySteerImage(next_image_url, next_id);
+	}
+    }else if(direction == "previous"){
+	if ( current_index > 0){
+	    previous_id = albumList[current_index - 1];
+	    console.log(previous_id);
+	    next_image_url = $("#id_media_url").val() + "uploads/"+albumLinkedList[previous_id]["display"];
+	    displaySteerImage(next_image_url, previous_id);
+	}
+    }
+}
+
+function displaySteerImage(image, id){
+    //console.log(image);
+    //console.log(id);
+    
+    $("#display-image").attr('src', image);
+    $("#image-modal").modal({keyboard: true});
+    $("#image-modal").css('width','620px');
+    $("#id_selected_image").val(id);
+    
+}
+
+function displayImage(image, id){
     $("#display-image").hide();
     $("#display-image").attr('src', image);
     $("#image-modal").modal({keyboard: true});
     $("#image-modal").css('width','600px');
+    $("#id_selected_image").val(id);
     //$("#display-image-container").html('<img src="'+image+'" id="display-image" onload="adjustImageModal()">');
     
 }
 
 function adjustImageModal(){
-    
-   // $("#image-modal").css('height',$("#display-image").height()+'px');
-   // $("#image-modal").css('width',$("#display-image").width()+'px');
+    //var display_height = $("#display-image").height() + 10;
+    //var display_width = $("#display-image").width() + 10;
+    //$("#image-modal").css('height',display_height+'px');
+    //$("#image-modal").css('width',display_width+'px');
 }
 var album_router = new AlbumRouter;
 Backbone.history.start();

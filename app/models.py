@@ -300,6 +300,7 @@ class AlbumImage(models.Model):
     thumbnail = models.CharField(max_length=1024)
     display = models.CharField(max_length=1024)
     preview = models.CharField(max_length=1024)
+    top = models.CharField(max_length=1024, null=True, blank=True)
     votes = models.IntegerField(default=0)
 
 

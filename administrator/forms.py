@@ -57,6 +57,9 @@ class ImageForm(forms.Form):
         self.request = kwargs.pop('request', None)
         super(ImageForm, self).__init__(*args, **kwargs)
 
+    def get_thumb_filename(self, filename):
+        return settings.UPLOAD_PATH + "thumb_" + filename
+
     def format_image(self, filename, width, prefix):
         format_image_name = settings.UPLOAD_PATH + prefix + "_" + filename
         image = Image.open(settings.UPLOAD_PATH + filename)
@@ -66,6 +69,22 @@ class ImageForm(forms.Form):
                 int(prop * float(image.size[1])))
         image.thumbnail(size, Image.ANTIALIAS)
         image.save(format_image_name, 'JPEG')
+        return prefix + "_" + filename
+
+    def crop_format_image(self, filename, width, height, prefix):
+        format_image_name = settings.UPLOAD_PATH + prefix + "_" + filename
+        image = Image.open(settings.UPLOAD_PATH + filename)
+        THUMBNAIL_SIZE = (width, height)
+
+        # Convert to RGB if necessary
+        # Thanks to Limodou on DjangoSnippets.org
+        # http://www.djangosnippets.org/snippets/20/
+        if image.mode not in ('L', 'RGB'):
+            image = image.convert('RGB')
+
+        # scale and crop to thumbnail
+        imagefit = ImageOps.fit(image, THUMBNAIL_SIZE, Image.ANTIALIAS)
+        imagefit.save(format_image_name, 'JPEG')
         return prefix + "_" + filename
 
     def handle_uploaded_file(self, upload):
@@ -187,15 +206,17 @@ class AlbumImageForm(ImageForm):
     def save(self):
         image = self.handle_uploaded_file(
                     self.request.FILES['image'])
-        thumbnail = self.format_image(image, 200.0, "thumbnail")
+        thumbnail = self.crop_format_image(image, 150, 118, "thumbnail")
         preview = self.format_image(image, 100.0, "preview")
-        display = self.format_image(image, 500.0, "display")
+        display = self.format_image(image, 600.0, "display")
+        top = self.crop_format_image(image, 150, 118, "preview")
         album = Album.objects.get(pk=self.cleaned_data["album_id"])
         album_image = AlbumImage.objects.create(album=album,
                                                 image=image,
                                                 thumbnail=thumbnail,
                                                 preview=preview,
-                                                display=display)
+                                                display=display,
+                                                top=top)
         album_image.save()
         return [{"name":image,
                  "id":album_image.id,
@@ -227,6 +248,8 @@ class AlbumModForm(forms.Form):
         album_images = AlbumImage.objects.filter(album=album)
         for album_image in album_images:
             delete_album_image_files(album_image)
+        delete_uploaded_file(album.image)
+        delete_uploaded_file(album.cover_photo)
         album.delete()
         response["code"] = settings.APP_CODE["DELETED"]
         return response
@@ -237,6 +260,7 @@ def delete_album_image_files(album_image):
     delete_uploaded_file(album_image.thumbnail)
     delete_uploaded_file(album_image.display)
     delete_uploaded_file(album_image.preview)
+    delete_uploaded_file(album_image.top)
 
 
 class ObjectModForm(forms.Form):
