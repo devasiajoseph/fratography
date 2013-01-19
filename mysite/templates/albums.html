@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
 {%block extra_includes%}
 <link rel="stylesheet" href="{{MEDIA_URL}}/css/jquery.lightbox-0.5.css">
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.lightbox_me.js"></script> 
 {%endblock%}
 {%block page-title%}
 {{page_title}}
@@ -25,6 +26,15 @@
       <option value="100">100</option>
     </select>
   </div>
+</div>
+<div id="lightbox-test" style="width:600px;" class="none">
+  <div id="image-display-container" style="background-color:#ffffff;padding:10px;">  
+    <img src="" id="display-image" class="display-image"/>
+  </div>
+  <div id="lightbox-nav" style="">
+	 <a id="lightbox-nav-btnPrev" href="javascript:void(0)" style="height: 310px; background: url('{{MEDIA_URL}}images/lightbox-btn-prev.gif') no-repeat scroll left 15% transparent;" onclick="steerImage('previous')"></a>
+	 <a id="lightbox-nav-btnNext" href="javascript:void(0)" style="height: 320px; background: url('{{MEDIA_URL}}images/lightbox-btn-next.gif') no-repeat scroll right 15% transparent;" onclick="steerImage('next')"></a>
+       </div>
 </div>
 <div  id="image-modal" class="modal hide fade" tabindex="-1" >
    <div class="modal-body">
