@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse
 import datetime
 from app.models import UserProfile, SocialAuth, Album, AlbumImage, PriceModel,\
 College, AlbumCategory
-from app.forms import BookingForm, VoteForm
+from app.forms import BookingForm, VoteForm, ContactForm
 from django.contrib.auth import authenticate, login
 #from django.core import serializers
 from dateutil import parser
@@ -441,11 +441,29 @@ def book_event(request):
         response["errors"] = form.errors
     return HttpResponse(simplejson.dumps(response))
 
+
 def payment(request):
     """
     Payment page
     """
     return TemplateResponse(request, "payment.html", {})
+
+
+def contact(request):
+    form = ContactForm()
+    return TemplateResponse(request, "contact.html",
+                            {"form": form, "page_title": "Contact"})
+
+
+def contact_submit(request):
+    response = reply_object()
+    form = ContactForm(request.POST)
+    if form.is_valid():
+        response = form.save_contact()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
     
     
 def test(request):

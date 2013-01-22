@@ -53,4 +53,5 @@ urlpatterns = patterns('',
     url(r'^calculate/price$', 'app.views.calculate_price', name='calculate_price'),
     url(r'^book/event$', 'app.views.book_event', name='book_event'),
     url(r'^payment$', 'app.views.payment', name='payment'),
+    url(r'^contact/submit$', 'app.views.contact_submit', name='contact_submit'),
 )

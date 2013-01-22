@@ -1,6 +1,6 @@
 from django import forms
 from django.conf import settings
-from app.utilities import reply_object,unique_name
+from app.utilities import reply_object,unique_name, send_contact_email
 from django.contrib.auth.models import User, check_password
 from django.contrib.auth import authenticate, login
 import requests
@@ -8,7 +8,7 @@ import re
 from facebooksdk import Facebook
 from django.db.models import Q
 from app.models import UserProfile, AlbumVote, AlbumImageVote, Album, AlbumImage,\
-    EventBooking, AlbumCategory
+    EventBooking, AlbumCategory, Contact
 from app.utilities import create_key, send_password_reset_email, us_states
 from calendarapp.forms import EventObjectForm
 
@@ -324,5 +324,23 @@ class VoteForm(forms.Form):
         response["code"] = settings.APP_CODE["SERVER MESSAGE"]
         response[settings.APP_CODE["SERVER MESSAGE"]] = "Vote submitted"
         
+        return response
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField()
+    email = forms.EmailField()
+    inquiry = forms.CharField()
+
+    def save_contact(self):
+        response = reply_object()
+        contact = Contact.objects.create(
+            name=self.cleaned_data["name"],
+            email=self.cleaned_data["email"],
+            inquiry=self.cleaned_data["inquiry"]
+        )
+        contact.save()
+        #send_contact_email(contact.name, contact.email, contact.inquiry)
+        response["code"] = settings.APP_CODE["CALLBACK"]
         return response
         

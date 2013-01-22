@@ -260,6 +260,16 @@ var App = {
 	}
 	
     },
+    Base:{
+	submit_contact:function(){
+	    var obj = {"value":["name","email", "inquiry"]};
+	    App.submit_data(obj, {}, "/app/contact/submit" , App.Base.submit_contact_callback, "loader");
+	},
+	submit_contact_callback:function(){
+	    $("#contact-form").hide();
+	    $("#success-message").show();
+	}
+    },
     Calendar:{
 	start_booking:function(event){
 	    $("#id_start").val(event.start);

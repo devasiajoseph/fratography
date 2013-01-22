@@ -89,6 +89,16 @@ def send_password_reset_email(email, key):
               fail_silently=False)
 
 
+def send_contact_email(contact_name, contact_email, contact_inquiry):
+    email_subject = 'Fratography - Inquiry - ' + contact_email
+    email_body = contact_inquiry
+    send_mail(email_subject,
+              email_body,
+              contact_email,
+              [settings.ADMIN_EMAIL],
+              fail_silently=False
+          )
+
 def create_key(mixer, expiry):
     salt = sha.new(str(random.random())).hexdigest()[:10]
     key = sha.new(salt + mixer).hexdigest()

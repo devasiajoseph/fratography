@@ -229,42 +229,13 @@ function steerImage(direction){
     }
 }
 
-function displaySteerImage(image, id){
-    //console.log(image);
-    //console.log(id);
-    
-    $("#image-modal").hide();
-    $("#display-image").attr('src', image);
-    $("#image-modal").show();
-    $("#image-modal").css('width','620px');
-    $("#id_selected_image").val(id);
-    //adjustImageModal();
-}
-
 function displayImage(image, id){
-    console.log(image);
     $("#lightbox-test").trigger('close');
     $("#image-display-container").html('<img src="'+image+'" id="display-image" onload="adjustImageModal()" style="width:100%">');
     $("#lightbox-test").lightbox_me();
     $("#id_selected_image").val(id);
 }
 
-function displayImage_ignore(image, id){
-    $("#display-image").hide();
-    $("#display-image").attr('src', image);
-    $("#image-modal").modal({keyboard: true});
-    $("#image-modal").css('width','600px');
-    $("#id_selected_image").val(id);
-    //$("#display-image-container").html('<img src="'+image+'" id="display-image" onload="adjustImageModal()">');
-    
-}
-
-function adjustImageModal(){
-    var display_height = $("#display-image").height() + 20;
-    var display_width = $("#display-image").width() + 20;
-    $("#image-modal").css('height',display_height+'px');
-    $("#image-modal").css('width',display_width+'px');
-}
 var album_router = new AlbumRouter;
 Backbone.history.start();
 

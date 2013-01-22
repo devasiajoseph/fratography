@@ -38,3 +38,4 @@ test_debug.py
 venv/
 bkp/
 uploads/
+secret_settings.py

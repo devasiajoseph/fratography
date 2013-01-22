@@ -339,4 +339,11 @@ class EventBooking(models.Model):
     event = models.ForeignKey(EventObject)
     order_key = models.CharField(max_length=1024)
     status = models.CharField(max_length=20)
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=1024)
+    email = models.CharField(max_length=1024)
+    inquiry = models.TextField()
+    contact_date = models.DateField(auto_now=True)
     
