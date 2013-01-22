@@ -62,7 +62,7 @@ var AlbumRouter = Backbone.Router.extend({
 	"*path":  "defaultRoute"
     },
     defaultRoute:function(){
-	$(window).scrollTop(0);
+	
 	if($("#id_college_name").val()!=""){
 	    console.log("college page");
 	    this.processAlbums("all", 1);
@@ -81,7 +81,7 @@ var AlbumRouter = Backbone.Router.extend({
 	}
     },
     process:function(album_id, number){
-	
+	$(window).scrollTop(0);
 	if(album_id=="all"){
 	    this.processAlbums(album_id, number);
 	}else{
