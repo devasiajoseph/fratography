@@ -228,6 +228,10 @@ def album_category_sub(request):
                         mimetype="application/json")
 
 
+def reset_vote(request):
+    return TemplateResponse(request, 'admin_reset.html', {})
+
+
 def generic_mod_view(request, model_name):
     return TemplateResponse(request, 'admin_generic_view.html', {})
 

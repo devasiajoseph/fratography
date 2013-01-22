@@ -131,6 +131,7 @@ var AlbumRouter = Backbone.Router.extend({
 			     count,
 			     data["total_count"],
 			    ":album_id/:number");
+	    $(window).scrollTop(0);
 	}, "album-loader");
 	
     }
