@@ -255,5 +255,5 @@ function vote(vote, object_id, vote_type){
 	loader = "album_image_loader_"+object_id;
     }
     submit_obj = {"vote":vote, "object_id":object_id, "vote_type":vote_type};
-    App.submit_data({}, submit_obj, "/app/vote", function(data){alert(data["code"]);},loader);
+    App.submit_data({}, submit_obj, "/app/vote", function(data){},loader);
 }

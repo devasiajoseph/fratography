@@ -308,7 +308,7 @@ class VoteForm(forms.Form):
             
         album_image_vote, created = AlbumImageVote.objects.get_or_create(
             key=self.request.session["user_key"], album_image=album_image, vote=self.cleaned_data["vote"])
-        response["code"] = settings.APP_CODE["SERVER MESSAGE"]
+        response["code"] = settings.APP_CODE["CALLBACK"]
         response[settings.APP_CODE["SERVER MESSAGE"]] = "Vote submitted"
         
         return response
@@ -321,7 +321,7 @@ class VoteForm(forms.Form):
             
         album_vote, created = AlbumVote.objects.get_or_create(
             key=self.request.session["user_key"], album=album, vote=self.cleaned_data["vote"])
-        response["code"] = settings.APP_CODE["SERVER MESSAGE"]
+        response["code"] = settings.APP_CODE["CALLBACK"]
         response[settings.APP_CODE["SERVER MESSAGE"]] = "Vote submitted"
         
         return response
