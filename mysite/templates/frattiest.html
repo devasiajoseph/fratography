@@ -1,6 +1,9 @@
 {% extends "site_base.html" %}
 {%block extra_includes%}
 <script type="text/javascript" src="{{MEDIA_URL}}js/jquery.tinyscrollbar.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/frattiest.js"></script>
+<link rel="stylesheet" href="{{MEDIA_URL}}/css/jquery.lightbox-0.5.css">
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.lightbox_me.js"></script> 
 {%endblock%}
 {%block page-title%}
 {{page_title}}
@@ -14,7 +17,7 @@
 	<div class="frattiest-photo">
 	  <div class="photo-number pull-left">{{forloop.counter}}</div>
 	  <div class="pull-left top-ranked-photo">
-	    <img class="thumbnail" src="{{MEDIA_URL}}uploads/{{each_photo.thumbnail}}">
+	    <img class="thumbnail" src="{{MEDIA_URL}}uploads/{{each_photo.thumbnail}}" onclick="displayImage('{{MEDIA_URL}}uploads/{{each_photo.display}}', {{each_photo.id}})" style="cursor:pointer;">
 	    <a class="btn btn-like-tr" href="#"><i class="icon-thumbs-up"></i> Likes <span class="like-ctr">{{each_photo.votes}}</span></a>
 	  </div>
 	
@@ -41,7 +44,7 @@
 	    <div class="top-ranked-photo" onclick="window.location='/album/#{{each_album.id}}/1'">
 	      <img class="thumbnail" src="{{MEDIA_URL}}uploads/{{each_album.cover_photo}}">
 	      <div class="thumbnail thumbnail-back"></div>
-	      <a class="btn btn-like-tr" href="#"><i class="icon-thumbs-up"></i> Likes <span class="like-ctr">{{each_album.votes}}</span></a>
+	      <a class="btn btn-like-tr" href="javascript:void(0)"><i class="icon-thumbs-up"></i> Likes <span class="like-ctr">{{each_album.votes}}</span></a>
 	    </div>
 	  {%endfor%}
 	  
@@ -53,5 +56,11 @@
       
     </script>
   </div>
+</div>
+<div id="lightbox-test" style="width:600px;" class="none">
+  <div id="image-display-container" style="background-color:#ffffff;padding:10px;">  
+    <img src="" id="display-image" class="display-image"/>
+  </div>
+  
 </div>
 {%endblock%}
