@@ -257,3 +257,10 @@ function vote(vote, object_id, vote_type){
     submit_obj = {"vote":vote, "object_id":object_id, "vote_type":vote_type};
     App.submit_data({}, submit_obj, "/app/vote", function(data){},loader);
 }
+function vote_current_image(){
+    id = $("#id_selected_image").val();
+    loader = "current_image";
+    
+    submit_obj = {"vote":1, "object_id":id, "vote_type":"image"};
+    App.submit_data({}, submit_obj, "/app/vote", function(data){},loader);
+}

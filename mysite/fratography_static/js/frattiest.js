@@ -4,3 +4,6 @@ function displayImage(image, id){
     $("#lightbox-test").lightbox_me();
     $("#id_selected_image").val(id);
 }
+
+
+

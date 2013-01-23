@@ -31,23 +31,20 @@
   <div id="image-display-container" style="background-color:#ffffff;padding:10px;">  
     <img src="" id="display-image" class="display-image"/>
   </div>
-  <div id="lightbox-nav" style="">
-	 <a id="lightbox-nav-btnPrev" href="javascript:void(0)" style="height: 310px; background: url('{{MEDIA_URL}}images/lightbox-btn-prev.gif') no-repeat scroll left 15% transparent;" onclick="steerImage('previous')"></a>
-	 <a id="lightbox-nav-btnNext" href="javascript:void(0)" style="height: 320px; background: url('{{MEDIA_URL}}images/lightbox-btn-next.gif') no-repeat scroll right 15% transparent;" onclick="steerImage('next')"></a>
-       </div>
-</div>
-<div  id="image-modal" class="modal hide fade" tabindex="-1" >
-   <div class="modal-body">
-     <div id="display-image-container">
-       <img src="" id="display-image" class="display-image"/>
-       <div id="lightbox-nav" style="">
-	 <a id="lightbox-nav-btnPrev" href="javascript:void(0)" style="height: 310px; background: url('{{MEDIA_URL}}images/lightbox-btn-prev.gif') no-repeat scroll left 15% transparent;" onclick="steerImage('previous')"></a>
-	 <a id="lightbox-nav-btnNext" href="javascript:void(0)" style="height: 320px; background: url('{{MEDIA_URL}}images/lightbox-btn-next.gif') no-repeat scroll right 15% transparent;" onclick="steerImage('next')"></a>
-       </div>
+  <div class="likebox">
+    
+    <a href="javascript:void(0)" onclick="vote_current_image()">
+      <img src="{{MEDIA_URL}}img/like.jpg">
+<img src="{{MEDIA_URL}}images/small-loader.gif" class="none" id="current_image"/>
+    </a>
+  </div>  
 
-     </div>
-   </div>
+  <div id="lightbox-nav" style="height:50%;">
+	 <a id="lightbox-nav-btnPrev" href="javascript:void(0)" style="height: 310px; background: url('{{MEDIA_URL}}images/lightbox-btn-prev.gif') no-repeat scroll left 15% transparent;" onclick="steerImage('previous')"></a>
+	 <a id="lightbox-nav-btnNext" href="javascript:void(0)" style="height: 320px; background: url('{{MEDIA_URL}}images/lightbox-btn-next.gif') no-repeat scroll right 15% transparent;" onclick="steerImage('next')"></a>
+  </div>
 </div>
+
 <input type="hidden" name="selected_image" id="id_selected_image" />
 <input type="hidden" name="media_url" id="id_media_url" value="{{MEDIA_URL}}"/>
 <input type="hidden" name="college_name" id="id_college_name" value="{{college_name}}"/>
