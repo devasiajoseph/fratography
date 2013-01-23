@@ -1,4 +1,9 @@
 var Admin = {
+    reset_votes:function(){
+	var submit_obj = {"action":"reset"}
+	App.submit_data({},submit_obj,"/admin/reset/vote/submit", function(){}, "loader");
+	
+    },
     save_price_perhour:function(){
 	
 	var obj = {"value":["price"]};

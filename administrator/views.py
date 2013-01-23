@@ -11,7 +11,7 @@ from app.utilities import reply_object
 import simplejson
 from administrator.forms import PriceForm, AvailabilityForm, AlbumForm,\
 AlbumImageForm, AlbumImageModForm, AlbumModForm, AvailabilityModForm,\
-CategoryForm, ObjectModForm, GenericModForm
+CategoryForm, ObjectModForm, GenericModForm, VoteResetForm
 from app.models import PriceModel, Album, AlbumImage, AlbumCategory
 from app.forms import LoginForm
 from calendarapp.calendar_utility import apply_settings_query
@@ -230,6 +230,18 @@ def album_category_sub(request):
 
 def reset_vote(request):
     return TemplateResponse(request, 'admin_reset.html', {})
+
+
+def reset_vote_submit(request):
+    response = reply_object()
+    form = VoteResetForm(request.POST)
+    if form.is_valid():
+        response = form.reset()
+    else:
+        response["code"] = settings.APP_CODE["FORM ERROR"]
+        response["errors"] = form.errors
+    return HttpResponse(simplejson.dumps(response))
+        
 
 
 def generic_mod_view(request, model_name):

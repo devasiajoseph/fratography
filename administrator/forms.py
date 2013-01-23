@@ -370,6 +370,16 @@ class GenericModForm(forms.Form):
 class CollegeForm(ObjectModForm):
     name = forms.CharField()
 
+
+class VoteResetForm(forms.Form):
+    action = forms.CharField()
+
+    def reset(self):
+        response = reply_object()
+        Album.objects.all().update(votes=0, points=0.0)
+        AlbumImage.objects.all().update(votes=0)
+        response["code"] = settings.APP_CODE["UPDATED"]
+        return response
     
 class CategoryForm(ObjectModForm):
     name = forms.CharField()
