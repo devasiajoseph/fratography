@@ -212,20 +212,37 @@ var PageNumber = Backbone.View.extend({
 
 });
 
+
+document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    switch (evt.keyCode) {
+        case 37:
+	    //previous
+            //leftArrowPressed();
+	    steerImage("previous")
+            break;
+        case 39:
+            //rightArrowPressed();
+	    steerImage("next")
+            break;
+    }
+};
+
+
 function steerImage(direction){
     var current_id = parseInt($("#id_selected_image").val());
     var current_index = albumList.indexOf(current_id);
     if (direction == "next"){
 	if ( current_index < (albumList.length - 1)){
 	    next_id = albumList[current_index + 1];
-	    console.log(next_id);
+	    //console.log(next_id);
 	    next_image_url = $("#id_media_url").val() + "uploads/"+albumLinkedList[next_id]["display"];
 	    displayImage(next_image_url, next_id);
 	}
     }else if(direction == "previous"){
 	if ( current_index > 0){
 	    previous_id = albumList[current_index - 1];
-	    console.log(previous_id);
+	    //console.log(previous_id);
 	    next_image_url = $("#id_media_url").val() + "uploads/"+albumLinkedList[previous_id]["display"];
 	    displayImage(next_image_url, previous_id);
 	}
