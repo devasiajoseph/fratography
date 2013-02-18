@@ -137,7 +137,7 @@ class AlbumForm(ImageForm):
         return self.cleaned_data
 
     def create_cover_photo(self, image):
-        cover = self.format_image(image, 600.0, "cover")
+        cover = self.format_image(image, 450, "cover")
         return cover
 
     def save(self):
