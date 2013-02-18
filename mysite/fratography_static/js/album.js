@@ -14,7 +14,9 @@ var AlbumCover = Backbone.View.extend({
 	    name:album.name,
 	    album_id:album.id
 	}
-        var template = _.template( $("#album").html(), variables);
+	//old structure
+        //var template = _.template( $("#album").html(), variables);
+	var template = _.template( $("#album-new").html(), variables);
         // Load the compiled HTML into the Backbone "el"
         this.$el.append( template );
     }
@@ -98,8 +100,8 @@ var AlbumRouter = Backbone.Router.extend({
 		    album_id:album_id,
 		    college_name:college_name,
 		    subcategory_name:subcategory_name};
-	
-	create_album_row(count);
+	//old requirement structure
+	//create_album_row(count);
 	App.get_raw_data("/app/album/objects", data, function(data){
 	    for (i in data["data"]){
 		create_album_cover(data["data"][i], parseInt(i/3, 10));
@@ -153,10 +155,9 @@ function create_album_row(count){
 }
 
 function create_album_cover(album, row_id){
-    
-    var album_cover = new AlbumCover({
-	el: $("#albums-row-"+row_id),
-	"album":album});
+    //old structure
+    //var album_cover = new AlbumCover({el: $("#albums-row-"+row_id),"album":album});
+    var album_cover = new AlbumCover({el: $("#albums-container"),"album":album});
 }
 function create_album_photo(photo, row_id){
     var album_photo = new AlbumPhoto({
