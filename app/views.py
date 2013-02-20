@@ -28,6 +28,14 @@ def index(request):
                                   {"home":"active"}))
 
 
+def download(request):
+    filename = settings.UPLOAD_PATH+"0ebed3e098eda0f6d1acb61d5263bcb3c6fa9e8e.jpg"
+    response = HttpResponse(mimetype='application/force-download')
+    response['Content-Disposition']='attachment;filename="%s"'%filename
+    response["X-Sendfile"] = filename
+    return response
+
+
 def home(request):
     """
     Home page after logging in
