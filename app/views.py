@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.response import TemplateResponse
+from django.core.servers.basehttp import FileWrapper
 from app.forms import CreateUserForm, LoginForm, PasswordEmailForm
 from app.utilities import reply_object, create_key, paginate
 import simplejson
@@ -29,8 +30,9 @@ def index(request):
 
 
 def download(request):
-    filename = settings.UPLOAD_PATH+"0ebed3e098eda0f6d1acb61d5263bcb3c6fa9e8e.jpg"
-    response = HttpResponse(mimetype='application/force-download')
+    f =  open(settings.UPLOAD_PATH+"0c223e0b3c681dc940d5cf4a667cc0976887b23d.jpg")
+    filename = "image.jpg"
+    response = HttpResponse(FileWrapper(f), content_type='image/jpg')
     response['Content-Disposition']='attachment;filename="%s"'%filename
     response["X-Sendfile"] = filename
     return response
