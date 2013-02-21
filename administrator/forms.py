@@ -65,6 +65,9 @@ class ImageForm(forms.Form):
         image = Image.open(settings.UPLOAD_PATH + filename)
         size = image.size
         prop = width / float(image.size[0])
+        if int(prop * float(image.size[1])) > 600:
+            prop = width / float(image.size[1])
+        
         size = (int(prop * float(image.size[0])),
                 int(prop * float(image.size[1])))
         image.thumbnail(size, Image.ANTIALIAS)
