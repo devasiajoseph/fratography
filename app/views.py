@@ -1,6 +1,6 @@
 # Create your views here.
 from django.template import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.conf import settings
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.response import TemplateResponse
@@ -30,12 +30,19 @@ def index(request):
 
 
 def download(request):
-    f =  open(settings.UPLOAD_PATH+"0c223e0b3c681dc940d5cf4a667cc0976887b23d.jpg")
-    filename = "image.jpg"
-    response = HttpResponse(FileWrapper(f), content_type='image/jpg')
-    response['Content-Disposition']='attachment;filename="%s"'%filename
-    response["X-Sendfile"] = filename
-    return response
+    if "img" not in request.GET:
+        return HttpResponseNotFound("Not Found")
+    try:
+        img = request.GET["img"]
+        album_image =get_object_or_404(AlbumImage, pk=img)
+        f =  open(settings.UPLOAD_PATH+album_image.image)
+        filename = str(img)+"_image.jpg"
+        response = HttpResponse(FileWrapper(f), content_type='image/jpg')
+        response['Content-Disposition']='attachment;filename="%s"'%filename
+        response["X-Sendfile"] = filename
+        return response
+    except:
+        return HttpResponseNotFound("Not Found")
 
 
 def home(request):

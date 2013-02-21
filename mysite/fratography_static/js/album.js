@@ -251,6 +251,7 @@ function steerImage(direction){
 
 function displayImage(image, id){
     $("#lightbox-test").trigger('close');
+    $("#download-image").attr('href', '/app/download?img='+id);
     $("#image-display-container").html('<img src="'+image+'" id="display-image"  style="width:100%">');
     $("#lightbox-test").lightbox_me();
     $("#id_selected_image").val(id);
