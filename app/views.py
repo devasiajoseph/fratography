@@ -23,7 +23,7 @@ def index(request):
     """
     Index page
     """
-    return render_to_response("map.html",
+    return render_to_response("albums.html",
                               context_instance=RequestContext(
                                   request,
                                   {"home":"active"}))
