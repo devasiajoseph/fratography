@@ -27,7 +27,7 @@ def index(request):
                               context_instance=RequestContext(
                                   request,
                                   {"home":"active"}))
-
+    
 
 def download(request):
     if "img" not in request.GET:
@@ -315,6 +315,32 @@ def frattiest_view(request, order):
     return TemplateResponse(request, "frattiest.html", {"photos": photos,
                                                         "albums": albums})
 
+
+
+def search(request):
+    q = ""
+    if "q" in request.GET:
+        q = request.GET["q"]
+    return TemplateResponse(request, "albums.html", {"search_query": q})
+        
+        
+def search_album(request):
+    page = 1
+    count = 20
+    
+    if "page" in request.GET:
+        page = int(request.GET["page"])
+
+    if "show" in request.GET:
+        count = int(request.GET["show"])
+    pages = paginate(page, count)
+    query_object = Album.objects.all()[pages["from"]:pages["to"]]
+    albums = {}
+    albums["data"] = serialize_album(query_object)
+    
+
+    albums["total_count"] = Album.objects.count()
+    return HttpResponse(simplejson.dumps(albums), mimetype="application/json")
 
 def album(request):
     """

@@ -74,10 +74,12 @@ var AlbumRouter = Backbone.Router.extend({
 	    console.log("order_page");
 	    this.processPhotos($("#id_photo_order").val(), 1);
 	}
-	else if($("#id_album_id").val()!="" &&  $("#id_album_id").val()!=undefined){
-	    console.log("album_id?");
+	else if($("#id_search_query").val()!=""){
+	    console.log("search page");
+	    this.searchAlbums();
 	}
 	else{
+	    console.log("no man's page");
 	    this.processAlbums("all", 1);
 	}
     },
@@ -111,6 +113,17 @@ var AlbumRouter = Backbone.Router.extend({
 			     count,
 			     data["total_count"],
 			    ":album_id/:number");
+	}, "album-loader");
+	
+    },
+    searchAlbums:function(){
+	q = $("#id_search_query").val();
+	var data = {q:q};
+	App.get_raw_data("/app/search/album", data, function(data){
+	    for (i in data["data"]){
+		create_album_cover(data["data"][i], parseInt(i/3, 10));
+		
+	    }
 	}, "album-loader");
 	
     },

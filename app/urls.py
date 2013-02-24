@@ -54,5 +54,7 @@ urlpatterns = patterns('',
     url(r'^book/event$', 'app.views.book_event', name='book_event'),
     url(r'^payment$', 'app.views.payment', name='payment'),
     url(r'^contact/submit$', 'app.views.contact_submit', name='contact_submit'),
-    url(r'^download$', 'app.views.download', name='download')
+    url(r'^download$', 'app.views.download', name='download'),
+    url(r'^search$', 'app.views.search', name='search'),
+    url(r'^search/album$', 'app.views.search_album', name='search_album')
 )
