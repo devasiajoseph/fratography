@@ -327,14 +327,17 @@ def search(request):
 def search_album(request):
     page = 1
     count = 20
-    
+    q = ""
     if "page" in request.GET:
         page = int(request.GET["page"])
 
     if "show" in request.GET:
         count = int(request.GET["show"])
+
+    if "q" in request.GET:
+        q = request.GET["q"]
     pages = paginate(page, count)
-    query_object = Album.objects.all()[pages["from"]:pages["to"]]
+    query_object = Album.objects.filter(name__icontains=q)[pages["from"]:pages["to"]]
     albums = {}
     albums["data"] = serialize_album(query_object)
     
