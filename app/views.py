@@ -423,7 +423,7 @@ def album_photos(request):
     else:
         album = Album.objects.get(pk=int(album_id))
         total_count = AlbumImage.objects.filter(album=album).count()
-        query_object = AlbumImage.objects.filter(album=album)[
+        query_object = AlbumImage.objects.filter(album=album).order_by('-id')[
             pages["from"]:pages["to"]]
 
     album_photos["data"] = serialize_photos(query_object)
