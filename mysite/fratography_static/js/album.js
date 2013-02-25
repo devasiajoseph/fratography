@@ -136,6 +136,7 @@ var AlbumRouter = Backbone.Router.extend({
 	
 	create_album_row(count);
 	App.get_raw_data("/app/album/photos", send_data, function(data){
+	    $("#page-title").html(data["album_name"]);
 	    for (i in data["data"]){
 		create_album_photo(data["data"][i], parseInt(i/4, 10));
 		albumLinkedList[data["data"][i]["id"]] = data["data"][i];

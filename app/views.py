@@ -428,6 +428,7 @@ def album_photos(request):
 
     album_photos["data"] = serialize_photos(query_object)
     album_photos["total_count"] = total_count
+    album_photos["album_name"] = album.name
     return HttpResponse(simplejson.dumps(album_photos),
                         mimetype="application/json")
 
