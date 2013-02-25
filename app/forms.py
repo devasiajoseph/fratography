@@ -340,7 +340,7 @@ class ContactForm(forms.Form):
             inquiry=self.cleaned_data["inquiry"]
         )
         contact.save()
-        #send_contact_email(contact.name, contact.email, contact.inquiry)
+        send_contact_email(contact.name, contact.email, contact.inquiry)
         response["code"] = settings.APP_CODE["CALLBACK"]
         return response
         
