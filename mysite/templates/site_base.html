@@ -98,13 +98,16 @@
 	$($(this).attr('data-target')).left($(this).left());
 	});
       </script>
-      <article class="span9">
+      <article class="span6">
 	<h2 id="page-title">{%block page-title%}{%endblock%}</h2>
         <div class="row-fluid">
           {% block content_body%}
 	  {% endblock %}	    
 	</div>
       </article>
+      <article class="span3">
+	<img src="{{MEDIA_URL}}images/banner.png"/>
+      </article>  
     </div>
   </section>
   
