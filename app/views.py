@@ -374,15 +374,15 @@ def album_objects(request):
         college_name = request.GET["college_name"]
         if request.GET["album_id"] == "all":
             query_object = Album.objects.filter(
-                college__name=college_name)[pages["from"]:pages["to"]]
+                college__name=college_name).order_by('-created_date', '-points')[pages["from"]:pages["to"]]
         else:
             query_object = Album.objects.filter(
                 college__name=college_name, pk=int(request.GET["album_id"]))[pages["from"]:pages["to"]]
     elif request.GET["subcategory_name"]:
         subcategory_name = request.GET["subcategory_name"]
-        query_object = Album.objects.filter(subcategory__name=subcategory_name)
+        query_object = Album.objects.filter(subcategory__name=subcategory_name).order_by('-created_date', '-points')
     else:
-        query_object = Album.objects.all()[pages["from"]:pages["to"]]
+        query_object = Album.objects.all().order_by('-created_date', '-points')[pages["from"]:pages["to"]]
     
     albums = {}
     albums["data"] = serialize_album(query_object)
