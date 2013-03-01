@@ -108,11 +108,13 @@ var AlbumRouter = Backbone.Router.extend({
 		create_album_cover(data["data"][i], parseInt(i/3, 10));
 		
 	    }
+	    /*
 	    create_paginator(album_id,
 			     number,
 			     count,
 			     data["total_count"],
 			    ":album_id/:number");
+			    */
 	}, "album-loader");
 	
     },
