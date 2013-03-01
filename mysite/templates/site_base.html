@@ -99,7 +99,25 @@
 	});
       </script>
       <article class="span7">
-	<h2 id="page-title">{%block page-title%}{%endblock%}</h2>
+	<div class="row">	
+	  <div class="span4"> 
+	    <h2 id="page-title">{%block page-title%}{%endblock%}</h2>
+	  </div>
+	  <div class="span3">
+	    <div class="pagination" style="margin:0;">
+	      <ul id="pagination-container">  
+		
+	      </ul>  
+	      <div class="show-count none">
+		<label for="show">Show</label>
+		<select id="show-count">
+		  <option value="100">100</option>
+		</select>
+	      </div>
+	    </div>	    
+	  </div>	  
+	  
+	</div>
         <div class="row-fluid">
           {% block content_body%}
 	  {% endblock %}	    
